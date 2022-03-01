@@ -1,34 +1,37 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Poignard
 
-## Getting Started
+A platform for artists to create NFTs in support of Ukraine: all proceeds go to UkraineDAO and Unchain Fund. This repository contains the codebase for poignard frontend.
 
-First, run the development server:
+## How to run
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+- Clone the repository.
+- Create a new local branch for whatever you are working on. For example, `git checkout -b <branch-name>`.
+- `npm install` to get the dependancies installed locally.
+- Create a `.env.local` file and copy the variables from `sample.env` with your own corresponding secrets.
+- `npm run dev` to start running the server locally.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## How to make a pull request
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+Once you have commited changes in your local branch and pushed to your cloned repository, make a pull request to the `develop` branch for review.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+## What is the tech stack
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+Runs on **NextJs** with the use of additional libraries below.
 
-## Learn More
+### Styling
 
-To learn more about Next.js, take a look at the following resources:
+- ChakraUI
+- Styled Components
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Web3
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- EthersJs
+- Web3Js
+- Web3Modal
 
-## Deploy on Vercel
+### Requests
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- Axios
+- Urql
+- Faketag
+- JWT
