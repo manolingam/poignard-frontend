@@ -2,8 +2,8 @@
 
 export const navItems = [
   { name: 'Submit', href: '/submit' },
-  { name: 'Mint', href: '' },
-  { name: 'Explore', href: '' }
+  { name: 'Mint', href: '/mint' },
+  { name: 'Explore', href: '/explore' }
 ];
 
 export const cardItems = [

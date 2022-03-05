@@ -5,16 +5,21 @@ import {
   SimpleGrid,
   VStack,
   HStack,
-  SkeletonCircle
+  Image
 } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 
 import { theme } from '../themes/theme';
 
-export const StyledFooterHeaderText = styled(Text)`
-  font-family: ${theme.fonts.poppins};
+const StyledFooterHeaderText = styled(Text)`
+  font-family: ${theme.fonts.spaceGrotesk};
   font-weight: bold;
-  color: ${theme.colors.ukraine.yellow};
+  color: ${theme.colors.brand.black};
+`;
+
+const StyledLink = styled(Link)`
+  font-family: ${theme.fonts.spaceGrotesk};
+  color: ${theme.colors.brand.black};
 `;
 
 export const Footer = () => {
@@ -24,12 +29,15 @@ export const Footer = () => {
       direction={{ base: 'column-reverse', md: 'row', lg: 'row' }}
       alignItems='flex-start'
       justifyContent='space-between'
-      bg={theme.colors.ukraine.azure}
       px={{ base: '2rem', lg: '5rem' }}
-      py='2rem'
+      py='4rem'
       mt='auto'
     >
-      <SkeletonCircle size='10' mt='1rem' />
+      <Image
+        src='/assets/logo.png'
+        alt='logo'
+        w={{ lg: '250px', md: '200px', base: '100px' }}
+      />
 
       <SimpleGrid
         columns={{ base: 1, md: 3, lg: 3 }}
@@ -41,21 +49,21 @@ export const Footer = () => {
           <StyledFooterHeaderText fontSize='1.2rem'>
             For Artists
           </StyledFooterHeaderText>
-          <Link href=''>Submit art</Link>
-          <Link href=''>Read manifesto</Link>
+          <StyledLink href=''>Submit art</StyledLink>
+          <StyledLink href=''>Read manifesto</StyledLink>
         </VStack>
         <VStack alignItems='flex-start'>
           <StyledFooterHeaderText fontSize='1.2rem'>
             For Supporters
           </StyledFooterHeaderText>
-          <Link href=''>Mint NFT</Link>
-          <Link href=''>View artworks</Link>
+          <StyledLink href=''>Mint NFT</StyledLink>
+          <StyledLink href=''>Explore artworks</StyledLink>
         </VStack>
         <VStack alignItems='flex-start'>
           <StyledFooterHeaderText fontSize='1.2rem'>
             For All
           </StyledFooterHeaderText>
-          <Link>
+          <StyledLink>
             <HStack>
               <span style={{ width: '15px', marginRight: '5px' }}>
                 <i className='fab fa-twitter'></i>
@@ -68,9 +76,9 @@ export const Footer = () => {
                 Twitter
               </Link>
             </HStack>
-          </Link>
+          </StyledLink>
 
-          <Link>
+          <StyledLink>
             <HStack>
               <span style={{ width: '15px', marginRight: '5px' }}>
                 <i className='fab fa-discord'></i>
@@ -79,9 +87,9 @@ export const Footer = () => {
                 Discord
               </Link>
             </HStack>
-          </Link>
+          </StyledLink>
 
-          <Link>
+          <StyledLink>
             <HStack>
               <span style={{ width: '15px', marginRight: '5px' }}>
                 <i className='fas fa-newspaper'></i>
@@ -94,7 +102,7 @@ export const Footer = () => {
                 Newsletter
               </Link>
             </HStack>
-          </Link>
+          </StyledLink>
         </VStack>
       </SimpleGrid>
     </Flex>

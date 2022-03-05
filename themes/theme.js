@@ -13,13 +13,22 @@ const colors = {
     azure: '#0057b7'
   },
   brand: {
-    black: '#1A1A40',
-    yellow: '#fff8d1'
+    brightGrey: '#EEEEEE',
+    chineseSilver: '#CCCCCC',
+    spanishGrey: '#999999',
+    graniteGrey: '#666666',
+    darkCharcoal: '#333333',
+    black: '#000000',
+    white: '#FFFFFF',
+    yellow: '#ffd700',
+    yellowLight: '#fff8d1'
   }
 };
 
 const fonts = {
-  poppins: "'Poppins', sans-serif"
+  poppins: "'Poppins', sans-serif",
+  spaceGrotesk: "'Space Grotesk', sans-serif",
+  spaceMono: "'Space Mono', monospace"
 };
 
 export const theme = extendTheme({

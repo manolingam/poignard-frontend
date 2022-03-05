@@ -2,21 +2,29 @@ import {
   Flex,
   VStack,
   Heading,
+  Button,
   Text,
   SimpleGrid,
-  SkeletonCircle
+  Skeleton
 } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 
-import { StyledPrimaryButton } from '../../themes/buttons';
-
 import { theme } from '../../themes/theme';
 
-const StyledPrimaryHeading = styled(Heading)`
-  font-family: ${theme.fonts.poppins};
-  letter-spacing: 1.2px;
-  line-height: 1.5;
-  color: ${theme.colors.ukraine.azure};
+const StyledPrimaryButton = styled(Button)`
+  height: 50px;
+  width: auto;
+  font-family: ${theme.fonts.spaceGrotesk};
+  text-transform: uppercase;
+  border-radius: 3px;
+  color: ${theme.colors.brand.black};
+  background: ${theme.colors.brand.yellow};
+  box-decoration-break: clone;
+  padding-left: 24px;
+  padding-right: 24px;
+  &:hover {
+    opacity: 0.6;
+  }
 `;
 
 const StyledHeadingLabels = styled(Heading)`
@@ -27,20 +35,18 @@ const StyledHeadingLabels = styled(Heading)`
 `;
 
 const StyledBodyText = styled(Text)`
-  max-width: 720px;
-  font-family: ${theme.fonts.poppins};
-  line-height: 1.8;
-  color: ${theme.colors.brand.black};
+  font-family: ${theme.fonts.spaceMono};
+  color: ${theme.colors.brand.blackCharcoal};
   text-align: justify;
 `;
 
-const StyledCardText = styled(Text)`
-  max-width: 720px;
-  font-family: ${theme.fonts.poppins};
-  line-height: 1.8;
-  color: ${theme.colors.ukraine.azure};
-  text-align: left;
-`;
+// const StyledCardText = styled(Text)`
+//   max-width: 720px;
+//   font-family: ${theme.fonts.poppins};
+//   line-height: 1.8;
+//   color: ${theme.colors.ukraine.azure};
+//   text-align: left;
+// `;
 
 import { cardItems } from '../../utils/constants';
 
@@ -48,7 +54,6 @@ export const Manifesto = () => {
   return (
     <Flex
       id='manifesto'
-      minHeight='100vh'
       direction='column'
       alignItems='center'
       justifyContent='center'
@@ -56,15 +61,21 @@ export const Manifesto = () => {
       py='6rem'
     >
       <VStack spacing={5} justifyContent='center'>
-        <StyledPrimaryHeading
-          fontSize={{ base: '1.5rem', lg: '36px' }}
+        <Heading
+          fontFamily={theme.fonts.spaceGrotesk}
+          color={theme.colors.brand.black}
+          fontSize={{ lg: '24px' }}
+          textAlign='center'
           mb='1rem'
         >
-          Lorem ipsum
-        </StyledPrimaryHeading>
+          Call to action for creators, punchy statement creating desire to
+          artists to rally and submit work.
+        </Heading>
         <StyledBodyText fontSize={{ base: '1rem', lg: '18px' }}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          Create Ukraine-themed art to show support and raise money for
+          Ukrainians left homeless, hungry, and in need of evacuation. Art
+          always made the world better. Today, your art will save lives and move
+          hearts. Create and upload your art in a few easy steps.
         </StyledBodyText>
         <br />
         <StyledPrimaryButton
@@ -75,9 +86,30 @@ export const Manifesto = () => {
         </StyledPrimaryButton>
       </VStack>
 
-      <SimpleGrid columns={{ base: 1, md: 3, lg: 3 }} gap={5} mt='6rem'>
+      <SimpleGrid
+        h='200px'
+        w='100%'
+        columns={{ base: 1, md: 1, lg: 3 }}
+        gridGap={10}
+        mt='8rem'
+      >
+        <Text
+          fontFamily={theme.fonts.spaceGrotesk}
+          color={theme.colors.brand.yellow}
+          fontWeight='bold'
+          fontSize={{ lg: '50px' }}
+        >
+          Featured Mints
+        </Text>
+        <Skeleton height='100%' w='100%' />
+        <Skeleton height='100%' w='100%' />
+      </SimpleGrid>
+
+      {/* <SimpleGrid columns={{ base: 1, md: 3, lg: 3 }} gap={5} mt='6rem'>
         {cardItems.map((item, index) => {
           return (
+            
+
             <Flex
               maxWidth='350px'
               key={index}
@@ -90,9 +122,6 @@ export const Manifesto = () => {
               borderTop='2px solid'
               borderColor={theme.colors.ukraine.azure}
             >
-              <StyledHeadingLabels fontSize={{ base: '16px' }} mb={3}>
-                {item.name}
-              </StyledHeadingLabels>
               <SkeletonCircle size='100' my='.5rem' />
 
               <StyledCardText fontSize={{ base: '16px' }}>
@@ -101,7 +130,7 @@ export const Manifesto = () => {
             </Flex>
           );
         })}
-      </SimpleGrid>
+      </SimpleGrid> */}
     </Flex>
   );
 };
