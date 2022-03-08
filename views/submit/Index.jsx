@@ -5,23 +5,23 @@ import { theme } from '../../themes/theme';
 import ArtUploader from '../../components/ArtUploader';
 
 const StyledPrimaryHeading = styled(Heading)`
-  font-family: ${theme.fonts.poppins};
+  font-family: ${theme.fonts.spaceGrotesk};
   letter-spacing: 1.2px;
   line-height: 1.5;
-  color: ${theme.colors.ukraine.azure};
+  color: ${theme.colors.brand.black};
 `;
 
 const StyledBodyText = styled(Text)`
   max-width: 720px;
-  font-family: ${theme.fonts.poppins};
+  font-family: ${theme.fonts.spaceMono};
   line-height: 1.8;
-  color: ${theme.colors.brand.black};
+  color: ${theme.colors.brand.darkCharcoal};
   text-align: justify;
 `;
 
 export const StyledInput = styled(Input)`
   background: 'white';
-  border: 2px solid ${theme.colors.ukraine.azure};
+  border: 2px solid ${theme.colors.brand.darkCharcoal};
   border-radius: 0;
 `;
 

@@ -15,6 +15,7 @@ const StyledFooterHeaderText = styled(Text)`
   font-family: ${theme.fonts.spaceGrotesk};
   font-weight: bold;
   color: ${theme.colors.brand.black};
+  font-size: 1.2rem;
 `;
 
 const StyledLink = styled(Link)`
@@ -33,11 +34,7 @@ export const Footer = () => {
       py='4rem'
       mt='auto'
     >
-      <Image
-        src='/assets/logo.png'
-        alt='logo'
-        w={{ lg: '250px', md: '200px', base: '100px' }}
-      />
+      <Image src='/assets/logo__text.png' alt='logo' mt={{ base: '2rem' }} />
 
       <SimpleGrid
         columns={{ base: 1, md: 3, lg: 3 }}
@@ -46,23 +43,17 @@ export const Footer = () => {
         color='azure'
       >
         <VStack alignItems='flex-start'>
-          <StyledFooterHeaderText fontSize='1.2rem'>
-            For Artists
-          </StyledFooterHeaderText>
+          <StyledFooterHeaderText>For Artists</StyledFooterHeaderText>
           <StyledLink href=''>Submit art</StyledLink>
-          <StyledLink href=''>Read manifesto</StyledLink>
+          <StyledLink href=''>Read Manifesto</StyledLink>
         </VStack>
         <VStack alignItems='flex-start'>
-          <StyledFooterHeaderText fontSize='1.2rem'>
-            For Supporters
-          </StyledFooterHeaderText>
+          <StyledFooterHeaderText>For Supporters</StyledFooterHeaderText>
           <StyledLink href=''>Mint NFT</StyledLink>
           <StyledLink href=''>Explore artworks</StyledLink>
         </VStack>
         <VStack alignItems='flex-start'>
-          <StyledFooterHeaderText fontSize='1.2rem'>
-            For All
-          </StyledFooterHeaderText>
+          <StyledFooterHeaderText>For All</StyledFooterHeaderText>
           <StyledLink>
             <HStack>
               <span style={{ width: '15px', marginRight: '5px' }}>

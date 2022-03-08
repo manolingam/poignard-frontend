@@ -41,25 +41,23 @@ export const Header = ({ windowWidth }) => {
       alignItems='center'
       justifyContent='space-between'
       px={{ base: '2rem', lg: '5rem' }}
-      py='2rem'
+      py={{ base: '1rem', lg: '2rem' }}
       w='100%'
     >
-      <Image
-        src='/assets/logo.png'
-        alt='logo'
-        w={{ lg: '250px', md: '200px', base: '100px' }}
-      />
+      <Flex direction='row' alignItems='center' justifyContent='center'>
+        {windowWidth > 600 && <Image src='/assets/logo__text.png' alt='logo' />}
+        <Image src='/assets/logo__mono.png' alt='logo' mr='5px' />
+      </Flex>
 
-      {windowWidth > 600 && (
-        <Flex
-          minWidth='50%'
-          direction='row'
-          justifyContent='space-around'
-          alignItems='center'
-          fontSize='1.3rem'
-          color={theme.colors.ukraine.azure}
-        >
-          {navItems.map((item, index) => {
+      <Flex
+        minWidth='50%'
+        direction='row'
+        justifyContent='space-around'
+        alignItems='center'
+        fontSize={{ base: '1rem', lg: '1.3rem' }}
+      >
+        {windowWidth > 600 &&
+          navItems.map((item, index) => {
             return (
               <ChakraLink
                 fontFamily={theme.fonts.spaceGrotesk}
@@ -72,17 +70,17 @@ export const Header = ({ windowWidth }) => {
               </ChakraLink>
             );
           })}
-          {!context.signerAddress ? (
-            <StyledConnectButton onClick={connectWallet}>
-              CONNECT
-            </StyledConnectButton>
-          ) : (
-            <Text px={2} display={{ base: 'none', md: 'flex' }}>
-              {getAccountString(context.signerAddress)}
-            </Text>
-          )}
-        </Flex>
-      )}
+
+        {!context.signerAddress ? (
+          <StyledConnectButton onClick={connectWallet}>
+            CONNECT
+          </StyledConnectButton>
+        ) : (
+          <Text px={2} display={{ base: 'none', md: 'flex' }}>
+            {getAccountString(context.signerAddress)}
+          </Text>
+        )}
+      </Flex>
     </Flex>
   );
 };

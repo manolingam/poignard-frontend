@@ -2,13 +2,13 @@ import {
   SimpleGrid,
   Flex,
   Text,
-  Skeleton,
+  Image,
   Heading,
-  UnorderedList,
-  ListItem,
   Button
 } from '@chakra-ui/react';
 import styled from '@emotion/styled';
+
+import { theme } from '../../themes/theme';
 
 const StyledButton = styled(Button)`
   height: 50px;
@@ -27,44 +27,41 @@ const StyledButton = styled(Button)`
   }
 `;
 
-import { theme } from '../../themes/theme';
+const StyledHeading = styled(Heading)`
+  font-family: ${theme.fonts.spaceGrotesk};
+  color: ${theme.colors.brand.black};
+  margin-bottom: 2rem;
+  font-size: 35px;
+`;
+
+const StyledText = styled(Text)`
+  font-family: ${theme.fonts.spaceMono};
+  color: ${theme.colors.brand.darkCharcoal};
+  font-size: 20px;
+`;
 
 export const Intro = () => {
   return (
     <SimpleGrid
       columns={{ base: 1, md: 1, lg: 2 }}
       gridGap={20}
-      alignItems='center'
-      pb='2rem'
-      px={{ base: '1rem', lg: '4rem' }}
-      mx='1rem'
+      placeItems='center'
+      px={{ base: '2rem', lg: '8rem' }}
+      py={{ base: '2rem', lg: '4rem' }}
     >
-      <Flex direction='column' justifyContent='center' alignItems='start'>
-        <Heading
-          fontFamily={theme.fonts.spaceGrotesk}
-          color={theme.colors.brand.black}
-          fontSize={{ lg: '36px' }}
-          mb='1rem'
-        >
-          Freedom is under attack. Creators are fighting back!
-        </Heading>
-        <Text
-          fontFamily={theme.fonts.spaceMono}
-          color={theme.colors.brand.darkCharcoal}
-          mb='1rem'
-        >
+      <Flex direction='column' alignItems='start' justifyContent='center'>
+        <StyledHeading>
+          Freedom is under attack. <br /> Creators are fighting back!
+        </StyledHeading>
+        <StyledText mb='1rem'>
           We are a platform for artists to create NFTs in support of Ukraine
           helping:
-        </Text>
-        <UnorderedList
-          fontFamily={theme.fonts.spaceMono}
-          color={theme.colors.brand.darkCharcoal}
-        >
-          <ListItem>Break through Putin’s propaganda with their art</ListItem>
-          <ListItem>
-            Send all the NFT sale proceeds to the people of Ukraine
-          </ListItem>
-        </UnorderedList>
+        </StyledText>
+        <StyledText>
+          1. Upload your Ukraine-themed art to be turned into NFT. <br />
+          2. Set the sales price. <br />
+          3. 100% of proceeds go via Unchain.fund to vetted NGOs.
+        </StyledText>
         <Flex
           w='100%'
           mt={{ base: '2rem' }}
@@ -88,7 +85,12 @@ export const Intro = () => {
           </StyledButton>
         </Flex>
       </Flex>
-      <Skeleton height='100%' w='100%' />
+      <Image
+        src='assets/illustration__one.png'
+        alt='illustration'
+        w='600px'
+        h='auto'
+      />
     </SimpleGrid>
   );
 };

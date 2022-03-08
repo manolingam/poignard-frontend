@@ -8,10 +8,6 @@ const breakpoints = createBreakpoints({
 });
 
 const colors = {
-  ukraine: {
-    yellow: '#ffd700',
-    azure: '#0057b7'
-  },
   brand: {
     brightGrey: '#EEEEEE',
     chineseSilver: '#CCCCCC',

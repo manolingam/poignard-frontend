@@ -1,5 +1,7 @@
 import { Box, useRadio, useRadioGroup, HStack, VStack } from '@chakra-ui/react';
 
+import { theme } from '../themes/theme';
+
 // 1. Create a component that consumes the `useRadio` hook
 function RadioCard(props) {
   const { getInputProps, getCheckboxProps } = useRadio(props);
@@ -13,12 +15,12 @@ function RadioCard(props) {
       <Box
         {...checkbox}
         cursor='pointer'
-        color='#0057b7'
+        color={theme.colors.brand.darkCharcoal}
         boxShadow='md'
-        border='1px solid #0057b7'
+        border={`1px solid ${theme.colors.brand.darkCharcoal}`}
         fontFamily="'Poppins', sans-serif"
         _checked={{
-          bg: '#0057b7',
+          bg: theme.colors.brand.darkCharcoal,
           color: 'white',
           borderColor: 'teal.600'
         }}
