@@ -64,8 +64,8 @@ export const useWallet = (requireEns) => {
         providerOptions,
         theme: {
           background: '#ffffff',
-          main: theme.colors.ukraine.azure,
-          secondary: theme.colors.ukraine.yellow
+          main: theme.colors.brand.black,
+          secondary: theme.colors.brand.darkCharcoal
         }
       });
 
