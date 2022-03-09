@@ -2,7 +2,6 @@
 
 export const navItems = [
   { name: 'Submit', href: '/submit' },
-  { name: 'Mint', href: '/mint' },
   { name: 'Explore', href: '/explore' }
 ];
 

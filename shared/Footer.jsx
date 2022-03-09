@@ -44,13 +44,13 @@ export const Footer = () => {
       >
         <VStack alignItems='flex-start'>
           <StyledFooterHeaderText>For Artists</StyledFooterHeaderText>
-          <StyledLink href=''>Submit art</StyledLink>
+          <StyledLink href='/submit'>Submit art</StyledLink>
           <StyledLink href=''>Read Manifesto</StyledLink>
         </VStack>
         <VStack alignItems='flex-start'>
           <StyledFooterHeaderText>For Supporters</StyledFooterHeaderText>
-          <StyledLink href=''>Mint NFT</StyledLink>
-          <StyledLink href=''>Explore artworks</StyledLink>
+
+          <StyledLink href='/explore'>Explore artworks</StyledLink>
         </VStack>
         <VStack alignItems='flex-start'>
           <StyledFooterHeaderText>For All</StyledFooterHeaderText>
@@ -60,7 +60,7 @@ export const Footer = () => {
                 <i className='fab fa-twitter'></i>
               </span>
               <Link
-                href='https://twitter.com/Poignard6'
+                href='https://twitter.com/PoignARTnft'
                 target='_blank'
                 rel='noopener noreferrer'
               >
@@ -74,7 +74,11 @@ export const Footer = () => {
               <span style={{ width: '15px', marginRight: '5px' }}>
                 <i className='fab fa-discord'></i>
               </span>
-              <Link href='' target='_blank' rel='noopener noreferrer'>
+              <Link
+                href='https://discord.gg/qjPvUCakn3'
+                target='_blank'
+                rel='noopener noreferrer'
+              >
                 Discord
               </Link>
             </HStack>
@@ -86,11 +90,11 @@ export const Footer = () => {
                 <i className='fas fa-newspaper'></i>
               </span>
               <Link
-                href='https://medium.com/@poignard'
+                href='https://medium.com/@poignart'
                 target='_blank'
                 rel='noopener noreferrer'
               >
-                Newsletter
+                Medium
               </Link>
             </HStack>
           </StyledLink>

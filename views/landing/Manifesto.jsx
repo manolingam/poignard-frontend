@@ -63,7 +63,7 @@ export const Manifesto = () => {
           fontSize={{ base: '16px', lg: '18px' }}
           onClick={() => (window.location.href = '/submit')}
         >
-          Submit
+          Submit Artwork
         </StyledPrimaryButton>
       </VStack>
 

@@ -74,14 +74,14 @@ export const Intro = () => {
             fontSize={{ base: '16px', lg: '18px' }}
             mr='1rem'
           >
-            Explore
+            Explore Art
           </StyledButton>
           <StyledButton
-            onClick={() => (window.location.href = '')}
+            onClick={() => (window.location.href = '/submit')}
             minW={{ base: 'auto' }}
             fontSize={{ base: '16px', lg: '18px' }}
           >
-            Mint
+            Donate Art
           </StyledButton>
         </Flex>
       </Flex>

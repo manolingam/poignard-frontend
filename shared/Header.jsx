@@ -5,7 +5,7 @@ import {
   Text,
   Image
 } from '@chakra-ui/react';
-import { useState, useContext } from 'react';
+import { useContext } from 'react';
 import styled from '@emotion/styled';
 
 import { AppContext } from '../context/AppContext';
@@ -33,7 +33,6 @@ const StyledConnectButton = styled(Button)`
 export const Header = ({ windowWidth }) => {
   const context = useContext(AppContext);
   const { connectWallet } = useWallet();
-  const [isOpen, onOpen] = useState(false);
 
   return (
     <Flex
@@ -50,13 +49,13 @@ export const Header = ({ windowWidth }) => {
       </Flex>
 
       <Flex
-        minWidth='50%'
         direction='row'
-        justifyContent='space-around'
+        justifyContent='space-between'
         alignItems='center'
         fontSize={{ base: '1rem', lg: '1.3rem' }}
       >
         {windowWidth > 600 &&
+          window.location.pathname !== '/submit' &&
           navItems.map((item, index) => {
             return (
               <ChakraLink
@@ -65,6 +64,7 @@ export const Header = ({ windowWidth }) => {
                 fontWeight='bold'
                 key={index}
                 href={item.href}
+                mr='4rem'
               >
                 {item.name}
               </ChakraLink>
@@ -76,7 +76,7 @@ export const Header = ({ windowWidth }) => {
             CONNECT
           </StyledConnectButton>
         ) : (
-          <Text px={2} display={{ base: 'none', md: 'flex' }}>
+          <Text display={{ base: 'none', md: 'flex' }} ml='auto'>
             {getAccountString(context.signerAddress)}
           </Text>
         )}
