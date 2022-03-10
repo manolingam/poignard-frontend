@@ -1,9 +1,12 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { Flex, Text, Heading, Button } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 
 import { theme } from '../../themes/theme';
 import { AppContext } from '../../context/AppContext';
+import { verifyArtist } from '../../utils/requests';
+import { checkMinterRole } from '../../utils/web3';
+import useWarnings from '../../hooks/useWarnings';
 
 const StyledPrimaryHeading = styled(Heading)`
   font-family: ${theme.fonts.spaceGrotesk};
@@ -48,6 +51,48 @@ const StyledButton = styled(Button)`
 
 export const Intro = () => {
   const context = useContext(AppContext);
+  const { triggerToast } = useWarnings();
+
+  const [loading, setLoading] = useState(false);
+  const [loadingText, setLoadingText] = useState('');
+  const [isChecked, setIsChecked] = useState(false);
+
+  const verifyRole = async () => {
+    setLoadingText('Checking minter role..');
+    const status = await checkMinterRole(
+      context.ethersProvider,
+      context.signerAddress
+    );
+    return status;
+  };
+
+  const verifyWhitelist = async () => {
+    setLoadingText('Checking whitelist..');
+    const { data } = await verifyArtist(context.signerAddress);
+    return data.response;
+  };
+
+  const handleButtonClick = async () => {
+    if (Number(context.chainId) == 4) {
+      setLoading(true);
+      const status = await verifyRole();
+
+      if (!status) {
+        const res = await verifyWhitelist();
+        context.updateArtistState('merkleProof', res.merkleProof);
+        res.verified && context.updateStage(context.stage + 1);
+        setLoading(false);
+      } else {
+        context.updateArtistState('hasMinterRole', status);
+        context.updateStage(2);
+        setLoading(false);
+      }
+      setIsChecked(true);
+    } else {
+      triggerToast('Please switch to the Rinkeby testnet');
+    }
+  };
+
   return (
     <Flex
       direction='column'
@@ -72,21 +117,29 @@ export const Intro = () => {
         etc.) in high quality and let PoignART platform do the rest!
       </StyledBodyText>
       <br />
+
       {!context.signerAddress && (
         <StyledTag fontSize={{ base: '1rem', lg: '18px' }}>
-          You must be logged in to submit an artwork.
+          Connect wallet to proceed.
         </StyledTag>
       )}
-      {context.signerAddress && (
+
+      {isChecked && !context.merkleProof && (
+        <StyledTag fontSize={{ base: '1rem', lg: '18px' }}>
+          You are not whitelisted.
+        </StyledTag>
+      )}
+
+      {context.signerAddress && !isChecked && (
         <StyledButton
           minW={{ base: 'auto' }}
           fontSize={{ base: '16px', lg: '18px' }}
           mr='1rem'
-          onClick={() => {
-            context.updateStage('next');
-          }}
+          onClick={handleButtonClick}
+          isLoading={loading}
+          loadingText={loadingText}
         >
-          Verify Whitelist
+          Verify Wallet
         </StyledButton>
       )}
     </Flex>

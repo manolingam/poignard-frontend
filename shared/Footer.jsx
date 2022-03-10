@@ -32,7 +32,6 @@ export const Footer = () => {
       justifyContent='space-between'
       px={{ base: '2rem', lg: '5rem' }}
       py='4rem'
-      mt='auto'
     >
       <Image src='/assets/logo__text.png' alt='logo' mt={{ base: '2rem' }} />
 
@@ -45,7 +44,12 @@ export const Footer = () => {
         <VStack alignItems='flex-start'>
           <StyledFooterHeaderText>For Artists</StyledFooterHeaderText>
           <StyledLink href='/submit'>Submit art</StyledLink>
-          <StyledLink href=''>Read Manifesto</StyledLink>
+          <StyledLink
+            href='https://medium.com/@poignart/poignart-mission-statement-4e17b6300543'
+            isExternal
+          >
+            Read Manifesto
+          </StyledLink>
         </VStack>
         <VStack alignItems='flex-start'>
           <StyledFooterHeaderText>For Supporters</StyledFooterHeaderText>
@@ -59,11 +63,7 @@ export const Footer = () => {
               <span style={{ width: '15px', marginRight: '5px' }}>
                 <i className='fab fa-twitter'></i>
               </span>
-              <Link
-                href='https://twitter.com/PoignARTnft'
-                target='_blank'
-                rel='noopener noreferrer'
-              >
+              <Link href='https://twitter.com/PoignARTnft' isExternal>
                 Twitter
               </Link>
             </HStack>
@@ -74,11 +74,7 @@ export const Footer = () => {
               <span style={{ width: '15px', marginRight: '5px' }}>
                 <i className='fab fa-discord'></i>
               </span>
-              <Link
-                href='https://discord.gg/qjPvUCakn3'
-                target='_blank'
-                rel='noopener noreferrer'
-              >
+              <Link href='https://discord.gg/qjPvUCakn3' isExternal>
                 Discord
               </Link>
             </HStack>
@@ -89,11 +85,7 @@ export const Footer = () => {
               <span style={{ width: '15px', marginRight: '5px' }}>
                 <i className='fas fa-newspaper'></i>
               </span>
-              <Link
-                href='https://medium.com/@poignart'
-                target='_blank'
-                rel='noopener noreferrer'
-              >
+              <Link href='https://medium.com/@poignart' isExternal>
                 Medium
               </Link>
             </HStack>

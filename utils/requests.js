@@ -1,3 +1,6 @@
-// -------------- NOT YET USED --------------
+import axios from 'axios';
 
-// Functions that are used for external requests/api calls to be added here.
+export const verifyArtist = async (ethAddress) => {
+  const result = await axios.post('/api/verify', { ethAddress });
+  return result;
+};

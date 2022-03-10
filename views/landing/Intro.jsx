@@ -4,7 +4,8 @@ import {
   Text,
   Image,
   Heading,
-  Button
+  Button,
+  Link
 } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 
@@ -54,13 +55,20 @@ export const Intro = () => {
           Freedom is under attack. <br /> Creators are fighting back!
         </StyledHeading>
         <StyledText mb='1rem'>
-          We are a platform for artists to create NFTs in support of Ukraine
-          helping:
+          We are a platform for artists to create NFTs in support of Ukraine:
         </StyledText>
         <StyledText>
-          1. Upload your Ukraine-themed art to be turned into NFT. <br />
+          1. Upload your Ukraine-themed art to be turned into NFTs. <br />
           2. Set the sales price. <br />
-          3. 100% of proceeds go via Unchain.fund to vetted NGOs.
+          3. 100% of proceeds go via{' '}
+          <Link
+            textDecoration='underline'
+            href='https://unchain.fund/'
+            isExternal
+          >
+            Unchain.fund
+          </Link>{' '}
+          to vetted NGOs.
         </StyledText>
         <Flex
           w='100%'

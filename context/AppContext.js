@@ -5,9 +5,7 @@ export const AppContext = createContext();
 class AppContextProvider extends Component {
   state = {
     // UX state
-    stage: 1,
-    faqModalStatus: false,
-    showAlertModal: false,
+    stage: 0,
     //web3 state
     ethersProvider: null,
     web3: null,
@@ -27,9 +25,9 @@ class AppContextProvider extends Component {
     art_price: 0,
     art_description: '',
     art_image: '',
-    input_1: '',
-    input_2: '',
-    checkbox_option: ''
+    //contract state
+    hasMinterRole: true,
+    merkleProof: ''
   };
 
   inputChangeHandler = (e) => {
@@ -40,24 +38,13 @@ class AppContextProvider extends Component {
     this.setState({ art_image: image });
   };
 
-  // ------- NOT YET USED ---------
-  // updateFaqModalStatus = (status, faqType) => {
-  //   this.setState({ faqModalStatus: status, faqType });
-  // };
+  updateArtistState = (stateName, stateValue) => {
+    this.setState({ [stateName]: stateValue });
+  };
 
-  // updateAlertModalStatus = () => {
-  //   this.setState((prevState) => {
-  //     return { showAlertModal: !prevState.showAlertModal };
-  //   });
-  // };
-
-  updateStage = (type) => {
+  updateStage = (number) => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    this.setState((prevState) => {
-      return {
-        stage: type === 'previous' ? prevState.stage - 1 : prevState.stage + 1
-      };
-    });
+    this.setState({ stage: number });
   };
 
   setWeb3Data = (data) => {
@@ -74,9 +61,8 @@ class AppContextProvider extends Component {
           inputChangeHandler: this.inputChangeHandler,
           updateStage: this.updateStage,
           setArtImage: this.setArtImage,
-          // updateFaqModalStatus: this.updateFaqModalStatus,
-          // updateAlertModalStatus: this.updateAlertModalStatus,
-          setWeb3Data: this.setWeb3Data
+          setWeb3Data: this.setWeb3Data,
+          updateArtistState: this.updateArtistState
         }}
       >
         {this.props.children}

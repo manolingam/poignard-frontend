@@ -3,7 +3,10 @@ import {
   Flex,
   Link as ChakraLink,
   Text,
-  Image
+  Image,
+  Popover,
+  PopoverTrigger,
+  PopoverContent
 } from '@chakra-ui/react';
 import { useContext } from 'react';
 import styled from '@emotion/styled';
@@ -32,7 +35,7 @@ const StyledConnectButton = styled(Button)`
 
 export const Header = ({ windowWidth }) => {
   const context = useContext(AppContext);
-  const { connectWallet } = useWallet();
+  const { connectWallet, disconnect } = useWallet();
 
   return (
     <Flex
@@ -43,9 +46,15 @@ export const Header = ({ windowWidth }) => {
       py={{ base: '1rem', lg: '2rem' }}
       w='100%'
     >
-      <Flex direction='row' alignItems='center' justifyContent='center'>
-        {windowWidth > 600 && <Image src='/assets/logo__text.png' alt='logo' />}
+      <Flex
+        direction='row'
+        alignItems='center'
+        justifyContent='center'
+        cursor='pointer'
+        onClick={() => (window.location.href = '/')}
+      >
         <Image src='/assets/logo__mono.png' alt='logo' mr='5px' />
+        {windowWidth > 600 && <Image src='/assets/logo__text.png' alt='logo' />}
       </Flex>
 
       <Flex
@@ -76,9 +85,38 @@ export const Header = ({ windowWidth }) => {
             CONNECT
           </StyledConnectButton>
         ) : (
-          <Text display={{ base: 'none', md: 'flex' }} ml='auto'>
-            {getAccountString(context.signerAddress)}
-          </Text>
+          <Flex justify='center' align='center' zIndex={5}>
+            <Popover placement='bottom'>
+              <PopoverTrigger>
+                <Button
+                  h='auto'
+                  fontWeight='normal'
+                  bg={theme.colors.brand.yellow}
+                  p={{ base: 0, md: 3 }}
+                >
+                  <Text
+                    px={2}
+                    display={{ base: 'none', md: 'flex' }}
+                    fontFamily={theme.fonts.spaceGrotesk}
+                    color={theme.colors.brand.black}
+                  >
+                    {getAccountString(context.signerAddress)}
+                  </Text>
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent bg='none' w='auto'>
+                <Button
+                  onClick={() => {
+                    disconnect();
+                    window.location.reload();
+                  }}
+                  fontFamily={theme.fonts.spaceGrotesk}
+                >
+                  Disconnect
+                </Button>
+              </PopoverContent>
+            </Popover>
+          </Flex>
         )}
       </Flex>
     </Flex>

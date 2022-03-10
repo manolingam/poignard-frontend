@@ -5,7 +5,7 @@ export const Meta = () => {
   return (
     <>
       <Head>
-        <title>Poignard</title>
+        <title>PoignART</title>
         <meta
           name='description'
           content='A platform for artists to create NFTs in support of Ukraine: all proceeds go to UkraineDAO and Unchain Fund'

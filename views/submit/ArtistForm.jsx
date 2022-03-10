@@ -5,13 +5,13 @@ import {
   FormLabel,
   Input,
   Stack,
-  Textarea
+  Textarea,
+  Button
 } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 
 import { AppContext } from '../../context/AppContext';
 
-import StageButtonGroup from '../../shared/StageButtonGroup';
 import { theme } from '../../themes/theme';
 
 const StyledTextArea = styled(Textarea)`
@@ -22,6 +22,20 @@ const StyledTextArea = styled(Textarea)`
 const StyledInput = styled(Input)`
   border: 2px solid ${theme.colors.brand.black};
   border-radius: 0;
+`;
+
+const StyledButton = styled(Button)`
+  height: 50px;
+  font-family: ${theme.fonts.spaceGrotesk};
+  text-transform: uppercase;
+  border: 2px solid ${theme.colors.brand.black};
+  border-radius: 3px;
+  box-decoration-break: clone;
+  padding-left: 24px;
+  padding-right: 24px;
+  &:hover {
+    opacity: 0.6;
+  }
 `;
 
 export const ArtistForm = () => {
@@ -151,13 +165,35 @@ export const ArtistForm = () => {
         </FormControl>
       </Stack>
 
-      <StageButtonGroup
-        updateStage={context.updateStage}
-        setButtonClickStatus={setButtonClickStatus}
-        stageRule={
-          context.artist_name && context.artist_bio && context.artist_discord
-        }
-      />
+      <Flex direction='row' justifyContent='space-between' alignItems='center'>
+        <StyledButton
+          mr='1rem'
+          color={theme.colors.brand.black}
+          onClick={() => context.updateStage(context.stage - 1)}
+        >
+          Back
+        </StyledButton>
+
+        <StyledButton
+          color={theme.colors.brand.white}
+          bg={theme.colors.brand.black}
+          onClick={() => {
+            if (
+              context.artist_name &&
+              context.artist_bio &&
+              context.artist_discord
+            ) {
+              setButtonClickStatus(false);
+              context.updateStage(context.stage + 1);
+            } else {
+              setButtonClickStatus(true);
+              triggerToast('Please fill in all the required fields.');
+            }
+          }}
+        >
+          Next
+        </StyledButton>
+      </Flex>
     </Flex>
   );
 };

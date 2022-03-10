@@ -1,6 +1,17 @@
-import { SimpleGrid, Flex, Text, Heading } from '@chakra-ui/react';
+import {
+  SimpleGrid,
+  Flex,
+  Text,
+  Heading,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverArrow,
+  PopoverBody
+} from '@chakra-ui/react';
 import styled from '@emotion/styled';
 
+import { whyNfts } from '../../utils/constants';
 import { theme } from '../../themes/theme';
 
 const StyledHeading = styled(Heading)`
@@ -9,9 +20,9 @@ const StyledHeading = styled(Heading)`
   margin-bottom: 1rem;
 `;
 
-const StyledTextBrightGrey = styled(Text)`
+const StyledTextChineseSilver = styled(Text)`
   font-family: ${theme.fonts.spaceMono};
-  color: ${theme.colors.brand.brightGrey};
+  color: ${theme.colors.brand.chineseSilver};
   margin-bottom: 1rem;
 `;
 
@@ -31,10 +42,25 @@ export const Explainer = () => {
     >
       <Flex direction='column' justifyContent='flex-start' fontSize='35px'>
         <StyledHeading>Why NFT’s?</StyledHeading>
-        <StyledTextBrightGrey>Why not list elsewhere?</StyledTextBrightGrey>
-        <StyledTextBrightGrey>Where will the money go?</StyledTextBrightGrey>
-        <StyledTextBrightGrey>Can I just donate crypto?</StyledTextBrightGrey>
-        <StyledTextBrightGrey>Who is behind this?</StyledTextBrightGrey>
+        {whyNfts.map((whyNft, index) => {
+          return (
+            <Popover key={index}>
+              <PopoverTrigger>
+                <StyledTextChineseSilver
+                  cursor='pointer'
+                  _hover={{ color: theme.colors.brand.darkCharcoal }}
+                >
+                  {whyNft.q}
+                </StyledTextChineseSilver>
+              </PopoverTrigger>
+              <PopoverContent>
+                <PopoverArrow />
+
+                <PopoverBody fontSize='24px'>{whyNft.a}</PopoverBody>
+              </PopoverContent>
+            </Popover>
+          );
+        })}
       </Flex>
       <Flex
         w='100%'

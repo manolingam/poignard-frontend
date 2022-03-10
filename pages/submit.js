@@ -16,7 +16,6 @@ import { Footer } from '../shared/Footer';
 import { Intro } from '../views/submit/Intro';
 import { ArtistForm } from '../views/submit/ArtistForm';
 import { ArtworkForm } from '../views/submit/ArtworkForm';
-// import { FAQ } from '../shared/Faq';
 
 import { theme } from '../themes/theme';
 
@@ -45,7 +44,12 @@ const Join = () => {
   }, []);
 
   return (
-    <Flex direction='column' width='100vw' minHeight='100vh'>
+    <Flex
+      direction='column'
+      width='100vw'
+      minHeight='100vh'
+      justifyContent='space-between'
+    >
       <Meta />
       <Header windowWidth={windowWidth} navLinks={false} />
       <Flex
@@ -58,9 +62,9 @@ const Join = () => {
         {context.stage > 1 && context.stage < 4 && (
           <Flex direction='row' alignItems='center' mr='auto' mb='2rem'>
             <CircularProgress
-              value={context.stage - 1}
+              value={context.hasMinterRole ? 1 : context.stage}
               thickness='4px'
-              max={2}
+              max={context.hasMinterRole ? 1 : 2}
               color={theme.colors.brand.darkCharcoal}
             >
               <CircularProgressLabel
@@ -68,24 +72,22 @@ const Join = () => {
                 fontFamily={theme.fonts.spaceMono}
                 fontSize={{ base: '20px', lg: '26px' }}
               >
-                {context.stage - 1}
+                {context.hasMinterRole ? 1 : context.stage}
               </CircularProgressLabel>
             </CircularProgress>{' '}
             <StyledSecondaryHeading
               fontSize={{ base: '20px', lg: '26px' }}
               ml='1rem'
             >
-              {stageHeadings[context.stage - 1]}
+              {stageHeadings[context.stage]}
             </StyledSecondaryHeading>
           </Flex>
         )}
 
-        {context.stage === 1 && <Intro />}
-        {context.stage === 2 && <ArtistForm />}
-        {context.stage === 3 && <ArtworkForm />}
-        {context.stage === 4 && (window.location.href = '/')}
-
-        {/* <FAQ /> */}
+        {context.stage === 0 && <Intro />}
+        {context.stage === 1 && <ArtistForm />}
+        {context.stage === 2 && <ArtworkForm />}
+        {context.stage === 3 && (window.location.href = '/')}
       </Flex>
       <Footer />
     </Flex>
