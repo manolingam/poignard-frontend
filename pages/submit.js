@@ -59,7 +59,7 @@ const Join = () => {
         px={{ base: '1rem', lg: '4rem' }}
         mb='1rem'
       >
-        {context.stage > 1 && context.stage < 4 && (
+        {context.stage > 0 && context.stage < 3 && (
           <Flex direction='row' alignItems='center' mr='auto' mb='2rem'>
             <CircularProgress
               value={context.hasMinterRole ? 1 : context.stage}

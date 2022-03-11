@@ -26,7 +26,8 @@ class AppContextProvider extends Component {
     art_description: '',
     art_image: '',
     //contract state
-    hasMinterRole: true,
+    signature: '',
+    hasMinterRole: false,
     merkleProof: ''
   };
 

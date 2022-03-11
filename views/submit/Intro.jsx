@@ -68,7 +68,10 @@ export const Intro = () => {
 
   const verifyWhitelist = async () => {
     setLoadingText('Checking whitelist..');
-    const { data } = await verifyArtist(context.signerAddress);
+    const { data } = await verifyArtist(
+      context.signerAddress,
+      context.signature
+    );
     return data.response;
   };
 

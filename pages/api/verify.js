@@ -10,10 +10,7 @@ const handler = async (req, res) => {
 
   if (req.method === 'POST') {
     try {
-      const token = jwt.sign(
-        { ethAddress: req.body.ethAddress },
-        process.env.JWT_SECRET
-      );
+      const token = jwt.sign(req.body.signature, process.env.JWT_SECRET);
       const { data } = await axios.get(
         `${process.env.API_BASE_URL}/verify/${req.body.ethAddress}`,
         {

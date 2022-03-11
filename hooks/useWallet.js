@@ -33,6 +33,10 @@ export const useWallet = (requireEns) => {
     const signerAddress = await ethersProvider.getSigner().getAddress();
     const chainId = Number(modalProvider.chainId);
 
+    let signature = await ethersProvider
+      .getSigner()
+      .signMessage('Welcome to PoingART!');
+
     if (requireEns) {
       try {
         await ethereum.request({
@@ -52,7 +56,8 @@ export const useWallet = (requireEns) => {
       web3,
       signerAddress,
       signerEns,
-      chainId
+      chainId,
+      signature
     });
   };
 
@@ -79,6 +84,9 @@ export const useWallet = (requireEns) => {
       modalProvider.on('accountsChanged', async () => {
         const ethersProvider = new providers.Web3Provider(modalProvider);
         const signerAddress = await ethersProvider.getSigner().getAddress();
+        const signature = await ethersProvider
+          .getSigner()
+          .signMessage('Welcome to PoingART!');
         const signerEns =
           (await fetchEns(
             Number(modalProvider.chainId),
@@ -86,7 +94,12 @@ export const useWallet = (requireEns) => {
             signerAddress
           )) || 'Not Found';
 
-        context.setWeb3Data({ ethersProvider, signerAddress, signerEns });
+        context.setWeb3Data({
+          ethersProvider,
+          signerAddress,
+          signerEns,
+          signature
+        });
       });
 
       modalProvider.on('chainChanged', (_chainId) => {
