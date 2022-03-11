@@ -86,6 +86,7 @@ export const AllVouchers = () => {
       {context.db_vouchers && context.signature && (
         <SimpleGrid
           columns={{ lg: 3, md: 2, base: 1 }}
+          gridGap={10}
           px={{ base: '1rem', lg: '4rem' }}
           mb='1rem'
         >
