@@ -11,8 +11,9 @@ const handler = async (req, res) => {
   if (req.method === 'POST') {
     try {
       const token = jwt.sign(req.body.signature, process.env.JWT_SECRET);
-      const { data } = await axios.get(
-        `${process.env.API_BASE_URL}/api/verify`,
+      const { data } = await axios.post(
+        `${process.env.API_BASE_URL}/api/voucher`,
+        req.body.token,
         {
           headers: {
             authorization: 'Bearer ' + token

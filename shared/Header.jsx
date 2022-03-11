@@ -35,7 +35,7 @@ const StyledConnectButton = styled(Button)`
 
 export const Header = ({ windowWidth }) => {
   const context = useContext(AppContext);
-  const { connectWallet, disconnect } = useWallet();
+  const { connectWallet, disconnect, signaturePending } = useWallet();
 
   return (
     <Flex
@@ -65,6 +65,7 @@ export const Header = ({ windowWidth }) => {
       >
         {windowWidth > 600 &&
           window.location.pathname !== '/submit' &&
+          window.location.pathname !== '/explore' &&
           navItems.map((item, index) => {
             return (
               <ChakraLink
@@ -80,8 +81,12 @@ export const Header = ({ windowWidth }) => {
             );
           })}
 
-        {!context.signerAddress ? (
-          <StyledConnectButton onClick={connectWallet}>
+        {!context.signature ? (
+          <StyledConnectButton
+            onClick={connectWallet}
+            isLoading={signaturePending}
+            loadingText='Signature Pending'
+          >
             CONNECT
           </StyledConnectButton>
         ) : (

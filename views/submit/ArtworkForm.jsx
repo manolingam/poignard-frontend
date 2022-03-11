@@ -18,6 +18,7 @@ import { utils } from 'ethers';
 import { AppContext } from '../../context/AppContext';
 import { uploadArt, uploadMetadata } from '../../utils/ipfs';
 import { generateNFTVoucher } from '../../utils/helpers';
+import { submitVoucher } from '../../utils/requests';
 import { AlertModal } from '../../components/AlertModal';
 import useWarnings from '../../hooks/useWarnings';
 
@@ -53,8 +54,9 @@ export const ArtworkForm = () => {
   const [buttonClick, setButtonClickStatus] = useState(false);
   const [uriStatus, setUriStatus] = useState(false);
   const [signatureStatus, setSignatureStatus] = useState(false);
+
   const [uri, setUri] = useState('');
-  const [signature, setSignature] = useState('');
+  const [voucherSignature, setvoucherSignature] = useState('');
 
   const [image, setImage] = useState('');
   const [blobImage, setBlobImage] = useState('');
@@ -98,11 +100,21 @@ export const ArtworkForm = () => {
         mintPriceInWei,
         context.chainId
       );
-      const signature = await context.ethersProvider
+      const voucherSignature = await context.ethersProvider
         .getSigner()
         ._signTypedData(domain, types, voucher);
-      console.log(signature, voucher);
-      setSignature(signature);
+      setvoucherSignature(voucherSignature);
+      const { data } = await submitVoucher(
+        {
+          tokenID: context.db_next_token_id,
+          tokenURI: uri,
+          minPrice: mintPriceInWei.toString(),
+          createdBy: context.db_artist._id,
+          signature: voucherSignature
+        },
+        context.signature
+      );
+      console.log(data);
       setSignatureStatus(false);
       setDialogStatus(true);
     } catch (err) {

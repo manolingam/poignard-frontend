@@ -5,7 +5,6 @@ import styled from '@emotion/styled';
 import { theme } from '../../themes/theme';
 import { AppContext } from '../../context/AppContext';
 import { verifyArtist } from '../../utils/requests';
-import { checkMinterRole } from '../../utils/web3';
 import useWarnings from '../../hooks/useWarnings';
 
 const StyledPrimaryHeading = styled(Heading)`
@@ -57,39 +56,36 @@ export const Intro = () => {
   const [loadingText, setLoadingText] = useState('');
   const [isChecked, setIsChecked] = useState(false);
 
-  const verifyRole = async () => {
-    setLoadingText('Checking minter role..');
-    const status = await checkMinterRole(
-      context.ethersProvider,
-      context.signerAddress
-    );
-    return status;
-  };
-
-  const verifyWhitelist = async () => {
-    setLoadingText('Checking whitelist..');
-    const { data } = await verifyArtist(
-      context.signerAddress,
-      context.signature
-    );
-    return data.response;
-  };
-
   const handleButtonClick = async () => {
     if (Number(context.chainId) == 4) {
       setLoading(true);
-      const status = await verifyRole();
+      setLoadingText('Checking whitelist..');
 
-      if (!status) {
-        const res = await verifyWhitelist();
-        context.updateArtistState('merkleProof', res.merkleProof);
-        res.verified && context.updateStage(context.stage + 1);
-        setLoading(false);
-      } else {
-        context.updateArtistState('hasMinterRole', status);
-        context.updateStage(2);
-        setLoading(false);
+      const { data } = await verifyArtist(
+        context.signerAddress,
+        context.signature
+      );
+
+      console.log(data);
+
+      if (data.response.verified && data.response.artist) {
+        context.setDbData({
+          db_artist: data.response.artist,
+          db_merkleProof: data.response.proof,
+          db_next_token_id: data.response.nextTokenID
+        });
+        context.updateStage(context.stage + 2);
       }
+
+      if (data.response.verified && !data.response.artist) {
+        context.setDbData({
+          db_merkleProof: data.response.proof,
+          db_next_token_id: data.response.nextTokenID
+        });
+        context.updateStage(context.stage + 1);
+      }
+
+      setLoading(false);
       setIsChecked(true);
     } else {
       triggerToast('Please switch to the Rinkeby testnet');
@@ -121,19 +117,19 @@ export const Intro = () => {
       </StyledBodyText>
       <br />
 
-      {!context.signerAddress && (
+      {!context.signature && (
         <StyledTag fontSize={{ base: '1rem', lg: '18px' }}>
           Connect wallet to proceed.
         </StyledTag>
       )}
 
-      {isChecked && !context.merkleProof && (
+      {isChecked && !context.db_merkleProof && (
         <StyledTag fontSize={{ base: '1rem', lg: '18px' }}>
           You are not whitelisted.
         </StyledTag>
       )}
 
-      {context.signerAddress && !isChecked && (
+      {context.signature && !isChecked && (
         <StyledButton
           minW={{ base: 'auto' }}
           fontSize={{ base: '16px', lg: '18px' }}

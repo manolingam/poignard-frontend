@@ -1,4 +1,4 @@
-import { useRef, useContext } from 'react';
+import { useRef } from 'react';
 import {
   AlertDialog,
   AlertDialogBody,
@@ -27,12 +27,10 @@ const StyledButton = styled(Button)`
   }
 `;
 
-import { AppContext } from '../context/AppContext';
-
 export const AlertModal = ({ alertTitle, uri, dialogStatus }) => {
-  const context = useContext(AppContext);
-
-  const onClose = () => context.updateAlertModalStatus();
+  const onClose = () => {
+    window.location.reload();
+  };
   const cancelRef = useRef();
 
   return (

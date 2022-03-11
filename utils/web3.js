@@ -14,7 +14,7 @@ export const vetArtist = async (ethersProvider, artistAddress, merkleProof) => {
   const contract = new Contract(
     POIGNARD_CONTRACT_ADDRESS,
     abiInterface,
-    ethersProvider
+    ethersProvider.getSigner()
   );
   return contract.vetArtist(artistAddress, merkleProof);
 };

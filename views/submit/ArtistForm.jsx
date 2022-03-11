@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import {
   Flex,
   FormControl,
@@ -11,6 +11,9 @@ import {
 import styled from '@emotion/styled';
 
 import { AppContext } from '../../context/AppContext';
+import { vetArtist, checkMinterRole } from '../../utils/web3';
+import { submitArtistInfo } from '../../utils/requests';
+import useWarnings from '../../hooks/useWarnings';
 
 import { theme } from '../../themes/theme';
 
@@ -41,6 +44,92 @@ const StyledButton = styled(Button)`
 export const ArtistForm = () => {
   const context = useContext(AppContext);
   const [buttonClick, setButtonClickStatus] = useState(false);
+
+  const { triggerToast } = useWarnings();
+
+  const [loading, setLoading] = useState(false);
+  const [loadingText, setLoadingText] = useState('');
+
+  const verifyRole = async () => {
+    const isMinter = await checkMinterRole(
+      context.ethersProvider,
+      context.signerAddress
+    );
+    if (isMinter) {
+      context.setWeb3Data({ hasMinterRole: isMinter });
+    }
+  };
+
+  const storeData = async () => {
+    try {
+      setLoadingText('Storing offchain data..');
+      const { data } = await submitArtistInfo(
+        {
+          name: context.artist_name,
+          emailAddress: context.artist_email,
+          bio: context.artist_bio,
+          ethAddress: context.signerAddress,
+          discordHandle: context.artist_discord,
+          telegramHandle: context.artist_telegram,
+          instagramHandle: context.artist_insta,
+          twitterHandle: context.artist_twitter
+        },
+        context.signature
+      );
+      console.log(data);
+      context.updateStage(context.stage + 1);
+    } catch (err) {
+      console.log(err);
+      triggerToast('Failed to store data offchain.');
+    }
+  };
+
+  const addMinterRole = async () => {
+    if (Number(context.chainId) == 4) {
+      setLoading(true);
+      setLoadingText('Awaiting transaction..');
+
+      let tx;
+
+      try {
+        tx = await vetArtist(
+          context.ethersProvider,
+          context.signerAddress,
+          context.db_merkleProof
+        );
+        setLoadingText('Transaction in progress..');
+      } catch (err) {
+        triggerToast('User denied transaction.');
+        console.log(err);
+      }
+
+      if (tx) {
+        const { status } = await tx.wait();
+        if (status === 1) {
+          await storeData();
+        } else {
+          triggerToast('Transaction failed.');
+        }
+      }
+
+      setLoading(false);
+    } else {
+      triggerToast('Please switch to the Rinkeby testnet');
+    }
+  };
+
+  useEffect(() => {
+    verifyRole();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleSubmit = async () => {
+    if (context.hasMinterRole) {
+      await storeData();
+    } else {
+      await addMinterRole();
+    }
+  };
 
   return (
     <Flex w='100%' direction='column'>
@@ -177,6 +266,8 @@ export const ArtistForm = () => {
         <StyledButton
           color={theme.colors.brand.white}
           bg={theme.colors.brand.black}
+          isLoading={loading}
+          loadingText={loadingText}
           onClick={() => {
             if (
               context.artist_name &&
@@ -184,14 +275,14 @@ export const ArtistForm = () => {
               context.artist_discord
             ) {
               setButtonClickStatus(false);
-              context.updateStage(context.stage + 1);
+              handleSubmit();
             } else {
               setButtonClickStatus(true);
               triggerToast('Please fill in all the required fields.');
             }
           }}
         >
-          Next
+          {context.hasMinterRole ? 'Submit' : 'Vet & Submit'}
         </StyledButton>
       </Flex>
     </Flex>

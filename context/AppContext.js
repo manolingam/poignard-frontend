@@ -12,6 +12,7 @@ class AppContextProvider extends Component {
     signerAddress: null,
     signerEns: null,
     chainId: null,
+    signature: null,
     //artist form state
     artist_name: '',
     artist_email: '',
@@ -26,9 +27,12 @@ class AppContextProvider extends Component {
     art_description: '',
     art_image: '',
     //contract state
-    signature: '',
     hasMinterRole: false,
-    merkleProof: ''
+    //database state
+    db_artist: null,
+    db_next_token_id: null,
+    db_merkleProof: '',
+    db_vouchers: []
   };
 
   inputChangeHandler = (e) => {
@@ -39,13 +43,13 @@ class AppContextProvider extends Component {
     this.setState({ art_image: image });
   };
 
-  updateArtistState = (stateName, stateValue) => {
-    this.setState({ [stateName]: stateValue });
-  };
-
   updateStage = (number) => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     this.setState({ stage: number });
+  };
+
+  setDbData = (data) => {
+    this.setState({ ...data });
   };
 
   setWeb3Data = (data) => {
@@ -63,6 +67,7 @@ class AppContextProvider extends Component {
           updateStage: this.updateStage,
           setArtImage: this.setArtImage,
           setWeb3Data: this.setWeb3Data,
+          setDbData: this.setDbData,
           updateArtistState: this.updateArtistState
         }}
       >

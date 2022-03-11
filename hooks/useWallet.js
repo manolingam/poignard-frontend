@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { providers } from 'ethers';
 import Web3 from 'web3';
 import Web3Modal from 'web3modal';
@@ -18,44 +18,32 @@ const providerOptions = {
   }
 };
 
-export const useWallet = (requireEns) => {
+export const useWallet = () => {
   const context = useContext(AppContext);
+  const [signaturePending, setSignaturePending] = useState(false);
 
-  const fetchEns = async (chainId, ethersProvider, address) => {
-    if (chainId !== 1) return null;
-    const ens = await ethersProvider.lookupAddress(address);
-    return ens;
-  };
+  // const fetchEns = async (chainId, ethersProvider, address) => {
+  //   if (chainId !== 1) return null;
+  //   const ens = await ethersProvider.lookupAddress(address);
+  //   return ens;
+  // };
 
   const setWeb3Provider = async (modalProvider) => {
     const ethersProvider = new providers.Web3Provider(modalProvider);
     const web3 = new Web3(modalProvider);
-    const signerAddress = await ethersProvider.getSigner().getAddress();
+    const signerAddress = (
+      await ethersProvider.getSigner().getAddress()
+    ).toLowerCase();
     const chainId = Number(modalProvider.chainId);
 
     let signature = await ethersProvider
       .getSigner()
-      .signMessage('Welcome to PoingART!');
-
-    if (requireEns) {
-      try {
-        await ethereum.request({
-          method: 'wallet_switchEthereumChain',
-          params: [{ chainId: '0x1' }]
-        });
-      } catch (err) {
-        console.log(err);
-      }
-    }
-
-    const signerEns =
-      (await fetchEns(chainId, ethersProvider, signerAddress)) || 'Not Found';
+      .signMessage('Welcome to PoignART!');
 
     context.setWeb3Data({
       ethersProvider,
       web3,
       signerAddress,
-      signerEns,
       chainId,
       signature
     });
@@ -65,6 +53,7 @@ export const useWallet = (requireEns) => {
 
   const connectWallet = async () => {
     try {
+      setSignaturePending(true);
       web3Modal = new Web3Modal({
         network: 'mainnet',
         cacheProvider: true,
@@ -80,42 +69,33 @@ export const useWallet = (requireEns) => {
       const modalProvider = await web3Modal.connect();
 
       await setWeb3Provider(modalProvider);
+      setSignaturePending(false);
 
       modalProvider.on('accountsChanged', async () => {
-        const ethersProvider = new providers.Web3Provider(modalProvider);
-        const signerAddress = await ethersProvider.getSigner().getAddress();
-        const signature = await ethersProvider
-          .getSigner()
-          .signMessage('Welcome to PoingART!');
-        const signerEns =
-          (await fetchEns(
-            Number(modalProvider.chainId),
-            ethersProvider,
-            signerAddress
-          )) || 'Not Found';
-
-        context.setWeb3Data({
-          ethersProvider,
-          signerAddress,
-          signerEns,
-          signature
-        });
+        window.location.reload();
       });
 
       modalProvider.on('chainChanged', (_chainId) => {
         const chainId = Number(_chainId);
         const ethersProvider = new providers.Web3Provider(modalProvider);
-
         context.setWeb3Data({ chainId, ethersProvider });
       });
     } catch (err) {
+      setSignaturePending(false);
       console.log(err);
     }
   };
 
   const disconnect = async () => {
-    web3Modal.clearCachedProvider();
+    context.setWeb3Data({
+      ethersProvider: null,
+      web3: null,
+      signerAddress: null,
+      signerEns: null,
+      chainId: null,
+      signature: null
+    });
   };
 
-  return { connectWallet, disconnect };
+  return { signaturePending, connectWallet, disconnect };
 };

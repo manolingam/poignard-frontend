@@ -30,7 +30,7 @@ const stageHeadings = {
   2: 'ArtWork Details'
 };
 
-const Join = () => {
+const Submit = () => {
   const context = useContext(AppContext);
 
   const [windowWidth, setWindowWidth] = useState('');
@@ -62,9 +62,9 @@ const Join = () => {
         {context.stage > 0 && context.stage < 3 && (
           <Flex direction='row' alignItems='center' mr='auto' mb='2rem'>
             <CircularProgress
-              value={context.hasMinterRole ? 1 : context.stage}
+              value={context.stage}
               thickness='4px'
-              max={context.hasMinterRole ? 1 : 2}
+              max={context.db_artist ? 1 : 2}
               color={theme.colors.brand.darkCharcoal}
             >
               <CircularProgressLabel
@@ -72,7 +72,7 @@ const Join = () => {
                 fontFamily={theme.fonts.spaceMono}
                 fontSize={{ base: '20px', lg: '26px' }}
               >
-                {context.hasMinterRole ? 1 : context.stage}
+                {context.stage}
               </CircularProgressLabel>
             </CircularProgress>{' '}
             <StyledSecondaryHeading
@@ -94,4 +94,4 @@ const Join = () => {
   );
 };
 
-export default Join;
+export default Submit;
