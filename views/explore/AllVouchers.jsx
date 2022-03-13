@@ -13,7 +13,8 @@ import {
   FormControl,
   FormLabel,
   Box,
-  Image
+  Image,
+  Link
 } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 import { BigNumber, utils } from 'ethers';
@@ -26,6 +27,7 @@ import { uriToHttp } from '../../utils/helpers';
 import { redeem } from '../../utils/web3';
 
 import { theme } from '../../themes/theme';
+import { POIGNARD_CONTRACT_ADDRESS } from '../../config';
 
 const StyledTag = styled(Text)`
   font-family: ${theme.fonts.spaceMono};
@@ -76,10 +78,13 @@ export const AllVouchers = () => {
   const [loadingText, setLoadingText] = useState('');
   const [isRedeemed, setIsRedeemed] = useState(false);
 
-  const onClose = () => {
+  const [mintedVouchers, setMintedVouchers] = useState([]);
+  const [redeemableVouchers, setRedeemableVouchers] = useState([]);
+
+  const onClose = async () => {
     setDialogStatus(false);
     if (isRedeemed) {
-      window.location.reload();
+      await handleFetch();
     }
   };
 
@@ -136,17 +141,17 @@ export const AllVouchers = () => {
   };
 
   const handleFetch = async () => {
+    setIsRedeemed(false);
+    setFetched(false);
+    setMintedVouchers([]);
+    setRedeemableVouchers([]);
     const mintedVouchers = await fetchVouchers(context.signature, true);
     if (mintedVouchers.data.data.vouchers.length > 0) {
-      context.setDbData({
-        db_vouchers_minted: mintedVouchers.data.data.vouchers
-      });
+      setMintedVouchers(mintedVouchers.data.data.vouchers);
     }
     const unmintedVouchers = await fetchVouchers(context.signature, false);
     if (unmintedVouchers.data.data.vouchers.length > 0) {
-      context.setDbData({
-        db_vouchers_not_minted: unmintedVouchers.data.data.vouchers
-      });
+      setRedeemableVouchers(unmintedVouchers.data.data.vouchers);
     }
     setFetched(true);
   };
@@ -199,53 +204,52 @@ export const AllVouchers = () => {
             px={{ base: '1rem', lg: '4rem' }}
             mb='1rem'
           >
-            {(onlyMintable
-              ? context.db_vouchers_not_minted
-              : context.db_vouchers_minted
-            ).map((voucher, index) => {
-              return (
-                <Box
-                  key={index}
-                  position='relative'
-                  cursor='pointer'
-                  _hover={{
-                    transform: 'scale(1.05)',
-                    transitionDuration: '0.5s'
-                  }}
-                  onClick={() => {
-                    setDialogData(voucher);
-                    setDialogStatus(true);
-                  }}
-                  mb='2rem'
-                >
-                  <Image
-                    src={uriToHttp(voucher.metadata.image)}
-                    alt='minted nft'
-                    fallbackSrc='assets/loader.gif'
-                    height='auto'
-                    width='100%'
-                  />
-                  <StyledTokenId>
-                    {onlyMintable
-                      ? `${utils.formatEther(voucher.minPrice)} ETH`
-                      : 'Sold'}
-                  </StyledTokenId>
-                </Box>
-              );
-            })}
+            {(onlyMintable ? redeemableVouchers : mintedVouchers).map(
+              (voucher, index) => {
+                return (
+                  <Box
+                    key={index}
+                    position='relative'
+                    cursor='pointer'
+                    _hover={{
+                      transform: 'scale(1.05)',
+                      transitionDuration: '0.5s'
+                    }}
+                    onClick={() => {
+                      setDialogData(voucher);
+                      setDialogStatus(true);
+                    }}
+                    mb='2rem'
+                  >
+                    <Image
+                      src={uriToHttp(voucher.metadata.image)}
+                      alt='minted nft'
+                      fallbackSrc='assets/loader.gif'
+                      height='auto'
+                      width='100%'
+                    />
+                    <StyledTokenId>
+                      {onlyMintable
+                        ? `${utils.formatEther(voucher.minPrice)} ETH`
+                        : 'Sold'}
+                    </StyledTokenId>
+                  </Box>
+                );
+              }
+            )}
           </SimpleGrid>
         </>
       )}
 
       {/* fetched && no mintable vouchers && mintable filter */}
-      {fetched && !context.db_vouchers_minted.length && !onlyMintable && (
+      {fetched && !mintedVouchers.length && !onlyMintable && (
         <StyledTag fontSize={{ base: '1rem', lg: '18px' }}>
           No vouchers minted.
         </StyledTag>
       )}
 
       {/* fetched && no vouchers minted && not mintable filter */}
-      {fetched && !context.db_vouchers_not_minted.length && onlyMintable && (
+      {fetched && !redeemableVouchers.length && onlyMintable && (
         <StyledTag fontSize={{ base: '1rem', lg: '18px' }}>
           No mintable vouchers available.
         </StyledTag>
@@ -289,29 +293,48 @@ export const AllVouchers = () => {
               }`}</Text>
 
               {!onlyMintable && (
-                <Text
-                  maxW='50%'
-                  isTruncated
-                  mt='.5rem'
-                  color={theme.colors.brand.yellow}
+                <Button
+                  w='100%'
+                  mt='2rem'
+                  mb='1rem'
+                  borderRadius='10px'
+                  bg='rgb(32, 129, 226)'
+                  color={theme.colors.brand.white}
                   fontWeight='bold'
                   fontFamily={theme.fonts.spaceGrotesk}
-                >{`Minted to ${dialogStatus && dialogData.mintedBy}`}</Text>
+                  onClick={() =>
+                    window.open(
+                      `https://testnets.opensea.io/assets/${POIGNARD_CONTRACT_ADDRESS}/${dialogData.tokenID}`,
+                      '_blank'
+                    )
+                  }
+                >
+                  View on opensea
+                </Button>
               )}
             </AlertDialogBody>
 
             {onlyMintable && (
               <AlertDialogFooter>
                 {isRedeemed ? (
-                  <Text
-                    mt='.5rem'
-                    color={theme.colors.brand.yellow}
+                  <Button
+                    w='100%'
+                    mt='2rem'
+                    mb='1rem'
+                    borderRadius='10px'
+                    bg='rgb(32, 129, 226)'
+                    color={theme.colors.brand.white}
                     fontWeight='bold'
-                    textTransform='uppercase'
-                    fontFamily={theme.fonts.spaceMono}
+                    fontFamily={theme.fonts.spaceGrotesk}
+                    onClick={() =>
+                      window.open(
+                        `https://testnets.opensea.io/assets/${POIGNARD_CONTRACT_ADDRESS}/${dialogData.tokenID}`,
+                        '_blank'
+                      )
+                    }
                   >
-                    Successfully minted. Thank you!
-                  </Text>
+                    View on opensea
+                  </Button>
                 ) : (
                   <StyledButton
                     className='dialog-button-select'
