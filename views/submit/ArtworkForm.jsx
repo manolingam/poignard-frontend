@@ -12,6 +12,7 @@ import {
   InputGroup,
   Button,
   Text,
+  Image,
   AlertDialog,
   AlertDialogBody,
   AlertDialogFooter,
@@ -118,7 +119,7 @@ export const ArtworkForm = () => {
             created_by: META_DATA_CREATED_BY,
             external_url: META_DATA_EXTERNAL_URL
           };
-          const metadataUri = `ipfs://${await uploadMetadata(metadata)}`;
+          const metadataUri = await uploadMetadata(metadata);
           setTokenUri(metadataUri);
           setUriStatus(false);
         }
@@ -160,7 +161,6 @@ export const ArtworkForm = () => {
         },
         context.signature
       );
-      console.log(data);
       setSignatureStatus(false);
       setDialogStatus(true);
     } catch (err) {
@@ -336,11 +336,13 @@ export const ArtworkForm = () => {
               </AlertDialogHeader>
 
               <AlertDialogBody fontFamily={theme.fonts.spaceMono}>
-                <Box
-                  bgImage={uriToHttp(imageUri)[1]}
-                  bgSize='contain'
-                  bgRepeat='no-repeat'
-                  bgPosition='center'
+                <Image
+                  src={uriToHttp(imageUri)}
+                  alt='minted nft'
+                  fallbackSrc='assets/loader.gif'
+                  // bgSize='contain'
+                  // bgRepeat='no-repeat'
+                  // bgPosition='center'
                   height='200px'
                   width='100%'
                   mb='2rem'

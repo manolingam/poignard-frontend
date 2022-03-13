@@ -25,7 +25,6 @@ export const redeem = async (
   voucher,
   voucherSignature
 ) => {
-  console.log(voucher, voucherSignature);
   const abiInterface = new utils.Interface([
     'function redeem(address redeemer, tuple(uint256 tokenId, uint256 minPrice, string uri), bytes memory signature) public payable returns (uint256)'
   ]);

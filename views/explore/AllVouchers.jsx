@@ -12,7 +12,8 @@ import {
   Switch,
   FormControl,
   FormLabel,
-  Box
+  Box,
+  Image
 } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 import { BigNumber, utils } from 'ethers';
@@ -67,7 +68,7 @@ export const AllVouchers = () => {
 
   const cancelRef = useRef();
   const [fetched, setFetched] = useState(false);
-  const [onlyMintable, setOnlyMintable] = useState(false);
+  const [onlyMintable, setOnlyMintable] = useState(true);
   const [dialogStatus, setDialogStatus] = useState(false);
   const [dialogData, setDialogData] = useState('');
 
@@ -77,18 +78,21 @@ export const AllVouchers = () => {
 
   const onClose = () => {
     setDialogStatus(false);
+    if (isRedeemed) {
+      window.location.reload();
+    }
   };
 
-  const storeData = async () => {
+  const storeData = async (voucher) => {
     try {
       setLoadingText('Storing offchain data..');
       const { data } = await redeemVoucher(
         {
-          tokenID: context.db_next_token_id
+          tokenID: voucher.tokenID
         },
         context.signature
       );
-      console.log(data);
+
       setIsRedeemed(true);
     } catch (err) {
       console.log(err);
@@ -117,7 +121,7 @@ export const AllVouchers = () => {
         if (tx) {
           const { status } = await tx.wait();
           if (status === 1) {
-            await storeData();
+            await storeData(voucher);
           } else {
             triggerToast('Transaction failed.');
           }
@@ -132,8 +136,6 @@ export const AllVouchers = () => {
   };
 
   const handleFetch = async () => {
-    setIsRedeemed(false);
-    setFetched(false);
     const mintedVouchers = await fetchVouchers(context.signature, true);
     if (mintedVouchers.data.data.vouchers.length > 0) {
       context.setDbData({
@@ -181,10 +183,13 @@ export const AllVouchers = () => {
             fontFamily={theme.fonts.spaceMono}
             color={theme.colors.brand.darkCharcoal}
             px={{ base: '1rem', lg: '4rem' }}
-            mb='2rem'
+            mb='1rem'
           >
-            <FormLabel ml='auto'>Show mintable only</FormLabel>
+            <FormLabel ml='auto' fontWeight='bold'>
+              Show mintable only
+            </FormLabel>
             <Switch
+              defaultChecked={onlyMintable}
               onChange={() => setOnlyMintable((prevState) => !prevState)}
             />
           </FormControl>
@@ -201,14 +206,7 @@ export const AllVouchers = () => {
               return (
                 <Box
                   key={index}
-                  bgImage={uriToHttp(voucher.metadata.image)[1]}
                   position='relative'
-                  bgSize='cover'
-                  bgRepeat='no-repeat'
-                  bgPosition='center'
-                  height='200px'
-                  width='100%'
-                  mb='2rem'
                   cursor='pointer'
                   _hover={{
                     transform: 'scale(1.05)',
@@ -218,10 +216,20 @@ export const AllVouchers = () => {
                     setDialogData(voucher);
                     setDialogStatus(true);
                   }}
+                  mb='2rem'
                 >
-                  <StyledTokenId>{`${utils.formatEther(
-                    voucher.minPrice
-                  )} ETH`}</StyledTokenId>
+                  <Image
+                    src={uriToHttp(voucher.metadata.image)}
+                    alt='minted nft'
+                    fallbackSrc='assets/loader.gif'
+                    height='auto'
+                    width='100%'
+                  />
+                  <StyledTokenId>
+                    {onlyMintable
+                      ? `${utils.formatEther(voucher.minPrice)} ETH`
+                      : 'Sold'}
+                  </StyledTokenId>
                 </Box>
               );
             })}
@@ -261,14 +269,11 @@ export const AllVouchers = () => {
             </AlertDialogHeader>
 
             <AlertDialogBody fontFamily={theme.fonts.spaceMono}>
-              <Box
-                bgImage={
-                  dialogStatus && uriToHttp(dialogData.metadata.image)[1]
-                }
-                bgSize='contain'
-                bgRepeat='no-repeat'
-                bgPosition='center'
-                height='200px'
+              <Image
+                src={dialogStatus && uriToHttp(dialogData.metadata.image)}
+                alt='minted nft'
+                fallbackSrc='assets/loader.gif'
+                height='auto'
                 width='100%'
                 mb='2rem'
               />
@@ -282,27 +287,51 @@ export const AllVouchers = () => {
               >{`Created by ${
                 dialogStatus && dialogData.createdBy.name
               }`}</Text>
+
+              {!onlyMintable && (
+                <Text
+                  maxW='50%'
+                  isTruncated
+                  mt='.5rem'
+                  color={theme.colors.brand.yellow}
+                  fontWeight='bold'
+                  fontFamily={theme.fonts.spaceGrotesk}
+                >{`Minted to ${dialogStatus && dialogData.mintedBy}`}</Text>
+              )}
             </AlertDialogBody>
 
-            <AlertDialogFooter>
-              <StyledButton
-                className='dialog-button-select'
-                isLoading={loading}
-                loadingText={loadingText}
-                onClick={() => {
-                  if (isRedeemed) {
-                    handleFetch();
-                  } else {
-                    handleRedeem(dialogData);
-                  }
-                }}
-              >
-                {isRedeemed
-                  ? 'Explore Again'
-                  : dialogStatus &&
-                    `Mint for ${utils.formatEther(dialogData.minPrice)} ETH`}
-              </StyledButton>
-            </AlertDialogFooter>
+            {onlyMintable && (
+              <AlertDialogFooter>
+                {isRedeemed ? (
+                  <Text
+                    mt='.5rem'
+                    color={theme.colors.brand.yellow}
+                    fontWeight='bold'
+                    textTransform='uppercase'
+                    fontFamily={theme.fonts.spaceMono}
+                  >
+                    Successfully minted. Thank you!
+                  </Text>
+                ) : (
+                  <StyledButton
+                    className='dialog-button-select'
+                    isLoading={loading}
+                    loadingText={loadingText}
+                    onClick={() => {
+                      if (isRedeemed) {
+                        handleFetch();
+                        setDialogStatus(false);
+                      } else {
+                        handleRedeem(dialogData);
+                      }
+                    }}
+                  >
+                    {dialogStatus &&
+                      `Mint for ${utils.formatEther(dialogData.minPrice)} ETH`}
+                  </StyledButton>
+                )}
+              </AlertDialogFooter>
+            )}
           </AlertDialogContent>
         </AlertDialogOverlay>
       </AlertDialog>
