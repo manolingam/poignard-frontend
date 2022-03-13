@@ -5,34 +5,53 @@ export const AppContext = createContext();
 class AppContextProvider extends Component {
   state = {
     // UX state
-    faqModalStatus: false,
-    showAlertModal: false,
+    stage: 0,
     //web3 state
     ethersProvider: null,
     web3: null,
     signerAddress: null,
     signerEns: null,
     chainId: null,
-    //join state
-    input_1: '',
-    input_2: '',
-    checkbox_option: ''
+    signature: null,
+    //artist form state
+    artist_name: '',
+    artist_email: '',
+    artist_bio: '',
+    artist_discord: '',
+    artist_telegram: '',
+    artist_insta: '',
+    artist_twitter: '',
+    //artwork form state
+    art_name: '',
+    art_price: 0,
+    art_description: '',
+    art_image: '',
+    //contract state
+    hasMinterRole: false,
+    //database state
+    db_artist: null,
+    db_next_token_id: null,
+    db_merkleProof: '',
+    db_vouchers_minted: [],
+    db_vouchers_not_minted: []
   };
 
   inputChangeHandler = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  // ------- NOT YET USED ---------
-  // updateFaqModalStatus = (status, faqType) => {
-  //   this.setState({ faqModalStatus: status, faqType });
-  // };
+  setArtImage = (image) => {
+    this.setState({ art_image: image });
+  };
 
-  // updateAlertModalStatus = () => {
-  //   this.setState((prevState) => {
-  //     return { showAlertModal: !prevState.showAlertModal };
-  //   });
-  // };
+  updateStage = (number) => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    this.setState({ stage: number });
+  };
+
+  setDbData = (data) => {
+    this.setState({ ...data });
+  };
 
   setWeb3Data = (data) => {
     this.setState({
@@ -46,9 +65,11 @@ class AppContextProvider extends Component {
         value={{
           ...this.state,
           inputChangeHandler: this.inputChangeHandler,
-          // updateFaqModalStatus: this.updateFaqModalStatus,
-          // updateAlertModalStatus: this.updateAlertModalStatus,
-          setWeb3Data: this.setWeb3Data
+          updateStage: this.updateStage,
+          setArtImage: this.setArtImage,
+          setWeb3Data: this.setWeb3Data,
+          setDbData: this.setDbData,
+          updateArtistState: this.updateArtistState
         }}
       >
         {this.props.children}

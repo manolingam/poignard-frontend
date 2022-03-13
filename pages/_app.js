@@ -1,12 +1,18 @@
-import { Layout } from '../shared/Layout';
+import { ChakraProvider, Flex } from '@chakra-ui/react';
+import AppContextProvider from '../context/AppContext';
 
+import { theme } from '../themes/theme';
 import '../globals.css';
 
 function MyApp({ Component, pageProps }) {
   return (
-    <Layout>
-      <Component {...pageProps} />
-    </Layout>
+    <AppContextProvider>
+      <ChakraProvider theme={theme}>
+        <Flex overflowX='hidden' background='white'>
+          <Component {...pageProps} />
+        </Flex>
+      </ChakraProvider>
+    </AppContextProvider>
   );
 }
 

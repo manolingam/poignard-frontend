@@ -1,73 +1,106 @@
-import { Flex, SimpleGrid, Image, Heading } from '@chakra-ui/react';
-import styled from '@emotion/styled';
-
 import {
-  StyledPrimaryButton,
-  StyledSecondaryButton
-} from '../../themes/buttons';
+  SimpleGrid,
+  Flex,
+  Text,
+  Image,
+  Heading,
+  Button
+} from '@chakra-ui/react';
+import Link from 'next/link';
+import styled from '@emotion/styled';
 
 import { theme } from '../../themes/theme';
 
-const StyledPrimaryHeading = styled(Heading)`
-  font-family: ${theme.fonts.poppins};
-  letter-spacing: 1.2px;
-  line-height: 1.5;
-  color: ${theme.colors.ukraine.azure};
+const StyledButton = styled(Button)`
+  height: 50px;
+  width: 100%;
+  font-family: ${theme.fonts.spaceGrotesk};
+  text-transform: uppercase;
+  border: 2px solid ${theme.colors.brand.black};
+  border-radius: 3px;
+  color: ${theme.colors.brand.black};
+  background: white;
+  box-decoration-break: clone;
+  padding-left: 24px;
+  padding-right: 24px;
+  &:hover {
+    opacity: 0.6;
+  }
+`;
+
+const StyledHeading = styled(Heading)`
+  font-family: ${theme.fonts.spaceGrotesk};
+  color: ${theme.colors.brand.black};
+  margin-bottom: 2rem;
+  font-size: 35px;
+`;
+
+const StyledText = styled(Text)`
+  font-family: ${theme.fonts.spaceMono};
+  color: ${theme.colors.brand.darkCharcoal};
+  font-size: 20px;
 `;
 
 export const Intro = () => {
   return (
     <SimpleGrid
-      rows='1'
+      columns={{ base: 1, md: 1, lg: 2 }}
+      gridGap={20}
       placeItems='center'
-      py='2rem'
-      px={{ base: '1rem', lg: '4rem' }}
-      mx='1rem'
+      px={{ base: '2rem', lg: '8rem' }}
+      py={{ base: '2rem', lg: '4rem' }}
     >
-      <Flex
-        direction={{ base: 'column-reverse', lg: 'row' }}
-        alignItems='center'
-        justifyContent='space-between'
-      >
-        <Flex
-          direction='column'
-          justifyContent='center'
-          alignItems='start'
-          maxW={{ lg: '50%' }}
-        >
-          <StyledPrimaryHeading maxW='720px' fontSize={{ lg: '36px' }}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua.
-          </StyledPrimaryHeading>
-          <Flex
-            w='100%'
-            mt={{ base: '2rem' }}
-            direction='row'
-            justifyContent={{ base: 'center', lg: 'flex-start' }}
+      <Flex direction='column' alignItems='start' justifyContent='center'>
+        <StyledHeading>
+          Freedom is under attack. <br /> Creators are fighting back!
+        </StyledHeading>
+        <StyledText mb='1rem'>
+          We are a platform for artists to create NFTs in support of Ukraine:
+        </StyledText>
+        <StyledText>
+          1. Upload your Ukraine-themed art to be turned into NFTs. <br />
+          2. Set the sales price. <br />
+          3. 100% of proceeds go via{' '}
+          <Link
+            textDecoration='underline'
+            href='https://unchain.fund/'
+            isExternal
           >
-            <StyledPrimaryButton
-              onClick={() => (window.location.href = '')}
+            Unchain.fund
+          </Link>{' '}
+          to vetted NGOs.
+        </StyledText>
+        <Flex
+          w='100%'
+          mt={{ base: '2rem' }}
+          direction='row'
+          justifyContent={{ base: 'center', lg: 'flex-start' }}
+        >
+          <Link href='/explore' passHref>
+            <StyledButton
               minW={{ base: 'auto' }}
               fontSize={{ base: '16px', lg: '18px' }}
               mr='1rem'
             >
-              CTA1
-            </StyledPrimaryButton>
-            <StyledSecondaryButton
-              onClick={() => (window.location.href = '')}
+              Explore Art
+            </StyledButton>
+          </Link>
+          <Link href='/submit' passHref>
+            <StyledButton
               minW={{ base: 'auto' }}
               fontSize={{ base: '16px', lg: '18px' }}
             >
-              CTA2
-            </StyledSecondaryButton>
-          </Flex>
+              Donate Art
+            </StyledButton>
+          </Link>
         </Flex>
-        <Image
-          src='/assets/flag__illustration.png'
-          alt='ukraine flag illustraion'
-          width={{ base: '450px', md: '500px', lg: '550px' }}
-        />
       </Flex>
+      <Image
+        src='assets/illustration__one.png'
+        alt='illustration'
+        w='600px'
+        h='auto'
+      />
     </SimpleGrid>
   );
 };

@@ -1,18 +1,12 @@
 import { useState, useEffect } from 'react';
 import { Flex } from '@chakra-ui/react';
 
-import { theme } from '../themes/theme';
-
 import { Meta } from '../shared/Meta';
 import { Header } from '../shared/Header';
 import { Footer } from '../shared/Footer';
+import { AllVouchers } from '../views/explore/AllVouchers';
 
-import { Manifesto } from '../views/landing/Manifesto';
-import { Intro } from '../views/landing/Intro';
-import { Explainer } from '../views/landing/Explainer';
-import { SocialProofs } from '../views/landing/SocialProofs';
-
-export default function Home() {
+const Explore = () => {
   const [windowWidth, setWindowWidth] = useState('');
 
   useEffect(() => {
@@ -25,18 +19,17 @@ export default function Home() {
 
   return (
     <Flex
-      minH='100vh'
-      w='100%'
       direction='column'
-      fontFamily={theme.fonts.poppins}
+      width='100vw'
+      minHeight='100vh'
+      justifyContent='space-between'
     >
       <Meta />
       <Header windowWidth={windowWidth} />
-      <Intro />
-      <Manifesto />
-      <Explainer />
-      <SocialProofs />
+      <AllVouchers />
       <Footer />
     </Flex>
   );
-}
+};
+
+export default Explore;

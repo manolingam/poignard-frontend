@@ -1,20 +1,27 @@
 import {
   Flex,
-  Link,
+  Link as ChakraLink,
   Text,
   SimpleGrid,
   VStack,
   HStack,
-  SkeletonCircle
+  Image
 } from '@chakra-ui/react';
 import styled from '@emotion/styled';
+import Link from 'next/link';
 
 import { theme } from '../themes/theme';
 
-export const StyledFooterHeaderText = styled(Text)`
-  font-family: ${theme.fonts.poppins};
+const StyledFooterHeaderText = styled(Text)`
+  font-family: ${theme.fonts.spaceGrotesk};
   font-weight: bold;
-  color: ${theme.colors.ukraine.yellow};
+  color: ${theme.colors.brand.black};
+  font-size: 1.2rem;
+`;
+
+const StyledLink = styled(ChakraLink)`
+  font-family: ${theme.fonts.spaceGrotesk};
+  color: ${theme.colors.brand.black};
 `;
 
 export const Footer = () => {
@@ -24,12 +31,10 @@ export const Footer = () => {
       direction={{ base: 'column-reverse', md: 'row', lg: 'row' }}
       alignItems='flex-start'
       justifyContent='space-between'
-      bg={theme.colors.ukraine.azure}
       px={{ base: '2rem', lg: '5rem' }}
-      py='2rem'
-      mt='auto'
+      py='4rem'
     >
-      <SkeletonCircle size='10' mt='1rem' />
+      <Image src='/assets/logo__text.png' alt='logo' mt={{ base: '2rem' }} />
 
       <SimpleGrid
         columns={{ base: 1, md: 3, lg: 3 }}
@@ -38,63 +43,71 @@ export const Footer = () => {
         color='azure'
       >
         <VStack alignItems='flex-start'>
-          <StyledFooterHeaderText fontSize='1.2rem'>
-            For Artists
-          </StyledFooterHeaderText>
-          <Link href=''>Submit art</Link>
-          <Link href=''>Read manifesto</Link>
+          <StyledFooterHeaderText>For Artists</StyledFooterHeaderText>
+          <Link href='/submit' passHref>
+            <Text
+              fontFamily={theme.fonts.spaceGrotesk}
+              color={theme.colors.brand.black}
+              cursor='pointer'
+              _hover={{ textDecoration: 'underline' }}
+            >
+              Submit art
+            </Text>
+          </Link>
+          <StyledLink
+            href='https://medium.com/@poignart/poignart-mission-statement-4e17b6300543'
+            isExternal
+          >
+            Read Manifesto
+          </StyledLink>
         </VStack>
         <VStack alignItems='flex-start'>
-          <StyledFooterHeaderText fontSize='1.2rem'>
-            For Supporters
-          </StyledFooterHeaderText>
-          <Link href=''>Mint NFT</Link>
-          <Link href=''>View artworks</Link>
+          <StyledFooterHeaderText>For Supporters</StyledFooterHeaderText>
+          <Link href='/explore' passHref>
+            <Text
+              fontFamily={theme.fonts.spaceGrotesk}
+              color={theme.colors.brand.black}
+              cursor='pointer'
+              _hover={{ textDecoration: 'underline' }}
+            >
+              Explore artworks
+            </Text>
+          </Link>
         </VStack>
         <VStack alignItems='flex-start'>
-          <StyledFooterHeaderText fontSize='1.2rem'>
-            For All
-          </StyledFooterHeaderText>
-          <Link>
+          <StyledFooterHeaderText>For All</StyledFooterHeaderText>
+          <StyledLink>
             <HStack>
               <span style={{ width: '15px', marginRight: '5px' }}>
                 <i className='fab fa-twitter'></i>
               </span>
-              <Link
-                href='https://twitter.com/Poignard6'
-                target='_blank'
-                rel='noopener noreferrer'
-              >
+              <Link href='https://twitter.com/PoignARTnft' isExternal>
                 Twitter
               </Link>
             </HStack>
-          </Link>
+          </StyledLink>
 
-          <Link>
+          <StyledLink>
             <HStack>
               <span style={{ width: '15px', marginRight: '5px' }}>
                 <i className='fab fa-discord'></i>
               </span>
-              <Link href='' target='_blank' rel='noopener noreferrer'>
+              <Link href='https://discord.gg/qjPvUCakn3' isExternal>
                 Discord
               </Link>
             </HStack>
-          </Link>
+          </StyledLink>
 
-          <Link>
+          <StyledLink>
             <HStack>
               <span style={{ width: '15px', marginRight: '5px' }}>
                 <i className='fas fa-newspaper'></i>
               </span>
-              <Link
-                href='https://medium.com/@poignard'
-                target='_blank'
-                rel='noopener noreferrer'
-              >
-                Newsletter
+              <Link href='https://medium.com/@poignart' isExternal>
+                Medium
               </Link>
             </HStack>
-          </Link>
+          </StyledLink>
         </VStack>
       </SimpleGrid>
     </Flex>

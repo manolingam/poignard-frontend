@@ -1,15 +1,36 @@
 import { useState, useEffect, useContext } from 'react';
-import { Box, Flex } from '@chakra-ui/react';
+import {
+  Box,
+  Flex,
+  CircularProgress,
+  CircularProgressLabel,
+  Heading
+} from '@chakra-ui/react';
+import styled from '@emotion/styled';
 
 import { AppContext } from '../context/AppContext';
 
+import { Meta } from '../shared/Meta';
 import { Header } from '../shared/Header';
 import { Footer } from '../shared/Footer';
-// import { FAQ } from '../shared/Faq';
+import { Intro } from '../views/submit/Intro';
+import { ArtistForm } from '../views/submit/ArtistForm';
+import { ArtworkForm } from '../views/submit/ArtworkForm';
 
-import { Index } from '../views/submit/Index';
+import { theme } from '../themes/theme';
 
-const Join = () => {
+const StyledSecondaryHeading = styled(Heading)`
+  font-family: ${theme.fonts.spaceGrotesk};
+  letter-spacing: 1.2px;
+  color: ${theme.colors.brand.darkCharcoal};
+`;
+
+const stageHeadings = {
+  1: 'Artist Details',
+  2: 'ArtWork Details'
+};
+
+const Submit = () => {
   const context = useContext(AppContext);
 
   const [windowWidth, setWindowWidth] = useState('');
@@ -24,22 +45,53 @@ const Join = () => {
 
   return (
     <Flex
+      direction='column'
       width='100vw'
       minHeight='100vh'
-      direction='column'
       justifyContent='space-between'
-      alignItems='center'
     >
-      <Box px={{ base: '2rem', lg: '5rem' }} w='100%'>
-        <Header windowWidth={windowWidth} navLinks={false} />
-      </Box>
+      <Meta />
+      <Header windowWidth={windowWidth} navLinks={false} />
+      <Flex
+        direction='column'
+        justifyContent='space-between'
+        alignItems='center'
+        px={{ base: '1rem', lg: '4rem' }}
+        mb='1rem'
+      >
+        {context.stage > 0 && context.stage < 3 && (
+          <Flex direction='row' alignItems='center' mr='auto' mb='2rem'>
+            <CircularProgress
+              value={context.stage}
+              thickness='4px'
+              max={context.db_artist ? 1 : 2}
+              color={theme.colors.brand.darkCharcoal}
+            >
+              <CircularProgressLabel
+                color={theme.colors.brand.darkCharcoal}
+                fontFamily={theme.fonts.spaceMono}
+                fontSize={{ base: '20px', lg: '26px' }}
+              >
+                {context.stage}
+              </CircularProgressLabel>
+            </CircularProgress>{' '}
+            <StyledSecondaryHeading
+              fontSize={{ base: '20px', lg: '26px' }}
+              ml='1rem'
+            >
+              {stageHeadings[context.stage]}
+            </StyledSecondaryHeading>
+          </Flex>
+        )}
 
-      <Index />
-
-      {/* <FAQ /> */}
+        {context.stage === 0 && <Intro />}
+        {context.stage === 1 && <ArtistForm />}
+        {context.stage === 2 && <ArtworkForm />}
+        {context.stage === 3 && (window.location.href = '/')}
+      </Flex>
       <Footer />
     </Flex>
   );
 };
 
-export default Join;
+export default Submit;
