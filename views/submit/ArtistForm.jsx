@@ -76,7 +76,7 @@ export const ArtistForm = () => {
         },
         context.signature
       );
-      console.log(data);
+      context.setDbData({ db_artist: data });
       context.updateStage(context.stage + 1);
     } catch (err) {
       console.log(err);

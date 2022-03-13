@@ -66,8 +66,6 @@ export const Intro = () => {
         context.signature
       );
 
-      console.log(data);
-
       if (data.response.verified && data.response.artist) {
         context.setDbData({
           db_artist: data.response.artist,
@@ -112,8 +110,8 @@ export const Intro = () => {
       <br />
 
       <StyledBodyText fontSize={{ base: '1rem', lg: '18px' }}>
-        Upload original media (audio, video, gif, photos, pictures, drawings
-        etc.) in high quality and let PoignART platform do the rest!
+        Upload original media (photos, pictures, drawings etc.) in high quality
+        and let PoignART platform do the rest!
       </StyledBodyText>
       <br />
 

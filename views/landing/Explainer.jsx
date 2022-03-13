@@ -82,12 +82,12 @@ export const Explainer = () => {
           desperately need. Win-win-win!
         </StyledTextBlackCharcoal>
         <StyledTextBlackCharcoal>
-          And what a powerful cultural win too! Putin is terrified of art. He is
-          terrified of freedom of expression. So let’s hit him with just that.
-          Let’s show the people of Russia that they can artistically speak up to
-          Putin’s regime while also helping Ukraine. Let’s show Putin that art
-          cannot be silenced, that people cannot be silenced! And let’s show the
-          world why NFTs are here to stay.
+          What a powerful cultural win! Putin is terrified of freedom of speeach
+          and expression. So let’s hit him with just that - freedom of
+          expression through art. Let’s show the people of Russia that they can
+          artistically speak up to Putin’s regime while also helping Ukraine.
+          Let’s show Putin that art cannot be silenced, that people cannot be
+          silenced! NFTs are here to stay and make in impact to the world!
         </StyledTextBlackCharcoal>
       </Flex>
     </SimpleGrid>

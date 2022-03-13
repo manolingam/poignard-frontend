@@ -32,7 +32,8 @@ class AppContextProvider extends Component {
     db_artist: null,
     db_next_token_id: null,
     db_merkleProof: '',
-    db_vouchers: []
+    db_vouchers_minted: [],
+    db_vouchers_not_minted: []
   };
 
   inputChangeHandler = (e) => {

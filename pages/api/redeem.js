@@ -10,15 +10,10 @@ const handler = async (req, res) => {
 
   if (req.method === 'POST') {
     try {
-      const graphqlQuery = {
-        operationName: 'fetchVouchers',
-        query: `query fetchVouchers { vouchers(where:{minted: ${req.body.minted}}) { _id tokenID tokenURI metadata createdBy {name} minPrice signature createdAt updatedAt} }`,
-        variables: {}
-      };
       const token = jwt.sign(req.body.signature, process.env.JWT_SECRET);
       const { data } = await axios.post(
-        `${process.env.API_BASE_URL}/graphql`,
-        graphqlQuery,
+        `${process.env.API_BASE_URL}/api/redeem`,
+        req.body.redeem,
         {
           headers: {
             authorization: 'Bearer ' + token

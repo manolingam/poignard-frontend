@@ -1,7 +1,6 @@
 import {
   Button,
   Flex,
-  Link as ChakraLink,
   Text,
   Image,
   Popover,
@@ -9,6 +8,7 @@ import {
   PopoverContent
 } from '@chakra-ui/react';
 import { useContext } from 'react';
+import Link from 'next/link';
 import styled from '@emotion/styled';
 
 import { AppContext } from '../context/AppContext';
@@ -68,16 +68,18 @@ export const Header = ({ windowWidth }) => {
           window.location.pathname !== '/explore' &&
           navItems.map((item, index) => {
             return (
-              <ChakraLink
-                fontFamily={theme.fonts.spaceGrotesk}
-                color={theme.colors.brand.black}
-                fontWeight='bold'
-                key={index}
-                href={item.href}
-                mr='4rem'
-              >
-                {item.name}
-              </ChakraLink>
+              <Link href={`/${item.name.toLowerCase()}`} passHref key={index}>
+                <Text
+                  fontFamily={theme.fonts.spaceGrotesk}
+                  color={theme.colors.brand.black}
+                  fontWeight='bold'
+                  mr='4rem'
+                  cursor='pointer'
+                  _hover={{ textDecoration: 'underline' }}
+                >
+                  {item.name}
+                </Text>
+              </Link>
             );
           })}
 

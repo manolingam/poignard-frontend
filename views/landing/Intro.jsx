@@ -4,9 +4,9 @@ import {
   Text,
   Image,
   Heading,
-  Button,
-  Link
+  Button
 } from '@chakra-ui/react';
+import Link from 'next/link';
 import styled from '@emotion/styled';
 
 import { theme } from '../../themes/theme';
@@ -76,21 +76,23 @@ export const Intro = () => {
           direction='row'
           justifyContent={{ base: 'center', lg: 'flex-start' }}
         >
-          <StyledButton
-            onClick={() => (window.location.href = '')}
-            minW={{ base: 'auto' }}
-            fontSize={{ base: '16px', lg: '18px' }}
-            mr='1rem'
-          >
-            Explore Art
-          </StyledButton>
-          <StyledButton
-            onClick={() => (window.location.href = '/submit')}
-            minW={{ base: 'auto' }}
-            fontSize={{ base: '16px', lg: '18px' }}
-          >
-            Donate Art
-          </StyledButton>
+          <Link href='/explore' passHref>
+            <StyledButton
+              minW={{ base: 'auto' }}
+              fontSize={{ base: '16px', lg: '18px' }}
+              mr='1rem'
+            >
+              Explore Art
+            </StyledButton>
+          </Link>
+          <Link href='/submit' passHref>
+            <StyledButton
+              minW={{ base: 'auto' }}
+              fontSize={{ base: '16px', lg: '18px' }}
+            >
+              Donate Art
+            </StyledButton>
+          </Link>
         </Flex>
       </Flex>
       <Image

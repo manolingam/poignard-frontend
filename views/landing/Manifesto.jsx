@@ -7,6 +7,7 @@ import {
   SimpleGrid,
   Image
 } from '@chakra-ui/react';
+import Link from 'next/link';
 import styled from '@emotion/styled';
 
 import { theme } from '../../themes/theme';
@@ -54,17 +55,16 @@ export const Manifesto = () => {
         <StyledHeading>Make Art - Stop War!</StyledHeading>
         <StyledBodyText fontSize='20px' maxW='960px' px='2rem'>
           Create Ukraine-themed art to show support and raise money for Ukraine
-          suffering under Russian invasion. Art had always made the world a
+          suffering under Russian invasion. Art has always made the world a
           better place. Today, your art will save lives and move hearts. Create
           and upload your art in a few easy steps.
         </StyledBodyText>
         <br />
-        <StyledPrimaryButton
-          fontSize={{ base: '16px', lg: '18px' }}
-          onClick={() => (window.location.href = '/submit')}
-        >
-          Submit Artwork
-        </StyledPrimaryButton>
+        <Link href='/submit' passHref>
+          <StyledPrimaryButton fontSize={{ base: '16px', lg: '18px' }}>
+            Submit Artwork
+          </StyledPrimaryButton>
+        </Link>
       </VStack>
 
       <SimpleGrid

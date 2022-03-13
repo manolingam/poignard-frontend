@@ -1,6 +1,6 @@
 import {
   Flex,
-  Link,
+  Link as ChakraLink,
   Text,
   SimpleGrid,
   VStack,
@@ -8,6 +8,7 @@ import {
   Image
 } from '@chakra-ui/react';
 import styled from '@emotion/styled';
+import Link from 'next/link';
 
 import { theme } from '../themes/theme';
 
@@ -18,7 +19,7 @@ const StyledFooterHeaderText = styled(Text)`
   font-size: 1.2rem;
 `;
 
-const StyledLink = styled(Link)`
+const StyledLink = styled(ChakraLink)`
   font-family: ${theme.fonts.spaceGrotesk};
   color: ${theme.colors.brand.black};
 `;
@@ -43,7 +44,16 @@ export const Footer = () => {
       >
         <VStack alignItems='flex-start'>
           <StyledFooterHeaderText>For Artists</StyledFooterHeaderText>
-          <StyledLink href='/submit'>Submit art</StyledLink>
+          <Link href='/submit' passHref>
+            <Text
+              fontFamily={theme.fonts.spaceGrotesk}
+              color={theme.colors.brand.black}
+              cursor='pointer'
+              _hover={{ textDecoration: 'underline' }}
+            >
+              Submit art
+            </Text>
+          </Link>
           <StyledLink
             href='https://medium.com/@poignart/poignart-mission-statement-4e17b6300543'
             isExternal
@@ -53,8 +63,16 @@ export const Footer = () => {
         </VStack>
         <VStack alignItems='flex-start'>
           <StyledFooterHeaderText>For Supporters</StyledFooterHeaderText>
-
-          <StyledLink href='/explore'>Explore artworks</StyledLink>
+          <Link href='/explore' passHref>
+            <Text
+              fontFamily={theme.fonts.spaceGrotesk}
+              color={theme.colors.brand.black}
+              cursor='pointer'
+              _hover={{ textDecoration: 'underline' }}
+            >
+              Explore artworks
+            </Text>
+          </Link>
         </VStack>
         <VStack alignItems='flex-start'>
           <StyledFooterHeaderText>For All</StyledFooterHeaderText>

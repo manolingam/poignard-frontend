@@ -1,5 +1,5 @@
 /* eslint-disable react/no-children-prop */
-import { useContext, useState } from 'react';
+import { useContext, useState, useRef, useEffect } from 'react';
 import {
   Flex,
   Box,
@@ -10,16 +10,24 @@ import {
   Textarea,
   InputRightAddon,
   InputGroup,
-  Button
+  Button,
+  Text,
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogContent,
+  AlertDialogOverlay
 } from '@chakra-ui/react';
 import styled from '@emotion/styled';
+import Link from 'next/link';
 import { utils } from 'ethers';
 
 import { AppContext } from '../../context/AppContext';
 import { uploadArt, uploadMetadata } from '../../utils/ipfs';
-import { generateNFTVoucher } from '../../utils/helpers';
-import { submitVoucher } from '../../utils/requests';
-import { AlertModal } from '../../components/AlertModal';
+import { generateNFTVoucher, uriToHttp } from '../../utils/helpers';
+import { submitVoucher, verifyArtist } from '../../utils/requests';
+import { META_DATA_CREATED_BY, META_DATA_EXTERNAL_URL } from '../../config';
 import useWarnings from '../../hooks/useWarnings';
 
 import { theme } from '../../themes/theme';
@@ -50,13 +58,14 @@ const StyledButton = styled(Button)`
 
 export const ArtworkForm = () => {
   const context = useContext(AppContext);
+  const cancelRef = useRef();
 
   const [buttonClick, setButtonClickStatus] = useState(false);
   const [uriStatus, setUriStatus] = useState(false);
   const [signatureStatus, setSignatureStatus] = useState(false);
 
-  const [uri, setUri] = useState('');
-  const [voucherSignature, setvoucherSignature] = useState('');
+  const [tokenUri, setTokenUri] = useState('');
+  const [imageUri, setImageUri] = useState('');
 
   const [image, setImage] = useState('');
   const [blobImage, setBlobImage] = useState('');
@@ -65,21 +74,52 @@ export const ArtworkForm = () => {
 
   const { triggerToast } = useWarnings();
 
+  const onClose = () => {
+    window.location.reload();
+  };
+
+  const refreshTokenID = async () => {
+    try {
+      const { data } = await verifyArtist(
+        context.signerAddress,
+        context.signature
+      );
+
+      if (data.response.verified && data.response.artist) {
+        context.setDbData({
+          db_artist: data.response.artist,
+          db_merkleProof: data.response.proof,
+          db_next_token_id: data.response.nextTokenID
+        });
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    refreshTokenID();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const handleIpfsUpload = async () => {
     setUriStatus(true);
     const reader = new FileReader();
     reader.addEventListener('load', async () => {
       const buffer = Buffer.from(reader.result);
       try {
-        const imageHash = await uploadArt(buffer);
-        if (imageHash) {
+        const imageUri = `ipfs://${await uploadArt(buffer)}`;
+        setImageUri(imageUri);
+        if (imageUri) {
           const metadata = {
             name: context.art_name,
             description: context.art_description,
-            image: `https://ipfs.io/ipfs/${imageHash}`
+            image: imageUri,
+            created_by: META_DATA_CREATED_BY,
+            external_url: META_DATA_EXTERNAL_URL
           };
-          const uriHash = await uploadMetadata(metadata);
-          setUri(`https://ipfs.io/ipfs/${uriHash}`);
+          const metadataUri = `ipfs://${await uploadMetadata(metadata)}`;
+          setTokenUri(metadataUri);
           setUriStatus(false);
         }
       } catch (err) {
@@ -95,22 +135,28 @@ export const ArtworkForm = () => {
     try {
       const mintPriceInWei = utils.parseUnits(context.art_price, 18);
       const { domain, types, voucher } = generateNFTVoucher(
-        1,
-        uri,
+        context.db_next_token_id,
+        tokenUri,
         mintPriceInWei,
         context.chainId
       );
-      const voucherSignature = await context.ethersProvider
+      const _voucherSignature = await context.ethersProvider
         .getSigner()
         ._signTypedData(domain, types, voucher);
-      setvoucherSignature(voucherSignature);
+
       const { data } = await submitVoucher(
         {
           tokenID: context.db_next_token_id,
-          tokenURI: uri,
+          tokenURI: tokenUri,
           minPrice: mintPriceInWei.toString(),
           createdBy: context.db_artist._id,
-          signature: voucherSignature
+          signature: _voucherSignature,
+          minted: false,
+          metadata: {
+            name: context.art_name,
+            description: context.art_description,
+            image: imageUri
+          }
         },
         context.signature
       );
@@ -258,7 +304,7 @@ export const ArtworkForm = () => {
               image
             ) {
               setButtonClickStatus(false);
-              if (uri) {
+              if (tokenUri) {
                 handleSignature();
               } else {
                 handleIpfsUpload();
@@ -269,14 +315,64 @@ export const ArtworkForm = () => {
             }
           }}
         >
-          {uri ? 'Sign Voucher' : 'Generate Voucher'}
+          {tokenUri ? 'Sign Voucher' : 'Generate Voucher'}
         </StyledButton>
 
-        <AlertModal
-          alertTitle='Voucher Signed'
-          uri={uri}
-          dialogStatus={dialogStatus}
-        />
+        <AlertDialog
+          isOpen={dialogStatus}
+          leastDestructiveRef={cancelRef}
+          onClose={onClose}
+          isCentered
+        >
+          <AlertDialogOverlay>
+            <AlertDialogContent>
+              <AlertDialogHeader
+                fontSize='25px'
+                fontWeight='bold'
+                fontFamily={theme.fonts.spaceGrotesk}
+                color={theme.colors.brand.yellow}
+              >
+                {`Voucher Signed for ${context.art_name}!`}
+              </AlertDialogHeader>
+
+              <AlertDialogBody fontFamily={theme.fonts.spaceMono}>
+                <Box
+                  bgImage={uriToHttp(imageUri)[1]}
+                  bgSize='contain'
+                  bgRepeat='no-repeat'
+                  bgPosition='center'
+                  height='200px'
+                  width='100%'
+                  mb='2rem'
+                />
+
+                {context.art_description}
+                <Text
+                  mt='.5rem'
+                  color={theme.colors.brand.chineseSilver}
+                  fontWeight='bold'
+                  fontFamily={theme.fonts.spaceGrotesk}
+                >{`Listing for ${context.art_price} ETH`}</Text>
+              </AlertDialogBody>
+
+              <AlertDialogFooter>
+                <Link href='/explore' passHref>
+                  <StyledButton
+                    className='dialog-button-cancel'
+                    ref={cancelRef}
+                  >
+                    Explore
+                  </StyledButton>
+                </Link>
+                <Link href='/submit' passHref>
+                  <StyledButton className='dialog-button-select' ml={3}>
+                    Submit Another
+                  </StyledButton>
+                </Link>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialogOverlay>
+        </AlertDialog>
       </Flex>
     </Flex>
   );

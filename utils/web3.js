@@ -19,6 +19,31 @@ export const vetArtist = async (ethersProvider, artistAddress, merkleProof) => {
   return contract.vetArtist(artistAddress, merkleProof);
 };
 
+export const redeem = async (
+  ethersProvider,
+  redeemerAddress,
+  voucher,
+  voucherSignature
+) => {
+  console.log(voucher, voucherSignature);
+  const abiInterface = new utils.Interface([
+    'function redeem(address redeemer, tuple(uint256 tokenId, uint256 minPrice, string uri), bytes memory signature) public payable returns (uint256)'
+  ]);
+  const contract = new Contract(
+    POIGNARD_CONTRACT_ADDRESS,
+    abiInterface,
+    ethersProvider.getSigner()
+  );
+  return contract.redeem(
+    redeemerAddress,
+    [voucher.tokenId, voucher.minPrice, voucher.uri],
+    voucherSignature,
+    {
+      value: voucher.minPrice
+    }
+  );
+};
+
 export const checkMinterRole = async (ethersProvider, artistAddress) => {
   try {
     const abiInterface = new utils.Interface([

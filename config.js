@@ -20,6 +20,10 @@ export const IPFS_CLIENT = create({
 export const SIGNING_DOMAIN_NAME = 'PoignardVoucher';
 export const SIGNING_DOMAIN_VERSION = '1';
 export const POIGNARD_CONTRACT_ADDRESS =
-  '0x91fC4a57206e02Ee9Daf2b215437a746b7D23978';
+  '0x7c151012a251307a4ac54691Bf1B88A858A9ea4f';
 export const MINTER_ROLE_BYTES =
   '0x9f2df0fed2c77648de5860a4cc508cd0818c85b8b8a1ab4ceeef8d981c8956a6';
+
+export const META_DATA_CREATED_BY = 'PoignART';
+export const META_DATA_EXTERNAL_URL =
+  'https://poignard-frontend-git-develop-manolingam.vercel.app';
