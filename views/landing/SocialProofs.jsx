@@ -4,7 +4,9 @@ import {
   Heading,
   Text,
   SimpleGrid,
-  Skeleton
+  Image,
+  Link,
+  Box
 } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 
@@ -20,10 +22,9 @@ const StyledHeading = styled(Heading)`
 const StyledTextOne = styled(Text)`
   font-family: ${theme.fonts.spaceGrotesk};
   color: ${theme.colors.brand.yellow};
-  position: absolute;
   font-weight: bold;
   font-size: 35px;
-  padding: 1rem;
+  padding-bottom: 1rem;
 `;
 
 const StyledTextTwo = styled(Text)`
@@ -34,42 +35,58 @@ const StyledTextTwo = styled(Text)`
 const StyledTextThree = styled(Text)`
   font-family: ${theme.fonts.spaceGrotesk};
   color: ${theme.colors.brand.yellow};
-  position: absolute;
   font-weight: bold;
   font-size: 35px;
-  padding: 1rem;
+  padding-bottom: 1rem;
 `;
 
 export const SocialProofs = () => {
   return (
-    <SimpleGrid
-      columns={{ base: 1, md: 1, lg: 2 }}
-      gridGap={20}
+    <Flex
+      direction='column'
       px={{ base: '2rem', lg: '8rem' }}
       py={{ base: '2rem', lg: '6rem' }}
     >
-      <Flex w='100%' position='relative'>
-        <Skeleton h={{ base: '200px', lg: '100%' }} w='100%' />
-        <StyledTextOne>Social Proofs</StyledTextOne>
-      </Flex>
+      <StyledTextOne>Social Proofs</StyledTextOne>
+      <SimpleGrid columns={{ base: 1, md: 1, lg: 2 }} gridGap={20}>
+        <Box
+          h='100%'
+          w='100%'
+          bgImage='/assets/unchain__banner.jpg'
+          bgSize='contain'
+          bgRepeat='no-repeat'
+          bgPosition='center'
+          mx='auto'
+        />
 
-      <VStack spacing={5} justifyContent='center'>
-        <StyledHeading>
-          Unchain is already transferring funds to the people on the ground in
-          Ukraine who need it most.
-        </StyledHeading>
-        <StyledTextTwo fontSize={{ base: '1rem', lg: '20px' }}>
-          {`Helping Kharkiv & Sumy refugees in Poltava schools with diapers, food,
+        <VStack spacing={5} justifyContent='center'>
+          <StyledHeading>
+            Unchain is already transferring funds to the people on the ground in
+            Ukraine who need it most.
+          </StyledHeading>
+          <StyledTextTwo fontSize={{ base: '1rem', lg: '20px' }}>
+            {`Helping Kharkiv & Sumy refugees in Poltava schools with diapers, food,
           baby food, flashlights, and more. Providing medicine via Ukraine's
           veteran's fund. Organizing laundry for refugees in Uzhgorod.
           PoignART's contributions will get more urgent needs met quicker and in
           more cities.`}
-        </StyledTextTwo>
-      </VStack>
-
-      <Flex minH='40vh' mt={{ base: '2rem', lg: '8rem' }}>
+          </StyledTextTwo>
+        </VStack>
+      </SimpleGrid>
+      <Flex
+        direction='column'
+        justifyContent='center'
+        mt={{ base: '2rem', lg: '8rem' }}
+      >
         <StyledTextThree>Partnerships!</StyledTextThree>
+        <Link href='https://unchain.fund/' isExternal mx='auto'>
+          <Image
+            src='/assets/unchain__logo.jpg'
+            alt='featured art'
+            w={{ base: '300px' }}
+          />
+        </Link>
       </Flex>
-    </SimpleGrid>
+    </Flex>
   );
 };

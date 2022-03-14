@@ -5,7 +5,8 @@ import {
   Button,
   Text,
   SimpleGrid,
-  Image
+  Image,
+  Tooltip
 } from '@chakra-ui/react';
 import Link from 'next/link';
 import styled from '@emotion/styled';
@@ -73,21 +74,29 @@ export const Manifesto = () => {
         mt='8rem'
         placeItems='center'
       >
-        <Image
-          src='/assets/illustration__three.png'
-          alt='featured art'
-          w={{ base: '300px' }}
-        />
-        <Image
-          src='/assets/illustration__two.png'
-          alt='featured art'
-          w={{ base: '300px' }}
-        />
-        <Image
-          src='/assets/illustration__four.png'
-          alt='featured art'
-          w={{ base: '300px' }}
-        />
+        <Tooltip label='Author: @placeholder'>
+          <Image
+            src='/assets/illustration__three.png'
+            alt='featured art'
+            w={{ base: '300px' }}
+          />
+        </Tooltip>
+
+        <Tooltip label='Author: @placeholder'>
+          <Image
+            src='/assets/illustration__two.png'
+            alt='featured art'
+            w={{ base: '300px' }}
+          />
+        </Tooltip>
+
+        <Tooltip label='Author: @CybertoothKat'>
+          <Image
+            src='/assets/illustration__four.png'
+            alt='featured art'
+            w={{ base: '300px' }}
+          />
+        </Tooltip>
       </SimpleGrid>
     </Flex>
   );
