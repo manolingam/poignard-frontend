@@ -50,10 +50,10 @@ export const SocialProofs = () => {
       <StyledTextOne>Social Proofs</StyledTextOne>
       <SimpleGrid columns={{ base: 1, md: 1, lg: 2 }} gridGap={20}>
         <Box
-          h='100%'
+          minH='250px'
           w='100%'
           bgImage='/assets/unchain__banner.jpg'
-          bgSize='contain'
+          bgSize='cover'
           bgRepeat='no-repeat'
           bgPosition='center'
           mx='auto'
