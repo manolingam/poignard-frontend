@@ -31,9 +31,10 @@ import { theme } from '../../themes/theme';
 import { POIGNARD_CONTRACT_ADDRESS } from '../../config';
 
 const StyledTag = styled(Text)`
+  max-width: 70%;
   font-family: ${theme.fonts.spaceMono};
   color: ${theme.colors.brand.darkCharcoal};
-  text-align: justify;
+  text-align: center;
   text-transform: uppercase;
   font-weight: bold;
   margin: auto;
@@ -168,13 +169,12 @@ export const AllVouchers = () => {
     <Flex
       direction='column'
       px={{ base: '1rem', lg: '4rem' }}
-      minH='50vh'
-      justifyContent='space-evenly'
+      minH='70vh'
       mb='1rem'
     >
       {/* If wallet is not connected */}
       {!context.signature && (
-        <Flex direction='column' alignItems='center'>
+        <Flex direction='column' alignItems='center' my='auto'>
           <Image
             src='assets/connect_illustration.svg'
             alt='not found'
@@ -189,7 +189,7 @@ export const AllVouchers = () => {
 
       {/* Wallet connect & is fetching vouchers */}
       {!fetched && context.signature && (
-        <Flex direction='column' alignItems='center'>
+        <Flex direction='column' alignItems='center' my='auto'>
           <Image src='assets/loader.gif' alt='loading' w='200px' />
           <StyledTag fontSize={{ base: '1rem', lg: '18px' }}>
             Fetching vouchers...
@@ -206,7 +206,7 @@ export const AllVouchers = () => {
             fontFamily={theme.fonts.spaceMono}
             color={theme.colors.brand.darkCharcoal}
           >
-            <FormLabel ml='auto' fontWeight='bold'>
+            <FormLabel ml='auto' mb='2rem' fontWeight='bold'>
               Show mintable only
             </FormLabel>
             <Switch
@@ -254,7 +254,7 @@ export const AllVouchers = () => {
 
       {/* fetched && no mintable vouchers && mintable filter */}
       {fetched && !mintedVouchers.length && !onlyMintable && (
-        <Flex direction='column' alignItems='center'>
+        <Flex direction='column' alignItems='center' my='auto'>
           <Image
             src='assets/not_found_illustration.svg'
             alt='not found'
@@ -269,7 +269,7 @@ export const AllVouchers = () => {
 
       {/* fetched && no vouchers minted && not mintable filter */}
       {fetched && !redeemableVouchers.length && onlyMintable && (
-        <Flex direction='column' alignItems='center'>
+        <Flex direction='column' alignItems='center' my='auto'>
           <Image
             src='assets/not_found_illustration.svg'
             alt='not found'
