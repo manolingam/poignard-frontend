@@ -294,7 +294,7 @@ export const ArtworkForm = () => {
           mr='1rem'
           color={theme.colors.brand.black}
           onClick={() =>
-            context.updateStage(context.hasMinterRole ? 0 : context.stage - 1)
+            context.updateStage(context.db_artist ? 0 : context.stage - 1)
           }
         >
           Back
