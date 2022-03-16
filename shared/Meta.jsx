@@ -8,7 +8,7 @@ export const Meta = () => {
         <title>PoignART</title>
         <meta
           name='description'
-          content='A platform for artists to create NFTs in support of Ukraine: all proceeds go to UkraineDAO and Unchain Fund'
+          content='A platform for artists to create NFTs in support of Ukraine: all proceeds go to Unchain Fund.'
         />
         <link rel='icon' href='/favicon.ico' />
         <link
