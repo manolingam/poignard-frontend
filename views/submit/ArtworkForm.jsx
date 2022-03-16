@@ -28,7 +28,11 @@ import { AppContext } from '../../context/AppContext';
 import { uploadArt, uploadMetadata } from '../../utils/ipfs';
 import { generateNFTVoucher, uriToHttp } from '../../utils/helpers';
 import { submitVoucher, verifyArtist } from '../../utils/requests';
-import { META_DATA_CREATED_BY, META_DATA_EXTERNAL_URL } from '../../config';
+import {
+  IN_APP_VOUCHERS_LIMIT,
+  META_DATA_CREATED_BY,
+  META_DATA_EXTERNAL_URL
+} from '../../config';
 import useWarnings from '../../hooks/useWarnings';
 
 import { theme } from '../../themes/theme';
@@ -68,6 +72,7 @@ export const ArtworkForm = () => {
   const context = useContext(AppContext);
   const cancelRef = useRef();
 
+  const [submittedVouchers, setSubmittedVouchers] = useState(0);
   const [buttonClick, setButtonClickStatus] = useState(false);
   const [uriStatus, setUriStatus] = useState(false);
   const [signatureStatus, setSignatureStatus] = useState(false);
@@ -83,7 +88,16 @@ export const ArtworkForm = () => {
   const { triggerToast } = useWarnings();
 
   const onClose = () => {
-    window.location.reload();
+    context.resetArtState();
+    setButtonClickStatus(false);
+    setUriStatus(false);
+    setSignatureStatus(false);
+    setTokenUri('');
+    setImageUri('');
+    setImage('');
+    setBlobImage('');
+    setDialogStatus(false);
+    refreshTokenID();
   };
 
   const refreshTokenID = async () => {
@@ -124,7 +138,11 @@ export const ArtworkForm = () => {
             description: context.art_description,
             image: imageUri,
             created_by: META_DATA_CREATED_BY,
-            external_url: META_DATA_EXTERNAL_URL
+            external_url: META_DATA_EXTERNAL_URL,
+            attributes: {
+              trait_type: 'Artist Address',
+              trait_value: context.signerAddress
+            }
           };
           const metadataUri = await uploadMetadata(metadata);
           setTokenUri(metadataUri);
@@ -163,11 +181,17 @@ export const ArtworkForm = () => {
           metadata: {
             name: context.art_name,
             description: context.art_description,
-            image: imageUri
+            image: imageUri,
+            attributes: {
+              trait_type: 'Artist Address',
+              trait_value: context.signerAddress
+            }
           }
         },
         context.signature
       );
+
+      setSubmittedVouchers((prevState) => prevState + 1);
       setSignatureStatus(false);
       setDialogStatus(true);
     } catch (err) {
@@ -191,6 +215,39 @@ export const ArtworkForm = () => {
     );
     if (file) {
       reader.readAsDataURL(file);
+    }
+  };
+
+  const handleSubmit = async () => {
+    if (submittedVouchers >= IN_APP_VOUCHERS_LIMIT)
+      return triggerToast(
+        'You have reached the limit of vouchers you can submit in an hour!'
+      );
+
+    if (
+      context.art_name &&
+      context.art_price &&
+      context.art_description &&
+      image
+    ) {
+      setButtonClickStatus(false);
+      if (
+        !acceptedFileFormats.includes(
+          document.getElementById('file-input').files[0].type
+        )
+      ) {
+        setButtonClickStatus(true);
+        triggerToast('Only images are supported!');
+      } else {
+        if (tokenUri) {
+          handleSignature();
+        } else {
+          handleIpfsUpload();
+        }
+      }
+    } else {
+      setButtonClickStatus(true);
+      triggerToast('Please fill in all the required fields.');
     }
   };
 
@@ -304,33 +361,7 @@ export const ArtworkForm = () => {
           isLoading={uriStatus || signatureStatus}
           color={theme.colors.brand.white}
           bg={theme.colors.brand.black}
-          onClick={() => {
-            if (
-              context.art_name &&
-              context.art_price &&
-              context.art_description &&
-              image
-            ) {
-              setButtonClickStatus(false);
-              if (
-                !acceptedFileFormats.includes(
-                  document.getElementById('file-input').files[0].type
-                )
-              ) {
-                setButtonClickStatus(true);
-                triggerToast('Only images are supported!');
-              } else {
-                if (tokenUri) {
-                  handleSignature();
-                } else {
-                  handleIpfsUpload();
-                }
-              }
-            } else {
-              setButtonClickStatus(true);
-              triggerToast('Please fill in all the required fields.');
-            }
-          }}
+          onClick={handleSubmit}
         >
           {tokenUri ? 'Sign Voucher' : 'Generate Voucher'}
         </StyledButton>
@@ -357,10 +388,7 @@ export const ArtworkForm = () => {
                   src={uriToHttp(imageUri)}
                   alt='minted nft'
                   fallbackSrc='assets/loader.gif'
-                  // bgSize='contain'
-                  // bgRepeat='no-repeat'
-                  // bgPosition='center'
-                  height='200px'
+                  height='auto'
                   width='100%'
                   mb='2rem'
                 />
@@ -383,11 +411,21 @@ export const ArtworkForm = () => {
                     Explore
                   </StyledButton>
                 </Link>
-                <Link href='/submit' passHref>
-                  <StyledButton className='dialog-button-select' ml={3}>
-                    Submit Another
-                  </StyledButton>
-                </Link>
+
+                <StyledButton
+                  ml={3}
+                  onClick={() => {
+                    if (submittedVouchers < IN_APP_VOUCHERS_LIMIT) {
+                      onClose();
+                    } else {
+                      window.location.href = '/';
+                    }
+                  }}
+                >
+                  {submittedVouchers < IN_APP_VOUCHERS_LIMIT
+                    ? 'Submit Another'
+                    : 'Home'}
+                </StyledButton>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialogOverlay>

@@ -40,6 +40,15 @@ class AppContextProvider extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
+  resetArtState = () => {
+    this.setState({
+      art_name: '',
+      art_price: 0,
+      art_description: '',
+      art_image: ''
+    });
+  };
+
   setArtImage = (image) => {
     this.setState({ art_image: image });
   };
@@ -65,6 +74,7 @@ class AppContextProvider extends Component {
         value={{
           ...this.state,
           inputChangeHandler: this.inputChangeHandler,
+          resetArtState: this.resetArtState,
           updateStage: this.updateStage,
           setArtImage: this.setArtImage,
           setWeb3Data: this.setWeb3Data,

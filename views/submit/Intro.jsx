@@ -66,16 +66,16 @@ export const Intro = () => {
         context.signature
       );
 
-      if (data.response.verified && data.response.artist) {
+      if (data.response.rateLimited) {
+        triggerToast('You have been rate limited. Try again in an hour!');
+      } else if (data.response.verified && data.response.artist) {
         context.setDbData({
           db_artist: data.response.artist,
           db_merkleProof: data.response.proof,
           db_next_token_id: data.response.nextTokenID
         });
         context.updateStage(context.stage + 2);
-      }
-
-      if (data.response.verified && !data.response.artist) {
+      } else if (data.response.verified && !data.response.artist) {
         context.setDbData({
           db_merkleProof: data.response.proof,
           db_next_token_id: data.response.nextTokenID
