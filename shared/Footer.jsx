@@ -81,9 +81,9 @@ export const Footer = () => {
               <span style={{ width: '15px', marginRight: '5px' }}>
                 <i className='fab fa-twitter'></i>
               </span>
-              <Link href='https://twitter.com/PoignARTnft' isExternal>
+              <ChakraLink href='https://twitter.com/PoignARTnft' isExternal>
                 Twitter
-              </Link>
+              </ChakraLink>
             </HStack>
           </StyledLink>
 
@@ -92,9 +92,9 @@ export const Footer = () => {
               <span style={{ width: '15px', marginRight: '5px' }}>
                 <i className='fab fa-discord'></i>
               </span>
-              <Link href='https://discord.gg/qjPvUCakn3' isExternal>
+              <ChakraLink href='https://discord.gg/qjPvUCakn3' isExternal>
                 Discord
-              </Link>
+              </ChakraLink>
             </HStack>
           </StyledLink>
 
@@ -103,9 +103,9 @@ export const Footer = () => {
               <span style={{ width: '15px', marginRight: '5px' }}>
                 <i className='fas fa-newspaper'></i>
               </span>
-              <Link href='https://medium.com/@poignart' isExternal>
+              <ChakraLink href='https://medium.com/@poignart' isExternal>
                 Medium
-              </Link>
+              </ChakraLink>
             </HStack>
           </StyledLink>
         </VStack>

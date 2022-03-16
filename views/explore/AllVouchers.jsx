@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext, useRef } from 'react';
 import {
   SimpleGrid,
+  Flex,
   Button,
   Text,
   AlertDialog,
@@ -30,9 +31,10 @@ import { theme } from '../../themes/theme';
 import { POIGNARD_CONTRACT_ADDRESS } from '../../config';
 
 const StyledTag = styled(Text)`
+  max-width: 70%;
   font-family: ${theme.fonts.spaceMono};
   color: ${theme.colors.brand.darkCharcoal};
-  text-align: justify;
+  text-align: center;
   text-transform: uppercase;
   font-weight: bold;
   margin: auto;
@@ -164,19 +166,35 @@ export const AllVouchers = () => {
   }, [context.signature]);
 
   return (
-    <>
+    <Flex
+      direction='column'
+      px={{ base: '1rem', lg: '4rem' }}
+      minH='70vh'
+      mb='1rem'
+    >
       {/* If wallet is not connected */}
       {!context.signature && (
-        <StyledTag fontSize={{ base: '1rem', lg: '18px' }}>
-          Connect wallet to view vouchers.
-        </StyledTag>
+        <Flex direction='column' alignItems='center' my='auto'>
+          <Image
+            src='assets/connect_illustration.svg'
+            alt='not found'
+            w='200px'
+            mb='2rem'
+          />
+          <StyledTag fontSize={{ base: '1rem', lg: '18px' }}>
+            Connect wallet to view vouchers.
+          </StyledTag>
+        </Flex>
       )}
 
       {/* Wallet connect & is fetching vouchers */}
       {!fetched && context.signature && (
-        <StyledTag fontSize={{ base: '1rem', lg: '18px' }}>
-          Fetching vouchers...
-        </StyledTag>
+        <Flex direction='column' alignItems='center' my='auto'>
+          <Image src='assets/loader.gif' alt='loading' w='200px' />
+          <StyledTag fontSize={{ base: '1rem', lg: '18px' }}>
+            Fetching vouchers...
+          </StyledTag>
+        </Flex>
       )}
 
       {/* Vouchers fetched */}
@@ -187,10 +205,8 @@ export const AllVouchers = () => {
             direction='row'
             fontFamily={theme.fonts.spaceMono}
             color={theme.colors.brand.darkCharcoal}
-            px={{ base: '1rem', lg: '4rem' }}
-            mb='1rem'
           >
-            <FormLabel ml='auto' fontWeight='bold'>
+            <FormLabel ml='auto' mb='2rem' fontWeight='bold'>
               Show mintable only
             </FormLabel>
             <Switch
@@ -198,12 +214,7 @@ export const AllVouchers = () => {
               onChange={() => setOnlyMintable((prevState) => !prevState)}
             />
           </FormControl>
-          <SimpleGrid
-            columns={{ lg: 3, md: 2, base: 1 }}
-            gridGap={10}
-            px={{ base: '1rem', lg: '4rem' }}
-            mb='1rem'
-          >
+          <SimpleGrid columns={{ lg: 3, md: 2, base: 1 }} gridGap={10}>
             {(onlyMintable ? redeemableVouchers : mintedVouchers).map(
               (voucher, index) => {
                 return (
@@ -243,16 +254,32 @@ export const AllVouchers = () => {
 
       {/* fetched && no mintable vouchers && mintable filter */}
       {fetched && !mintedVouchers.length && !onlyMintable && (
-        <StyledTag fontSize={{ base: '1rem', lg: '18px' }}>
-          No vouchers minted.
-        </StyledTag>
+        <Flex direction='column' alignItems='center' my='auto'>
+          <Image
+            src='assets/not_found_illustration.svg'
+            alt='not found'
+            w='200px'
+            mb='1rem'
+          />
+          <StyledTag fontSize={{ base: '1rem', lg: '18px' }}>
+            No vouchers minted.
+          </StyledTag>
+        </Flex>
       )}
 
       {/* fetched && no vouchers minted && not mintable filter */}
       {fetched && !redeemableVouchers.length && onlyMintable && (
-        <StyledTag fontSize={{ base: '1rem', lg: '18px' }}>
-          No mintable vouchers available.
-        </StyledTag>
+        <Flex direction='column' alignItems='center' my='auto'>
+          <Image
+            src='assets/not_found_illustration.svg'
+            alt='not found'
+            w='200px'
+            mb='2rem'
+          />
+          <StyledTag fontSize={{ base: '1rem', lg: '18px' }}>
+            No mintable vouchers available.
+          </StyledTag>
+        </Flex>
       )}
 
       <AlertDialog
@@ -358,6 +385,6 @@ export const AllVouchers = () => {
           </AlertDialogContent>
         </AlertDialogOverlay>
       </AlertDialog>
-    </>
+    </Flex>
   );
 };

@@ -57,6 +57,13 @@ const StyledButton = styled(Button)`
   }
 `;
 
+const acceptedFileFormats = [
+  'image/png',
+  'image/jpg',
+  'image/jpeg',
+  'image/webp'
+];
+
 export const ArtworkForm = () => {
   const context = useContext(AppContext);
   const cancelRef = useRef();
@@ -259,6 +266,7 @@ export const ArtworkForm = () => {
         w='100%'
       >
         <input
+          id='file-input'
           type='file'
           name='art_image'
           accept='image/png, image/jpg, image/jpeg, image/webp'
@@ -286,7 +294,7 @@ export const ArtworkForm = () => {
           mr='1rem'
           color={theme.colors.brand.black}
           onClick={() =>
-            context.updateStage(context.hasMinterRole ? 0 : context.stage - 1)
+            context.updateStage(context.db_artist ? 0 : context.stage - 1)
           }
         >
           Back
@@ -304,10 +312,19 @@ export const ArtworkForm = () => {
               image
             ) {
               setButtonClickStatus(false);
-              if (tokenUri) {
-                handleSignature();
+              if (
+                !acceptedFileFormats.includes(
+                  document.getElementById('file-input').files[0].type
+                )
+              ) {
+                setButtonClickStatus(true);
+                triggerToast('Only images are supported!');
               } else {
-                handleIpfsUpload();
+                if (tokenUri) {
+                  handleSignature();
+                } else {
+                  handleIpfsUpload();
+                }
               }
             } else {
               setButtonClickStatus(true);

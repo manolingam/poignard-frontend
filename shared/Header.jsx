@@ -96,14 +96,12 @@ export const Header = ({ windowWidth }) => {
             <Popover placement='bottom'>
               <PopoverTrigger>
                 <Button
-                  h='auto'
                   fontWeight='normal'
                   bg={theme.colors.brand.yellow}
                   p={{ base: 0, md: 3 }}
                 >
                   <Text
                     px={2}
-                    display={{ base: 'none', md: 'flex' }}
                     fontFamily={theme.fonts.spaceGrotesk}
                     color={theme.colors.brand.black}
                   >
