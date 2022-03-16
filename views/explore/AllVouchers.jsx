@@ -168,6 +168,7 @@ export const AllVouchers = () => {
   return (
     <Flex
       direction='column'
+      alignItems='center'
       px={{ base: '1rem', lg: '4rem' }}
       minH='70vh'
       mb='1rem'
@@ -214,7 +215,11 @@ export const AllVouchers = () => {
               onChange={() => setOnlyMintable((prevState) => !prevState)}
             />
           </FormControl>
-          <SimpleGrid columns={{ lg: 3, md: 2, base: 1 }} gridGap={10}>
+          <SimpleGrid
+            columns={{ lg: 3, md: 2, base: 1 }}
+            gridGap={10}
+            maxW='96rem'
+          >
             {(onlyMintable ? redeemableVouchers : mintedVouchers).map(
               (voucher, index) => {
                 return (

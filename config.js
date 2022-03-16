@@ -17,6 +17,9 @@ export const IPFS_CLIENT = create({
   }
 });
 
+export const IN_APP_VOUCHERS_LIMIT =
+  process.env.NEXT_PUBLIC_INAPP_VOUCHERS_LIMIT;
+
 export const SIGNING_DOMAIN_NAME = 'PoignardVoucher';
 export const SIGNING_DOMAIN_VERSION = '1';
 export const POIGNARD_CONTRACT_ADDRESS =
