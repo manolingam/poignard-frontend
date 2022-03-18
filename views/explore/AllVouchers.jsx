@@ -32,7 +32,7 @@ import { theme } from '../../themes/theme';
 import { POIGNARD_CONTRACT_ADDRESS } from '../../config';
 
 const StyledTag = styled(Text)`
-  max-width: 70%;
+  max-width: 75%;
   font-family: ${theme.fonts.spaceMono};
   color: ${theme.colors.brand.darkCharcoal};
   text-align: center;
@@ -72,7 +72,7 @@ export const AllVouchers = () => {
   const { triggerToast } = useWarnings();
 
   const cancelRef = useRef();
-  const [contentType, setContentType] = useState('Image');
+  const [contentType, setContentType] = useState('All');
   const [fetched, setFetched] = useState(false);
   const [onlyMintable, setOnlyMintable] = useState(true);
   const [dialogStatus, setDialogStatus] = useState(false);
@@ -210,11 +210,11 @@ export const AllVouchers = () => {
 
       {/* Vouchers fetched */}
       {fetched && (
-        <Flex direction='column' w='100%'>
+        <Flex direction='column' w='100%' alignItems='center'>
           <Flex
             w='100%'
-            direction='row'
-            alignItems='center'
+            direction={{ base: 'column', lg: 'row' }}
+            alignItems={{ base: 'flex-start', lg: 'center' }}
             justifyContent='space-between'
             mb='2rem'
           >
@@ -232,14 +232,18 @@ export const AllVouchers = () => {
             </FormControl>
             <RadioBox
               stack='horizontal'
-              options={['Image', 'Video', 'Audio']}
+              options={['All', 'Image', 'Video', 'Audio']}
               updateRadio={setContentType}
               name='content_type'
               defaultValue={contentType}
               value={contentType}
             />
           </Flex>
-          <SimpleGrid columns={{ lg: 3, md: 2, base: 1 }} gridGap={10}>
+          <SimpleGrid
+            columns={{ lg: 3, md: 2, base: 1 }}
+            gridGap={{ base: 5, lg: 10 }}
+            maxW='60rem'
+          >
             {(onlyMintable ? redeemableVouchers : mintedVouchers).map(
               (voucher, index) => {
                 return (
@@ -264,6 +268,34 @@ export const AllVouchers = () => {
                       height='auto'
                       width='100%'
                     />
+
+                    <Box
+                      key={index}
+                      position='absolute'
+                      bottom='0'
+                      left='0'
+                      bg={theme.colors.brand.yellow}
+                      p='7px'
+                      h='35px'
+                      w='35px'
+                    >
+                      {voucher.contentType === 'audio' && (
+                        <span>
+                          <i className='fa-solid fa-music'></i>
+                        </span>
+                      )}
+                      {voucher.contentType === 'video' && (
+                        <span>
+                          <i className='fa-solid fa-video'></i>
+                        </span>
+                      )}
+                      {voucher.contentType === 'image' && (
+                        <span>
+                          <i className='fa-solid fa-image'></i>
+                        </span>
+                      )}
+                    </Box>
+
                     <StyledTokenId>
                       {onlyMintable
                         ? `${utils.formatEther(voucher.minPrice)} ETH`
@@ -325,14 +357,60 @@ export const AllVouchers = () => {
             </AlertDialogHeader>
 
             <AlertDialogBody fontFamily={theme.fonts.spaceMono}>
-              <Image
-                src={dialogStatus && uriToHttp(dialogData.metadata.image)}
-                alt='minted nft'
-                fallbackSrc='assets/loader.gif'
-                height='auto'
-                width='100%'
-                mb='2rem'
-              />
+              {(dialogData.contentType === 'image' ||
+                dialogData.contentType === 'audio') && (
+                <Image
+                  src={dialogStatus && uriToHttp(dialogData.metadata.image)}
+                  alt='minted nft'
+                  fallbackSrc='assets/loader.gif'
+                  height='auto'
+                  width='100%'
+                  mb='2rem'
+                />
+              )}
+
+              {dialogData.contentType === 'video' && (
+                <video
+                  width='100%'
+                  height='auto'
+                  style={{ marginBottom: '2rem' }}
+                  controls
+                >
+                  <source
+                    src={
+                      dialogStatus &&
+                      `https://poignart.ams3.cdn.digitaloceanspaces.com/${dialogData.metadata.animation_url.replace(
+                        'ipfs://',
+                        ''
+                      )}`
+                    }
+                    type='video/mp4'
+                  />
+                </video>
+              )}
+
+              {dialogData.contentType === 'audio' && (
+                <audio
+                  height='auto'
+                  width='100%'
+                  style={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '0',
+                    right: '0',
+                    marginLeft: 'auto',
+                    marginRight: 'auto'
+                  }}
+                  controls
+                >
+                  <source
+                    src={
+                      dialogStatus &&
+                      uriToHttp(dialogData.metadata.animation_url)
+                    }
+                  />
+                </audio>
+              )}
 
               {dialogStatus && dialogData.metadata.description}
               <Text

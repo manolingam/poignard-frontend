@@ -1,9 +1,11 @@
 /* eslint-disable react/no-children-prop */
 import { useContext, useState, useRef } from 'react';
+import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import {
   Flex,
   Box,
   FormControl,
+  FormHelperText,
   FormLabel,
   Input,
   Stack,
@@ -28,16 +30,25 @@ import RadioBox from '../../shared/RadioBox';
 import { AppContext } from '../../context/AppContext';
 import { uploadArt, uploadMetadata } from '../../utils/ipfs';
 import { generateNFTVoucher, uriToHttp } from '../../utils/helpers';
-import { submitVoucher, verifyArtist } from '../../utils/requests';
+import {
+  submitVoucher,
+  verifyArtist,
+  uploadToBucket
+} from '../../utils/requests';
+import useWarnings from '../../hooks/useWarnings';
+
+import { theme } from '../../themes/theme';
+
 import {
   IN_APP_VOUCHERS_LIMIT,
   MAX_FILE_SIZE_MB,
   META_DATA_CREATED_BY,
-  META_DATA_EXTERNAL_URL
+  META_DATA_EXTERNAL_URL,
+  ACCEPTED_IMAGE_FILE_FORMATS,
+  ACCEPTED_AUDIO_FILE_FORMATS,
+  ACCEPTED_VIDEO_FILE_FORMATS,
+  S3_CLIENT
 } from '../../config';
-import useWarnings from '../../hooks/useWarnings';
-
-import { theme } from '../../themes/theme';
 
 const StyledTextArea = styled(Textarea)`
   border: 2px solid ${theme.colors.brand.black};
@@ -63,17 +74,6 @@ const StyledButton = styled(Button)`
   }
 `;
 
-const acceptedImageFileFormats = [
-  'image/png',
-  'image/jpg',
-  'image/jpeg',
-  'image/webp'
-];
-
-const acceptedVideoFileFormats = ['video/mp4'];
-
-const acceptedAudioFileFormats = ['audio/mp3', 'audio/wav'];
-
 export const ArtworkForm = () => {
   const context = useContext(AppContext);
   const cancelRef = useRef();
@@ -90,8 +90,6 @@ export const ArtworkForm = () => {
 
   const [contentType, setContentType] = useState('Image');
   const [image, setImage] = useState('');
-  const [imageBuffer, setImageBuffer] = useState('');
-  const [animationBuffer, setAnimationBuffer] = useState('');
 
   const { triggerToast } = useWarnings();
 
@@ -105,8 +103,6 @@ export const ArtworkForm = () => {
     setAnimationUri('');
     setContentType('Image');
     setImage('');
-    setImageBuffer('');
-    setAnimationBuffer('');
     setDialogStatus(false);
     refreshTokenID();
   };
@@ -139,20 +135,43 @@ export const ArtworkForm = () => {
         description: context.art_description,
         created_by: META_DATA_CREATED_BY,
         external_url: META_DATA_EXTERNAL_URL,
-        attributes: {
-          trait_type: 'Artist Address',
-          trait_value: context.signerAddress
-        }
+        attributes: [
+          {
+            trait_type: 'Artist Address',
+            value: context.signerAddress
+          }
+        ]
       };
 
-      const _imageUri = `ipfs://${await uploadArt(imageBuffer)}`;
+      const _imageUri = `ipfs://${await uploadArt(
+        document.getElementById('image-file-input').files[0]
+      )}`;
       setImageUri(_imageUri);
       metadata['image'] = _imageUri;
 
       if (contentType === 'Video' || contentType === 'Audio') {
-        const _animationUri = `ipfs://${await uploadArt(animationBuffer)}`;
+        const _animationUri = `ipfs://${await uploadArt(
+          document.getElementById('anim-file-input').files[0]
+        )}`;
         setAnimationUri(_animationUri);
         metadata['animation_url'] = _animationUri;
+
+        if (contentType === 'Video') {
+          const urlReader = new FileReader();
+          urlReader.addEventListener('load', async () => {
+            const params = {
+              Bucket: 'poignart',
+              Key: _animationUri.replace('ipfs://', ''),
+              Body: Buffer.from(urlReader.result),
+              ACL: 'public-read',
+              ContentType: 'video/mp4'
+            };
+            await S3_CLIENT.send(new PutObjectCommand(params));
+          });
+          urlReader.readAsArrayBuffer(
+            document.getElementById('anim-file-input').files[0]
+          );
+        }
       }
 
       const metadataUri = await uploadMetadata(metadata);
@@ -197,7 +216,7 @@ export const ArtworkForm = () => {
             attributes: [
               {
                 trait_type: 'Artist Address',
-                trait_value: context.signerAddress
+                value: context.signerAddress
               }
             ]
           }
@@ -220,35 +239,13 @@ export const ArtworkForm = () => {
     const file = event.target.files[0];
 
     const urlReader = new FileReader();
-    const bufferReader = new FileReader();
+
     urlReader.addEventListener('load', () => {
       setImage(urlReader.result);
-    });
-    bufferReader.addEventListener('load', () => {
-      const buffer = Buffer.from(bufferReader.result);
-      setImageBuffer(buffer);
     });
 
     if (file) {
       urlReader.readAsDataURL(file);
-      bufferReader.readAsArrayBuffer(file);
-    }
-  };
-
-  const handleAnimationUpload = async (event) => {
-    if (!event.target.files) return;
-
-    const file = event.target.files[0];
-
-    const reader = new FileReader();
-
-    reader.addEventListener('load', () => {
-      const buffer = Buffer.from(reader.result);
-      setAnimationBuffer(buffer);
-    });
-
-    if (file) {
-      reader.readAsArrayBuffer(file);
     }
   };
 
@@ -273,20 +270,20 @@ export const ArtworkForm = () => {
       return triggerToast('Description should be less than 250 characters.');
     }
 
-    if (!imageBuffer) {
+    if (!document.getElementById('image-file-input').files[0]) {
       setButtonClickStatus(true);
       return triggerToast('Please upload an image.');
     }
 
     if (contentType === 'Audio' || contentType === 'Video') {
-      if (!animationBuffer) {
+      if (!document.getElementById('anim-file-input').files[0]) {
         setButtonClickStatus(true);
         return triggerToast('Please upload an animation.');
       }
     }
 
     if (
-      !acceptedImageFileFormats.includes(
+      !ACCEPTED_IMAGE_FILE_FORMATS.includes(
         document.getElementById('image-file-input').files[0].type
       )
     ) {
@@ -296,7 +293,7 @@ export const ArtworkForm = () => {
 
     if (
       contentType === 'Video' &&
-      !acceptedVideoFileFormats.includes(
+      !ACCEPTED_VIDEO_FILE_FORMATS.includes(
         document.getElementById('anim-file-input').files[0].type
       )
     ) {
@@ -306,7 +303,7 @@ export const ArtworkForm = () => {
 
     if (
       contentType === 'Audio' &&
-      !acceptedAudioFileFormats.includes(
+      !ACCEPTED_AUDIO_FILE_FORMATS.includes(
         document.getElementById('anim-file-input').files[0].type
       )
     ) {
@@ -355,6 +352,7 @@ export const ArtworkForm = () => {
             name='art_name'
             value={context.art_name}
           />
+          <FormHelperText>maximum 25 characters</FormHelperText>
         </FormControl>
 
         <FormControl
@@ -393,6 +391,7 @@ export const ArtworkForm = () => {
           name='art_description'
           value={context.art_description}
         />
+        <FormHelperText>maximum 250 characters</FormHelperText>
       </FormControl>
 
       <FormControl
@@ -434,7 +433,7 @@ export const ArtworkForm = () => {
           <input
             id='image-file-input'
             type='file'
-            accept={acceptedImageFileFormats}
+            accept={ACCEPTED_IMAGE_FILE_FORMATS}
             onChange={handleImageUpload}
             style={{
               fontFamily: "'Poppins', sans-serif",
@@ -442,6 +441,9 @@ export const ArtworkForm = () => {
               zIndex: '1'
             }}
           />
+          <FormHelperText>
+            {ACCEPTED_IMAGE_FILE_FORMATS.toString().replaceAll('image/', '')}
+          </FormHelperText>
         </FormControl>
         <Box
           bgColor={!image && theme.colors.brand.brightGrey}
@@ -468,16 +470,20 @@ export const ArtworkForm = () => {
             type='file'
             accept={
               contentType === 'Audio'
-                ? acceptedAudioFileFormats
-                : acceptedVideoFileFormats
+                ? ACCEPTED_AUDIO_FILE_FORMATS
+                : ACCEPTED_VIDEO_FILE_FORMATS
             }
-            onChange={handleAnimationUpload}
             style={{
               fontFamily: "'Poppins', sans-serif",
               position: 'relative',
               zIndex: '1'
             }}
           />
+          <FormHelperText>
+            {contentType === 'Audio'
+              ? ACCEPTED_AUDIO_FILE_FORMATS.toString().replaceAll('audio/', '')
+              : ACCEPTED_VIDEO_FILE_FORMATS.toString().replaceAll('video/', '')}
+          </FormHelperText>
         </FormControl>
       )}
 
