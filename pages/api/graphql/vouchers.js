@@ -12,7 +12,7 @@ const handler = async (req, res) => {
     try {
       const graphqlQuery = {
         operationName: 'fetchVouchers',
-        query: `query fetchVouchers { vouchers(where:{minted: ${req.body.minted}}) { _id tokenID tokenURI metadata createdBy {name} minPrice signature mintedBy} }`,
+        query: `query fetchVouchers { vouchers(where:{minted: ${req.body.minted}, contentType: "${req.body.contentType}"}) { _id tokenID tokenURI metadata createdBy {name} minPrice signature contentType mintedBy} }`,
         variables: {}
       };
       const token = jwt.sign(req.body.signature, process.env.JWT_SECRET);

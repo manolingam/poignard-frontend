@@ -20,10 +20,11 @@ export const redeemVoucher = async (redeem, signature) => {
   return result;
 };
 
-export const fetchVouchers = async (signature, minted) => {
+export const fetchVouchers = async (signature, minted, contentType) => {
   const result = await axios.post('/api/graphql/vouchers', {
     signature,
-    minted
+    minted,
+    contentType
   });
   return result;
 };

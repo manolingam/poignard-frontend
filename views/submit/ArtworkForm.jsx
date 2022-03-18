@@ -1,5 +1,5 @@
 /* eslint-disable react/no-children-prop */
-import { useContext, useState, useRef, useEffect } from 'react';
+import { useContext, useState, useRef } from 'react';
 import {
   Flex,
   Box,
@@ -24,12 +24,14 @@ import styled from '@emotion/styled';
 import Link from 'next/link';
 import { utils } from 'ethers';
 
+import RadioBox from '../../shared/RadioBox';
 import { AppContext } from '../../context/AppContext';
 import { uploadArt, uploadMetadata } from '../../utils/ipfs';
 import { generateNFTVoucher, uriToHttp } from '../../utils/helpers';
 import { submitVoucher, verifyArtist } from '../../utils/requests';
 import {
   IN_APP_VOUCHERS_LIMIT,
+  MAX_FILE_SIZE_MB,
   META_DATA_CREATED_BY,
   META_DATA_EXTERNAL_URL
 } from '../../config';
@@ -61,29 +63,35 @@ const StyledButton = styled(Button)`
   }
 `;
 
-const acceptedFileFormats = [
+const acceptedImageFileFormats = [
   'image/png',
   'image/jpg',
   'image/jpeg',
   'image/webp'
 ];
 
+const acceptedVideoFileFormats = ['video/mp4'];
+
+const acceptedAudioFileFormats = ['audio/mp3', 'audio/wav'];
+
 export const ArtworkForm = () => {
   const context = useContext(AppContext);
   const cancelRef = useRef();
 
-  const [submittedVouchers, setSubmittedVouchers] = useState(0);
-  const [buttonClick, setButtonClickStatus] = useState(false);
   const [uriStatus, setUriStatus] = useState(false);
   const [signatureStatus, setSignatureStatus] = useState(false);
-
   const [tokenUri, setTokenUri] = useState('');
   const [imageUri, setImageUri] = useState('');
+  const [animationUri, setAnimationUri] = useState('');
 
-  const [image, setImage] = useState('');
-  const [blobImage, setBlobImage] = useState('');
-
+  const [submittedVouchers, setSubmittedVouchers] = useState(0);
+  const [buttonClick, setButtonClickStatus] = useState(false);
   const [dialogStatus, setDialogStatus] = useState(false);
+
+  const [contentType, setContentType] = useState('Image');
+  const [image, setImage] = useState('');
+  const [imageBuffer, setImageBuffer] = useState('');
+  const [animationBuffer, setAnimationBuffer] = useState('');
 
   const { triggerToast } = useWarnings();
 
@@ -94,8 +102,11 @@ export const ArtworkForm = () => {
     setSignatureStatus(false);
     setTokenUri('');
     setImageUri('');
+    setAnimationUri('');
+    setContentType('Image');
     setImage('');
-    setBlobImage('');
+    setImageBuffer('');
+    setAnimationBuffer('');
     setDialogStatus(false);
     refreshTokenID();
   };
@@ -119,46 +130,45 @@ export const ArtworkForm = () => {
     }
   };
 
-  useEffect(() => {
-    refreshTokenID();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const handleIpfsUpload = async () => {
-    setUriStatus(true);
-    const reader = new FileReader();
-    reader.addEventListener('load', async () => {
-      const buffer = Buffer.from(reader.result);
-      try {
-        const imageUri = `ipfs://${await uploadArt(buffer)}`;
-        setImageUri(imageUri);
-        if (imageUri) {
-          const metadata = {
-            name: context.art_name,
-            description: context.art_description,
-            image: imageUri,
-            created_by: META_DATA_CREATED_BY,
-            external_url: META_DATA_EXTERNAL_URL,
-            attributes: {
-              trait_type: 'Artist Address',
-              trait_value: context.signerAddress
-            }
-          };
-          const metadataUri = await uploadMetadata(metadata);
-          setTokenUri(metadataUri);
-          setUriStatus(false);
+    try {
+      setUriStatus(true);
+
+      let metadata = {
+        name: context.art_name,
+        description: context.art_description,
+        created_by: META_DATA_CREATED_BY,
+        external_url: META_DATA_EXTERNAL_URL,
+        attributes: {
+          trait_type: 'Artist Address',
+          trait_value: context.signerAddress
         }
-      } catch (err) {
-        setUriStatus(false);
-        console.log(err);
+      };
+
+      const _imageUri = `ipfs://${await uploadArt(imageBuffer)}`;
+      setImageUri(_imageUri);
+      metadata['image'] = _imageUri;
+
+      if (contentType === 'Video' || contentType === 'Audio') {
+        const _animationUri = `ipfs://${await uploadArt(animationBuffer)}`;
+        setAnimationUri(_animationUri);
+        metadata['animation_url'] = _animationUri;
       }
-    });
-    reader.readAsArrayBuffer(blobImage);
+
+      const metadataUri = await uploadMetadata(metadata);
+      setTokenUri(metadataUri);
+      setUriStatus(false);
+    } catch (err) {
+      setUriStatus(false);
+      console.log(err);
+    }
   };
 
   const handleSignature = async () => {
-    setSignatureStatus(true);
     try {
+      setSignatureStatus(true);
+
+      await refreshTokenID();
       const mintPriceInWei = utils.parseUnits(context.art_price, 18);
       const { domain, types, voucher } = generateNFTVoucher(
         context.db_next_token_id,
@@ -178,14 +188,18 @@ export const ArtworkForm = () => {
           createdBy: context.db_artist._id,
           signature: _voucherSignature,
           minted: false,
+          contentType: contentType.toLowerCase(),
           metadata: {
             name: context.art_name,
             description: context.art_description,
             image: imageUri,
-            attributes: {
-              trait_type: 'Artist Address',
-              trait_value: context.signerAddress
-            }
+            animation_url: animationUri,
+            attributes: [
+              {
+                trait_type: 'Artist Address',
+                trait_value: context.signerAddress
+              }
+            ]
           }
         },
         context.signature
@@ -200,21 +214,41 @@ export const ArtworkForm = () => {
     }
   };
 
-  const handleImageChange = (event) => {
+  const handleImageUpload = async (event) => {
     if (!event.target.files) return;
+
     const file = event.target.files[0];
-    setBlobImage(file);
-    const reader = new FileReader();
-    reader.addEventListener(
-      'load',
-      function () {
-        setImage(reader.result);
-        context.setArtImage(reader.result);
-      },
-      false
-    );
+
+    const urlReader = new FileReader();
+    const bufferReader = new FileReader();
+    urlReader.addEventListener('load', () => {
+      setImage(urlReader.result);
+    });
+    bufferReader.addEventListener('load', () => {
+      const buffer = Buffer.from(bufferReader.result);
+      setImageBuffer(buffer);
+    });
+
     if (file) {
-      reader.readAsDataURL(file);
+      urlReader.readAsDataURL(file);
+      bufferReader.readAsArrayBuffer(file);
+    }
+  };
+
+  const handleAnimationUpload = async (event) => {
+    if (!event.target.files) return;
+
+    const file = event.target.files[0];
+
+    const reader = new FileReader();
+
+    reader.addEventListener('load', () => {
+      const buffer = Buffer.from(reader.result);
+      setAnimationBuffer(buffer);
+    });
+
+    if (file) {
+      reader.readAsArrayBuffer(file);
     }
   };
 
@@ -224,30 +258,79 @@ export const ArtworkForm = () => {
         'You have reached the limit of vouchers you can submit in an hour!'
       );
 
-    if (
-      context.art_name &&
-      context.art_price &&
-      context.art_description &&
-      image
-    ) {
-      setButtonClickStatus(false);
-      if (
-        !acceptedFileFormats.includes(
-          document.getElementById('file-input').files[0].type
-        )
-      ) {
-        setButtonClickStatus(true);
-        triggerToast('Only images are supported!');
-      } else {
-        if (tokenUri) {
-          handleSignature();
-        } else {
-          handleIpfsUpload();
-        }
-      }
-    } else {
+    if (!context.art_name || !context.art_description || !context.art_price) {
       setButtonClickStatus(true);
-      triggerToast('Please fill in all the required fields.');
+      return triggerToast('Please fill in all the required fields.');
+    }
+
+    if (context.art_name.length > 25) {
+      setButtonClickStatus(true);
+      return triggerToast('Name should be less than 25 characters.');
+    }
+
+    if (context.art_description.length > 250) {
+      setButtonClickStatus(true);
+      return triggerToast('Description should be less than 250 characters.');
+    }
+
+    if (!imageBuffer) {
+      setButtonClickStatus(true);
+      return triggerToast('Please upload an image.');
+    }
+
+    if (contentType === 'Audio' || contentType === 'Video') {
+      if (!animationBuffer) {
+        setButtonClickStatus(true);
+        return triggerToast('Please upload an animation.');
+      }
+    }
+
+    if (
+      !acceptedImageFileFormats.includes(
+        document.getElementById('image-file-input').files[0].type
+      )
+    ) {
+      setButtonClickStatus(true);
+      return triggerToast('Please upload an image in a valid format.');
+    }
+
+    if (
+      contentType === 'Video' &&
+      !acceptedVideoFileFormats.includes(
+        document.getElementById('anim-file-input').files[0].type
+      )
+    ) {
+      setButtonClickStatus(true);
+      return triggerToast('Please upload a video in mp4 format.');
+    }
+
+    if (
+      contentType === 'Audio' &&
+      !acceptedAudioFileFormats.includes(
+        document.getElementById('anim-file-input').files[0].type
+      )
+    ) {
+      setButtonClickStatus(true);
+      return triggerToast('Please upload a audio in mp3/wav format.');
+    }
+
+    if (
+      Math.floor(
+        document.getElementById('anim-file-input').files[0].size / 10 ** 6
+      ) > MAX_FILE_SIZE_MB
+    ) {
+      triggerToast('File size is too large. Please upload a smaller file.');
+      return;
+    }
+
+    setButtonClickStatus(false);
+
+    if (tokenUri) {
+      return handleSignature();
+    }
+
+    if (!tokenUri) {
+      return handleIpfsUpload();
     }
   };
 
@@ -312,6 +395,23 @@ export const ArtworkForm = () => {
         />
       </FormControl>
 
+      <FormControl
+        mb={10}
+        isRequired
+        fontFamily={theme.fonts.spaceMono}
+        color={theme.colors.brand.darkCharcoal}
+      >
+        <FormLabel>Content type</FormLabel>
+        <RadioBox
+          stack='horizontal'
+          options={['Image', 'Video', 'Audio']}
+          updateRadio={setContentType}
+          name='content_type'
+          defaultValue={contentType}
+          value={contentType}
+        />
+      </FormControl>
+
       <Flex
         mb={10}
         mx='auto'
@@ -322,18 +422,27 @@ export const ArtworkForm = () => {
         h='250px'
         w='100%'
       >
-        <input
-          id='file-input'
-          type='file'
-          name='art_image'
-          accept='image/png, image/jpg, image/jpeg, image/webp'
-          onChange={handleImageChange}
-          style={{
-            fontFamily: "'Poppins', sans-serif",
-            position: 'relative',
-            zIndex: '1'
-          }}
-        />
+        <FormControl
+          mb={10}
+          isRequired
+          fontFamily={theme.fonts.spaceMono}
+          color={theme.colors.brand.darkCharcoal}
+        >
+          <FormLabel>
+            {contentType !== 'Image' ? 'Cover or thumbnail image' : contentType}
+          </FormLabel>
+          <input
+            id='image-file-input'
+            type='file'
+            accept={acceptedImageFileFormats}
+            onChange={handleImageUpload}
+            style={{
+              fontFamily: "'Poppins', sans-serif",
+              position: 'relative',
+              zIndex: '1'
+            }}
+          />
+        </FormControl>
         <Box
           bgColor={!image && theme.colors.brand.brightGrey}
           bgImage={image && image}
@@ -345,6 +454,32 @@ export const ArtworkForm = () => {
           mt={{ base: '1rem' }}
         ></Box>
       </Flex>
+
+      {(contentType === 'Audio' || contentType === 'Video') && (
+        <FormControl
+          mb={10}
+          isRequired
+          fontFamily={theme.fonts.spaceMono}
+          color={theme.colors.brand.darkCharcoal}
+        >
+          <FormLabel>{`${contentType}`}</FormLabel>
+          <input
+            id='anim-file-input'
+            type='file'
+            accept={
+              contentType === 'Audio'
+                ? acceptedAudioFileFormats
+                : acceptedVideoFileFormats
+            }
+            onChange={handleAnimationUpload}
+            style={{
+              fontFamily: "'Poppins', sans-serif",
+              position: 'relative',
+              zIndex: '1'
+            }}
+          />
+        </FormControl>
+      )}
 
       <Flex direction='row' justifyContent='space-between' alignItems='center'>
         <StyledButton

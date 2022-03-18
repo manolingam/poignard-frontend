@@ -23,6 +23,7 @@ import { BigNumber, utils } from 'ethers';
 import { AppContext } from '../../context/AppContext';
 
 import useWarnings from '../../hooks/useWarnings';
+import RadioBox from '../../shared/RadioBox';
 import { fetchVouchers, redeemVoucher } from '../../utils/requests';
 import { uriToHttp } from '../../utils/helpers';
 import { redeem } from '../../utils/web3';
@@ -71,6 +72,7 @@ export const AllVouchers = () => {
   const { triggerToast } = useWarnings();
 
   const cancelRef = useRef();
+  const [contentType, setContentType] = useState('Image');
   const [fetched, setFetched] = useState(false);
   const [onlyMintable, setOnlyMintable] = useState(true);
   const [dialogStatus, setDialogStatus] = useState(false);
@@ -147,11 +149,19 @@ export const AllVouchers = () => {
     setFetched(false);
     setMintedVouchers([]);
     setRedeemableVouchers([]);
-    const mintedVouchers = await fetchVouchers(context.signature, true);
+    const mintedVouchers = await fetchVouchers(
+      context.signature,
+      true,
+      contentType.toLowerCase()
+    );
     if (mintedVouchers.data.data.vouchers.length > 0) {
       setMintedVouchers(mintedVouchers.data.data.vouchers);
     }
-    const unmintedVouchers = await fetchVouchers(context.signature, false);
+    const unmintedVouchers = await fetchVouchers(
+      context.signature,
+      false,
+      contentType.toLowerCase()
+    );
     if (unmintedVouchers.data.data.vouchers.length > 0) {
       setRedeemableVouchers(unmintedVouchers.data.data.vouchers);
     }
@@ -163,7 +173,7 @@ export const AllVouchers = () => {
       handleFetch();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [context.signature]);
+  }, [context.signature, contentType]);
 
   return (
     <Flex
@@ -200,26 +210,36 @@ export const AllVouchers = () => {
 
       {/* Vouchers fetched */}
       {fetched && (
-        <>
-          <FormControl
-            display='flex'
+        <Flex direction='column' w='100%'>
+          <Flex
+            w='100%'
             direction='row'
-            fontFamily={theme.fonts.spaceMono}
-            color={theme.colors.brand.darkCharcoal}
+            alignItems='center'
+            justifyContent='space-between'
+            mb='2rem'
           >
-            <FormLabel ml='auto' mb='2rem' fontWeight='bold'>
-              Show mintable only
-            </FormLabel>
-            <Switch
-              defaultChecked={onlyMintable}
-              onChange={() => setOnlyMintable((prevState) => !prevState)}
+            <FormControl
+              display='flex'
+              direction='row'
+              fontFamily={theme.fonts.spaceMono}
+              color={theme.colors.brand.darkCharcoal}
+            >
+              <FormLabel fontWeight='bold'>Show mintable only</FormLabel>
+              <Switch
+                defaultChecked={onlyMintable}
+                onChange={() => setOnlyMintable((prevState) => !prevState)}
+              />
+            </FormControl>
+            <RadioBox
+              stack='horizontal'
+              options={['Image', 'Video', 'Audio']}
+              updateRadio={setContentType}
+              name='content_type'
+              defaultValue={contentType}
+              value={contentType}
             />
-          </FormControl>
-          <SimpleGrid
-            columns={{ lg: 3, md: 2, base: 1 }}
-            gridGap={10}
-            maxW='96rem'
-          >
+          </Flex>
+          <SimpleGrid columns={{ lg: 3, md: 2, base: 1 }} gridGap={10}>
             {(onlyMintable ? redeemableVouchers : mintedVouchers).map(
               (voucher, index) => {
                 return (
@@ -254,7 +274,7 @@ export const AllVouchers = () => {
               }
             )}
           </SimpleGrid>
-        </>
+        </Flex>
       )}
 
       {/* fetched && no mintable vouchers && mintable filter */}
