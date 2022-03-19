@@ -11,6 +11,7 @@ import styled from '@emotion/styled';
 import Link from 'next/link';
 
 import { theme } from '../themes/theme';
+import { logos } from '../utils/constants';
 
 const StyledFooterHeaderText = styled(Text)`
   font-family: ${theme.fonts.spaceGrotesk};
@@ -34,7 +35,7 @@ export const Footer = () => {
       px={{ base: '2rem', lg: '5rem' }}
       py='4rem'
     >
-      <Image src='/assets/logo__text.png' alt='logo' mt={{ base: '2rem' }} />
+      <Image src={logos.poignartFull} alt='logo' mt={{ base: '2rem' }} />
 
       <SimpleGrid
         columns={{ base: 1, md: 3, lg: 3 }}

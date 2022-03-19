@@ -12,7 +12,7 @@ import Link from 'next/link';
 import styled from '@emotion/styled';
 
 import { AppContext } from '../context/AppContext';
-import { navItems } from '../utils/constants';
+import { logos, navItems } from '../utils/constants';
 import { getAccountString } from '../utils/helpers';
 import { useWallet } from '../hooks/useWallet';
 
@@ -53,8 +53,8 @@ export const Header = ({ windowWidth }) => {
         cursor='pointer'
         onClick={() => (window.location.href = '/')}
       >
-        <Image src='/assets/logo__mono.png' alt='logo' mr='5px' />
-        {windowWidth > 600 && <Image src='/assets/logo__text.png' alt='logo' />}
+        <Image src={logos.poignartMono} alt='logo' mr='5px' />
+        {windowWidth > 600 && <Image src={logos.poignartFull} alt='logo' />}
       </Flex>
 
       <Flex

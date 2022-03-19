@@ -6,6 +6,7 @@ class AppContextProvider extends Component {
   state = {
     // UX state
     stage: 0,
+    faqModalStatus: false,
     //web3 state
     ethersProvider: null,
     web3: null,
@@ -34,6 +35,10 @@ class AppContextProvider extends Component {
     db_merkleProof: '',
     db_vouchers_minted: [],
     db_vouchers_not_minted: []
+  };
+
+  updateFaqModalStatus = (status, faqType) => {
+    this.setState({ faqModalStatus: status, faqType });
   };
 
   inputChangeHandler = (e) => {
@@ -79,7 +84,8 @@ class AppContextProvider extends Component {
           setArtImage: this.setArtImage,
           setWeb3Data: this.setWeb3Data,
           setDbData: this.setDbData,
-          updateArtistState: this.updateArtistState
+          updateArtistState: this.updateArtistState,
+          updateFaqModalStatus: this.updateFaqModalStatus
         }}
       >
         {this.props.children}

@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.54.1",
     "@chakra-ui/react": "^1.8.6",
     "@emotion/react": "^11.8.1",
     "@emotion/styled": "^11.8.1",
@@ -22,6 +23,7 @@
     "next": "12.1.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
+    "react-infinite-scroll-component": "^6.1.0",
     "urql": "^2.2.0",
     "web3": "^1.7.0",
     "web3modal": "^1.9.5"

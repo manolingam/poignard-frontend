@@ -11,6 +11,7 @@ import {
 import styled from '@emotion/styled';
 
 import { theme } from '../../themes/theme';
+import { illustrations, logos } from '../../utils/constants';
 
 const StyledHeading = styled(Heading)`
   font-family: ${theme.fonts.spaceGrotesk};
@@ -40,6 +41,13 @@ const StyledTextThree = styled(Text)`
   padding-bottom: 1rem;
 `;
 
+const partners = [
+  { name: 'unchain', website: 'https://unchain.fund/' },
+  { name: 'nfdao', website: 'https://nfdao.io/' },
+  { name: 'giveth', website: 'https://giveth.io/' },
+  { name: 'gitcoin', website: 'https://gitcoin.co/' }
+];
+
 export const SocialProofs = () => {
   return (
     <Flex
@@ -52,8 +60,8 @@ export const SocialProofs = () => {
         <Box
           minH='250px'
           w='100%'
-          bgImage='/assets/unchain__banner.jpg'
-          bgSize='cover'
+          bgImage={illustrations.unchain}
+          bgSize='contain'
           bgRepeat='no-repeat'
           bgPosition='center'
           mx='auto'
@@ -78,14 +86,18 @@ export const SocialProofs = () => {
         justifyContent='center'
         mt={{ base: '2rem', lg: '8rem' }}
       >
-        <StyledTextThree>Partnerships!</StyledTextThree>
-        <Link href='https://unchain.fund/' isExternal mx='auto'>
-          <Image
-            src='/assets/unchain__logo.jpg'
-            alt='featured art'
-            w={{ base: '300px' }}
-          />
-        </Link>
+        <StyledTextThree>Partnerships</StyledTextThree>
+        <SimpleGrid minChildWidth='50px' gridGap={20}>
+          {partners.map((partner, index) => (
+            <Link key={index} href={partner.website} isExternal mx='auto'>
+              <Image
+                src={logos[partner.name]}
+                alt='partner logo'
+                w={{ base: '300px' }}
+              />
+            </Link>
+          ))}
+        </SimpleGrid>
       </Flex>
     </Flex>
   );
