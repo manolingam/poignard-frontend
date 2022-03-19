@@ -10,6 +10,7 @@ import Link from 'next/link';
 import styled from '@emotion/styled';
 
 import { theme } from '../../themes/theme';
+import { illustrations } from '../../utils/constants';
 
 const StyledButton = styled(Button)`
   height: 50px;
@@ -96,8 +97,8 @@ export const Intro = () => {
         </Flex>
       </Flex>
       <Image
-        src='assets/illustration__one.png'
-        alt='illustration'
+        src={illustrations.machineArt}
+        alt='machine art'
         w='600px'
         h='auto'
       />

@@ -45,6 +45,7 @@ export const ACCEPTED_AUDIO_FILE_FORMATS = [
 export const IN_APP_VOUCHERS_LIMIT =
   process.env.NEXT_PUBLIC_INAPP_VOUCHERS_LIMIT;
 export const MAX_FILE_SIZE_MB = 25;
+export const IMAGES_PER_RENDER = 15;
 
 export const SIGNING_DOMAIN_NAME = 'PoignardVoucher';
 export const SIGNING_DOMAIN_VERSION = '1';

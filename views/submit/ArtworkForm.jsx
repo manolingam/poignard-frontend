@@ -311,13 +311,15 @@ export const ArtworkForm = () => {
       return triggerToast('Please upload a audio in mp3/wav format.');
     }
 
-    if (
-      Math.floor(
-        document.getElementById('anim-file-input').files[0].size / 10 ** 6
-      ) > MAX_FILE_SIZE_MB
-    ) {
-      triggerToast('File size is too large. Please upload a smaller file.');
-      return;
+    if (contentType === 'Audio' || contentType === 'Video') {
+      if (
+        Math.floor(
+          document.getElementById('anim-file-input').files[0].size / 10 ** 6
+        ) > MAX_FILE_SIZE_MB
+      ) {
+        triggerToast('File size is too large. Please upload a smaller file.');
+        return;
+      }
     }
 
     setButtonClickStatus(false);

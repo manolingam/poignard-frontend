@@ -9,7 +9,7 @@ import { Footer } from '../shared/Footer';
 
 import { Manifesto } from '../views/landing/Manifesto';
 import { Intro } from '../views/landing/Intro';
-import { Explainer } from '../views/landing/Explainer';
+// import { Explainer } from '../views/landing/Explainer';
 import { SocialProofs } from '../views/landing/SocialProofs';
 
 export default function Home() {
@@ -34,7 +34,7 @@ export default function Home() {
       <Header windowWidth={windowWidth} />
       <Intro />
       <Manifesto />
-      <Explainer />
+      {/* <Explainer /> */}
       <SocialProofs />
       <Footer />
     </Flex>

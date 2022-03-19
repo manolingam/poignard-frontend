@@ -1,4 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, useContext, useRef } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import {
   SimpleGrid,
   Flex,
@@ -14,11 +16,12 @@ import {
   FormControl,
   FormLabel,
   Box,
-  Image,
+  Image as ChakraImage,
   Link
 } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 import { BigNumber, utils } from 'ethers';
+import Image from 'next/image';
 
 import { AppContext } from '../../context/AppContext';
 
@@ -29,7 +32,8 @@ import { uriToHttp } from '../../utils/helpers';
 import { redeem } from '../../utils/web3';
 
 import { theme } from '../../themes/theme';
-import { POIGNARD_CONTRACT_ADDRESS } from '../../config';
+import { POIGNARD_CONTRACT_ADDRESS, IMAGES_PER_RENDER } from '../../config';
+import { illustrations } from '../../utils/constants';
 
 const StyledTag = styled(Text)`
   max-width: 75%;
@@ -71,6 +75,20 @@ export const AllVouchers = () => {
   const context = useContext(AppContext);
   const { triggerToast } = useWarnings();
 
+  const [mintedCount, setMintedCount] = useState({
+    prev: 0,
+    next: IMAGES_PER_RENDER
+  });
+  const [hasMoreMinted, setHasMoreMinted] = useState(true);
+  const [mintedCurrent, setMintedCurrent] = useState([]);
+
+  const [redeemableCount, setRedeemableCount] = useState({
+    prev: 0,
+    next: IMAGES_PER_RENDER
+  });
+  const [hasMoreRedeemable, setHasMoreRedeemable] = useState(true);
+  const [redeemableCurrent, setRedeemableCurrent] = useState([]);
+
   const cancelRef = useRef();
   const [contentType, setContentType] = useState('All');
   const [fetched, setFetched] = useState(false);
@@ -88,6 +106,7 @@ export const AllVouchers = () => {
   const onClose = async () => {
     setDialogStatus(false);
     if (isRedeemed) {
+      setContentType('All');
       await handleFetch();
     }
   };
@@ -144,11 +163,68 @@ export const AllVouchers = () => {
     }
   };
 
-  const handleFetch = async () => {
+  const getMoreData = () => {
+    if (!onlyMintable && mintedVouchers.length) {
+      if (mintedCurrent.length === mintedVouchers.length) {
+        setHasMoreMinted(false);
+        return;
+      } else {
+        setMintedCurrent(
+          mintedCurrent.concat(
+            mintedVouchers.slice(
+              mintedCount.prev + IMAGES_PER_RENDER,
+              mintedCount.next + IMAGES_PER_RENDER
+            )
+          )
+        );
+        setMintedCount((prevState) => ({
+          prev: prevState.prev + IMAGES_PER_RENDER,
+          next: prevState.next + IMAGES_PER_RENDER
+        }));
+      }
+    } else if (onlyMintable && redeemableVouchers.length) {
+      if (redeemableCurrent.length === redeemableVouchers.length) {
+        setHasMoreRedeemable(false);
+        return;
+      } else {
+        setRedeemableCurrent(
+          redeemableCurrent.concat(
+            redeemableVouchers.slice(
+              redeemableCount.prev + IMAGES_PER_RENDER,
+              redeemableCount.next + IMAGES_PER_RENDER
+            )
+          )
+        );
+
+        setRedeemableCount((prevState) => ({
+          prev: prevState.prev + IMAGES_PER_RENDER,
+          next: prevState.next + IMAGES_PER_RENDER
+        }));
+      }
+    }
+  };
+
+  const resetState = () => {
     setIsRedeemed(false);
     setFetched(false);
     setMintedVouchers([]);
     setRedeemableVouchers([]);
+    // setHasMoreRedeemable(true);
+    // setHasMoreMinted(true);
+
+    setMintedCount({
+      prev: 0,
+      next: IMAGES_PER_RENDER
+    });
+    setRedeemableCount({
+      prev: 0,
+      next: IMAGES_PER_RENDER
+    });
+  };
+
+  const handleFetch = async () => {
+    resetState();
+
     const mintedVouchers = await fetchVouchers(
       context.signature,
       true,
@@ -156,6 +232,12 @@ export const AllVouchers = () => {
     );
     if (mintedVouchers.data.data.vouchers.length > 0) {
       setMintedVouchers(mintedVouchers.data.data.vouchers);
+      setMintedCurrent(
+        mintedVouchers.data.data.vouchers.slice(
+          mintedCount.prev,
+          mintedCount.next
+        )
+      );
     }
     const unmintedVouchers = await fetchVouchers(
       context.signature,
@@ -164,15 +246,24 @@ export const AllVouchers = () => {
     );
     if (unmintedVouchers.data.data.vouchers.length > 0) {
       setRedeemableVouchers(unmintedVouchers.data.data.vouchers);
+      setRedeemableCurrent(
+        unmintedVouchers.data.data.vouchers.slice(
+          redeemableCount.prev,
+          redeemableCount.next
+        )
+      );
     }
     setFetched(true);
   };
 
   useEffect(() => {
+    getMoreData();
+  }, [onlyMintable]);
+
+  useEffect(() => {
     if (context.signature) {
       handleFetch();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [context.signature, contentType]);
 
   return (
@@ -186,8 +277,8 @@ export const AllVouchers = () => {
       {/* If wallet is not connected */}
       {!context.signature && (
         <Flex direction='column' alignItems='center' my='auto'>
-          <Image
-            src='assets/connect_illustration.svg'
+          <ChakraImage
+            src={illustrations.connectWallet}
             alt='not found'
             w='200px'
             mb='2rem'
@@ -201,7 +292,7 @@ export const AllVouchers = () => {
       {/* Wallet connect & is fetching vouchers */}
       {!fetched && context.signature && (
         <Flex direction='column' alignItems='center' my='auto'>
-          <Image src='assets/loader.gif' alt='loading' w='200px' />
+          <ChakraImage src='assets/loader.gif' alt='loading' w='200px' />
           <StyledTag fontSize={{ base: '1rem', lg: '18px' }}>
             Fetching vouchers...
           </StyledTag>
@@ -239,81 +330,98 @@ export const AllVouchers = () => {
               value={contentType}
             />
           </Flex>
-          <SimpleGrid
-            columns={{ lg: 3, md: 2, base: 1 }}
-            gridGap={{ base: 5, lg: 10 }}
-            maxW='60rem'
+          <InfiniteScroll
+            dataLength={
+              onlyMintable ? redeemableCurrent.length : mintedCurrent.length
+            }
+            next={getMoreData}
+            hasMore={onlyMintable ? hasMoreRedeemable : hasMoreMinted}
+            loader={
+              <StyledTag fontSize={{ base: '1rem', lg: '18px' }}>
+                Scroll for more..
+              </StyledTag>
+            }
+            endMessage={
+              <StyledTag fontSize={{ base: '1rem', lg: '18px' }}>
+                End of list :))
+              </StyledTag>
+            }
           >
-            {(onlyMintable ? redeemableVouchers : mintedVouchers).map(
-              (voucher, index) => {
-                return (
-                  <Box
-                    key={index}
-                    position='relative'
-                    cursor='pointer'
-                    _hover={{
-                      transform: 'scale(1.05)',
-                      transitionDuration: '0.5s'
-                    }}
-                    onClick={() => {
-                      setDialogData(voucher);
-                      setDialogStatus(true);
-                    }}
-                    mb='2rem'
-                  >
-                    <Image
-                      src={uriToHttp(voucher.metadata.image)}
-                      alt='minted nft'
-                      fallbackSrc='assets/loader.gif'
-                      height='auto'
-                      width='100%'
-                    />
-
+            <SimpleGrid
+              columns={{ lg: 3, md: 2, base: 1 }}
+              gridGap={{ base: 5, lg: 10 }}
+              w='100%'
+            >
+              {(onlyMintable ? redeemableCurrent : mintedCurrent).map(
+                (voucher, index) => {
+                  return (
                     <Box
                       key={index}
-                      position='absolute'
-                      bottom='0'
-                      left='0'
-                      bg={theme.colors.brand.yellow}
-                      p='7px'
-                      h='35px'
-                      w='35px'
+                      position='relative'
+                      cursor='pointer'
+                      _hover={{
+                        opacity: 0.7
+                      }}
+                      onClick={() => {
+                        setDialogData(voucher);
+                        setDialogStatus(true);
+                      }}
+                      mb='2rem'
                     >
-                      {voucher.contentType === 'audio' && (
-                        <span>
-                          <i className='fa-solid fa-music'></i>
-                        </span>
-                      )}
-                      {voucher.contentType === 'video' && (
-                        <span>
-                          <i className='fa-solid fa-video'></i>
-                        </span>
-                      )}
-                      {voucher.contentType === 'image' && (
-                        <span>
-                          <i className='fa-solid fa-image'></i>
-                        </span>
-                      )}
-                    </Box>
+                      <Image
+                        src={uriToHttp(voucher.metadata.image)}
+                        alt='minted nft'
+                        width='300px'
+                        height='100%'
+                        objectFit='cover'
+                      />
 
-                    <StyledTokenId>
-                      {onlyMintable
-                        ? `${utils.formatEther(voucher.minPrice)} ETH`
-                        : 'Sold'}
-                    </StyledTokenId>
-                  </Box>
-                );
-              }
-            )}
-          </SimpleGrid>
+                      <Box
+                        key={index}
+                        position='absolute'
+                        bottom='0'
+                        left='0'
+                        bg={theme.colors.brand.yellow}
+                        p='7px'
+                        h='35px'
+                        w='35px'
+                      >
+                        {voucher.contentType === 'audio' && (
+                          <span>
+                            <i className='fa-solid fa-music'></i>
+                          </span>
+                        )}
+                        {voucher.contentType === 'video' && (
+                          <span>
+                            <i className='fa-solid fa-video'></i>
+                          </span>
+                        )}
+                        {voucher.contentType === 'image' && (
+                          <span>
+                            <i className='fa-solid fa-image'></i>
+                          </span>
+                        )}
+                      </Box>
+
+                      <StyledTokenId>
+                        {onlyMintable
+                          ? `${utils.formatEther(voucher.minPrice)} ETH`
+                          : 'Sold'}
+                      </StyledTokenId>
+                    </Box>
+                  );
+                }
+              )}
+            </SimpleGrid>
+          </InfiniteScroll>
         </Flex>
       )}
 
       {/* fetched && no mintable vouchers && mintable filter */}
       {fetched && !mintedVouchers.length && !onlyMintable && (
         <Flex direction='column' alignItems='center' my='auto'>
-          <Image
-            src='assets/not_found_illustration.svg'
+          <ChakraImage
+            src={illustrations.notFound}
             alt='not found'
             w='200px'
             mb='1rem'
@@ -327,8 +435,8 @@ export const AllVouchers = () => {
       {/* fetched && no vouchers minted && not mintable filter */}
       {fetched && !redeemableVouchers.length && onlyMintable && (
         <Flex direction='column' alignItems='center' my='auto'>
-          <Image
-            src='assets/not_found_illustration.svg'
+          <ChakraImage
+            src={illustrations.notFound}
             alt='not found'
             w='200px'
             mb='2rem'
@@ -353,95 +461,110 @@ export const AllVouchers = () => {
               fontFamily={theme.fonts.spaceGrotesk}
               color={theme.colors.brand.black}
             >
-              {dialogStatus && `${dialogData.metadata.name}`}
+              {dialogStatus && `${dialogData.metadata.name.substring(0, 25)}`}
             </AlertDialogHeader>
 
             <AlertDialogBody fontFamily={theme.fonts.spaceMono}>
-              {(dialogData.contentType === 'image' ||
-                dialogData.contentType === 'audio') && (
-                <Image
-                  src={dialogStatus && uriToHttp(dialogData.metadata.image)}
-                  alt='minted nft'
-                  fallbackSrc='assets/loader.gif'
-                  height='auto'
-                  width='100%'
-                  mb='2rem'
-                />
-              )}
-
-              {dialogData.contentType === 'video' && (
-                <video
-                  width='100%'
-                  height='auto'
-                  style={{ marginBottom: '2rem' }}
-                  controls
-                >
-                  <source
-                    src={
-                      dialogStatus &&
-                      `https://poignart.ams3.cdn.digitaloceanspaces.com/${dialogData.metadata.animation_url.replace(
-                        'ipfs://',
-                        ''
-                      )}`
-                    }
-                    type='video/mp4'
-                  />
-                </video>
-              )}
-
-              {dialogData.contentType === 'audio' && (
-                <audio
-                  height='auto'
-                  width='100%'
-                  style={{
-                    position: 'absolute',
-                    top: '50%',
-                    left: '0',
-                    right: '0',
-                    marginLeft: 'auto',
-                    marginRight: 'auto'
-                  }}
-                  controls
-                >
-                  <source
-                    src={
-                      dialogStatus &&
-                      uriToHttp(dialogData.metadata.animation_url)
+              <Flex direction='column'>
+                {(dialogData.contentType === 'image' ||
+                  dialogData.contentType === 'audio') && (
+                  <ChakraImage
+                    src={dialogStatus && uriToHttp(dialogData.metadata.image)}
+                    alt='minted nft'
+                    fallbackSrc='assets/loader.gif'
+                    height='200px'
+                    width='auto'
+                    objectFit={
+                      dialogData &&
+                      (dialogData.contentType === 'audio' ? 'cover' : 'contain')
                     }
                   />
-                </audio>
-              )}
+                )}
 
-              {dialogStatus && dialogData.metadata.description}
-              <Text
-                mt='.5rem'
-                color={theme.colors.brand.chineseSilver}
-                fontWeight='bold'
-                fontFamily={theme.fonts.spaceGrotesk}
-              >{`Created by ${
-                dialogStatus && dialogData.createdBy.name
-              }`}</Text>
+                {dialogData.contentType === 'video' && (
+                  <video
+                    width='100%'
+                    height='auto'
+                    style={{ marginBottom: '2rem' }}
+                    controls
+                  >
+                    <source
+                      src={
+                        dialogStatus &&
+                        `https://poignart.ams3.cdn.digitaloceanspaces.com/${dialogData.metadata.animation_url.replace(
+                          'ipfs://',
+                          ''
+                        )}`
+                      }
+                      type='video/mp4'
+                    />
+                  </video>
+                )}
 
-              {!onlyMintable && (
-                <Button
-                  w='100%'
-                  mt='2rem'
-                  mb='1rem'
-                  borderRadius='10px'
-                  bg='rgb(32, 129, 226)'
-                  color={theme.colors.brand.white}
-                  fontWeight='bold'
+                {dialogData.contentType === 'audio' && (
+                  <audio
+                    height='auto'
+                    width='100%'
+                    style={{
+                      position: 'absolute',
+                      top: '50%',
+                      left: '0',
+                      right: '0',
+                      marginLeft: 'auto',
+                      marginRight: 'auto'
+                    }}
+                    controls
+                  >
+                    <source
+                      src={
+                        dialogStatus &&
+                        uriToHttp(dialogData.metadata.animation_url)
+                      }
+                    />
+                  </audio>
+                )}
+
+                <Text
+                  mt='1.5rem'
+                  color={theme.colors.brand.black}
                   fontFamily={theme.fonts.spaceGrotesk}
-                  onClick={() =>
-                    window.open(
-                      `https://testnets.opensea.io/assets/${POIGNARD_CONTRACT_ADDRESS}/${dialogData.tokenID}`,
-                      '_blank'
-                    )
-                  }
                 >
-                  View on opensea
-                </Button>
-              )}
+                  {dialogStatus &&
+                    dialogData.metadata.description.substring(0, 250)}
+                  {dialogStatus &&
+                    dialogData.metadata.description.length > 250 &&
+                    ' ..'}
+                </Text>
+
+                <Text
+                  mt='.5rem'
+                  color={theme.colors.brand.chineseSilver}
+                  fontFamily={theme.fonts.spaceGrotesk}
+                >{`Created by ${
+                  dialogStatus && dialogData.createdBy.name
+                }`}</Text>
+
+                {!onlyMintable && (
+                  <Button
+                    w='100%'
+                    mt='2rem'
+                    mb='1rem'
+                    borderRadius='10px'
+                    bg='rgb(32, 129, 226)'
+                    color={theme.colors.brand.white}
+                    fontWeight='bold'
+                    fontFamily={theme.fonts.spaceGrotesk}
+                    onClick={() =>
+                      window.open(
+                        `https://testnets.opensea.io/assets/${POIGNARD_CONTRACT_ADDRESS}/${dialogData.tokenID}`,
+                        '_blank'
+                      )
+                    }
+                  >
+                    View on opensea
+                  </Button>
+                )}
+              </Flex>
             </AlertDialogBody>
 
             {onlyMintable && (

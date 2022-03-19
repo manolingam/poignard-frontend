@@ -8,10 +8,14 @@ import {
   Image,
   Tooltip
 } from '@chakra-ui/react';
+import { useContext } from 'react';
 import Link from 'next/link';
 import styled from '@emotion/styled';
 
+import { AppContext } from '../../context/AppContext';
 import { theme } from '../../themes/theme';
+import { illustrations } from '../../utils/constants';
+import { FAQ } from '../../shared/Faq';
 
 const StyledPrimaryButton = styled(Button)`
   height: 50px;
@@ -44,6 +48,7 @@ const StyledHeading = styled(Heading)`
 `;
 
 export const Manifesto = () => {
+  const context = useContext(AppContext);
   return (
     <Flex
       direction='column'
@@ -61,11 +66,23 @@ export const Manifesto = () => {
           and upload your art in a few easy steps.
         </StyledBodyText>
         <br />
-        <Link href='/submit' passHref>
-          <StyledPrimaryButton fontSize={{ base: '16px', lg: '18px' }}>
-            Submit Artwork
+        <Flex direction='row'>
+          <Link href='/submit' passHref>
+            <StyledPrimaryButton
+              mr='1rem'
+              fontSize={{ base: '16px', lg: '18px' }}
+            >
+              Submit Artwork
+            </StyledPrimaryButton>
+          </Link>
+          <StyledPrimaryButton
+            fontSize={{ base: '16px', lg: '18px' }}
+            onClick={() => context.updateFaqModalStatus(true)}
+          >
+            FAQ
           </StyledPrimaryButton>
-        </Link>
+        </Flex>
+        <FAQ />
       </VStack>
 
       <SimpleGrid
@@ -76,7 +93,7 @@ export const Manifesto = () => {
       >
         <Tooltip label='Author: @placeholder'>
           <Image
-            src='/assets/illustration__three.png'
+            src={illustrations.ghostOfKhiv}
             alt='featured art'
             w={{ base: '300px' }}
           />
@@ -84,7 +101,7 @@ export const Manifesto = () => {
 
         <Tooltip label='Author: @placeholder'>
           <Image
-            src='/assets/illustration__two.png'
+            src={illustrations.peace}
             alt='featured art'
             w={{ base: '300px' }}
           />
@@ -92,7 +109,7 @@ export const Manifesto = () => {
 
         <Tooltip label='Author: @CybertoothKat'>
           <Image
-            src='/assets/illustration__four.png'
+            src={illustrations.cyberfox}
             alt='featured art'
             w={{ base: '300px' }}
           />
