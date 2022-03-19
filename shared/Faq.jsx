@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import {
+  Text,
   Accordion,
   AccordionItem,
   AccordionButton,
@@ -12,8 +13,10 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Button
+  Button,
+  Link as ChakraLink
 } from '@chakra-ui/react';
+import Link from 'next/link';
 import styled from '@emotion/styled';
 
 import { AppContext } from '../context/AppContext';
@@ -91,6 +94,41 @@ export const FAQ = () => {
                 and make in impact to the world!
               </AccordionPanel>
             </AccordionItem>
+
+            <AccordionItem fontFamily={theme.fonts.spaceGrotesk}>
+              <AccordionButton textTransform='uppercase'>
+                <Box
+                  color={theme.colors.brand.darkCharcoal}
+                  flex='1'
+                  textAlign='left'
+                >
+                  Can I just donate crypto?
+                </Box>
+                <AccordionIcon />
+              </AccordionButton>
+              <AccordionPanel
+                color={theme.colors.brand.spanishGrey}
+                fontFamily={theme.fonts.spaceGrotesk}
+                pb={4}
+              >
+                You can at{' '}
+                <ChakraLink
+                  href='https://unchain.fund/'
+                  isExternal
+                  textDecoration='underline'
+                >
+                  Unchain.fund
+                </ChakraLink>
+                . But if you would like to donate your art, this is the best
+                way.{' '}
+                <Link href='/submit' passHref>
+                  <Text textDecoration='underline' cursor='pointer'>
+                    Submit here.
+                  </Text>
+                </Link>
+              </AccordionPanel>
+            </AccordionItem>
+
             {explainerQA.map((item, index) => {
               return (
                 <AccordionItem
