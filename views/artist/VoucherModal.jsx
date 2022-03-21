@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import {
   Flex,
   Button,
@@ -10,7 +11,6 @@ import {
   AlertDialogFooter,
   Image as ChakraImage
 } from '@chakra-ui/react';
-import Link from 'next/link';
 import styled from '@emotion/styled';
 import { utils } from 'ethers';
 
@@ -18,6 +18,7 @@ import { uriToHttp } from '../../utils/helpers';
 import { theme } from '../../themes/theme';
 
 import { POIGNARD_CONTRACT_ADDRESS } from '../../config';
+import { fetchArtist } from '../../utils/requests';
 
 const StyledButton = styled(Button)`
   height: 50px;
@@ -41,7 +42,6 @@ export const VoucherModal = ({
   cancelRef,
   onClose,
   voucher,
-  onlyMintable,
   isRedeemed,
   loading,
   loadingText,
@@ -126,83 +126,46 @@ export const VoucherModal = ({
                 {voucher.metadata.description.substring(0, 250)}
                 {voucher.metadata.description.length > 250 && ' ..'}
               </Text>
-
-              <Link href={`/artist/${voucher.createdBy.ethAddress}`} passHref>
-                <Text
-                  color='rgb(32, 129, 226)'
-                  fontFamily={theme.fonts.spaceGrotesk}
-                  cursor='pointer'
-                  textDecoration='underline'
-                  mt='.5rem'
-                  _hover={{
-                    color: theme.colors.brand.chineseSilver
-                  }}
-                >{`Created by ${voucher.createdBy.name}`}</Text>
-              </Link>
-
-              {!onlyMintable && (
-                <Button
-                  w='100%'
-                  mt='2rem'
-                  mb='1rem'
-                  borderRadius='10px'
-                  bg='rgb(32, 129, 226)'
-                  color={theme.colors.brand.white}
-                  fontWeight='bold'
-                  fontFamily={theme.fonts.spaceGrotesk}
-                  onClick={() =>
-                    window.open(
-                      `https://testnets.opensea.io/assets/${POIGNARD_CONTRACT_ADDRESS}/${voucher.tokenID}`,
-                      '_blank'
-                    )
-                  }
-                >
-                  View on opensea
-                </Button>
-              )}
             </Flex>
           </AlertDialogBody>
 
-          {onlyMintable && (
-            <AlertDialogFooter>
-              {isRedeemed ? (
-                <Button
-                  w='100%'
-                  mt='2rem'
-                  mb='1rem'
-                  borderRadius='10px'
-                  bg='rgb(32, 129, 226)'
-                  color={theme.colors.brand.white}
-                  fontWeight='bold'
-                  fontFamily={theme.fonts.spaceGrotesk}
-                  onClick={() =>
-                    window.open(
-                      `https://testnets.opensea.io/assets/${POIGNARD_CONTRACT_ADDRESS}/${voucher.tokenID}`,
-                      '_blank'
-                    )
+          <AlertDialogFooter>
+            {voucher.minted || isRedeemed ? (
+              <Button
+                w='100%'
+                mb='1rem'
+                borderRadius='10px'
+                bg='rgb(32, 129, 226)'
+                color={theme.colors.brand.white}
+                fontWeight='bold'
+                fontFamily={theme.fonts.spaceGrotesk}
+                onClick={() =>
+                  window.open(
+                    `https://testnets.opensea.io/assets/${POIGNARD_CONTRACT_ADDRESS}/${voucher.tokenID}`,
+                    '_blank'
+                  )
+                }
+              >
+                View on opensea
+              </Button>
+            ) : (
+              <StyledButton
+                className='dialog-button-select'
+                isLoading={loading}
+                loadingText={loadingText}
+                onClick={() => {
+                  if (isRedeemed) {
+                    handleFetch();
+                    setDialogStatus(false);
+                  } else {
+                    handleRedeem(voucher);
                   }
-                >
-                  View on opensea
-                </Button>
-              ) : (
-                <StyledButton
-                  className='dialog-button-select'
-                  isLoading={loading}
-                  loadingText={loadingText}
-                  onClick={() => {
-                    if (isRedeemed) {
-                      handleFetch();
-                      setDialogStatus(false);
-                    } else {
-                      handleRedeem(voucher);
-                    }
-                  }}
-                >
-                  {`Mint for ${utils.formatEther(voucher.minPrice)} ETH`}
-                </StyledButton>
-              )}
-            </AlertDialogFooter>
-          )}
+                }}
+              >
+                {`Mint for ${utils.formatEther(voucher.minPrice)} ETH`}
+              </StyledButton>
+            )}
+          </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialogOverlay>
     </AlertDialog>
