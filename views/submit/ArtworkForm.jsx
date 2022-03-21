@@ -354,7 +354,11 @@ export const ArtworkForm = () => {
             name='art_name'
             value={context.art_name}
           />
-          <FormHelperText>maximum 25 characters</FormHelperText>
+          <FormHelperText>
+            {context.art_name.length < 25
+              ? `${25 - context.art_name.length} characters left`
+              : `Over character limit`}
+          </FormHelperText>
         </FormControl>
 
         <FormControl
@@ -393,7 +397,11 @@ export const ArtworkForm = () => {
           name='art_description'
           value={context.art_description}
         />
-        <FormHelperText>maximum 250 characters</FormHelperText>
+        <FormHelperText>
+          {context.art_description.length < 250
+            ? `${250 - context.art_description.length} characters left`
+            : `Over character limit`}
+        </FormHelperText>
       </FormControl>
 
       <FormControl
