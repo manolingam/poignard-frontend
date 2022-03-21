@@ -119,6 +119,9 @@ export const Header = ({ windowWidth }) => {
                 >
                   Disconnect
                 </Button>
+                <Link href={`/artist/${context.signerAddress}`} passHref>
+                  <Button fontFamily={theme.fonts.spaceGrotesk}>Profile</Button>
+                </Link>
               </PopoverContent>
             </Popover>
           </Flex>

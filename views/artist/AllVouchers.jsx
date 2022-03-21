@@ -1,18 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, useContext, useRef } from 'react';
-import {
-  Flex,
-  Text,
-  Switch,
-  FormControl,
-  FormLabel,
-  Image as ChakraImage
-} from '@chakra-ui/react';
+import { Flex, Text, Image as ChakraImage } from '@chakra-ui/react';
 import styled from '@emotion/styled';
-import { BigNumber } from 'ethers';
+import { BigNumber, utils } from 'ethers';
 
 import useWarnings from '../../hooks/useWarnings';
-import RadioBox from '../../shared/RadioBox';
 import { VoucherModal } from './VoucherModal';
 import { InfiniteGrid } from './InfiniteGrid';
 
@@ -20,9 +12,10 @@ import { AppContext } from '../../context/AppContext';
 
 import { theme } from '../../themes/theme';
 import { IMAGES_PER_RENDER } from '../../config';
-import { fetchVouchers, redeemVoucher } from '../../utils/requests';
+import { fetchArtist, redeemVoucher } from '../../utils/requests';
 import { redeem } from '../../utils/web3';
 import { illustrations } from '../../utils/constants';
+import { ArtistInfo } from './ArtistInfo';
 
 const StyledTag = styled(Text)`
   max-width: 75%;
@@ -34,28 +27,19 @@ const StyledTag = styled(Text)`
   margin: auto;
 `;
 
-export const AllVouchers = () => {
+export const AllVouchers = ({ artistAddress }) => {
   const context = useContext(AppContext);
   const { triggerToast } = useWarnings();
 
-  const [mintedCount, setMintedCount] = useState({
+  const [count, setCount] = useState({
     prev: 0,
     next: IMAGES_PER_RENDER
   });
-  const [hasMoreMinted, setHasMoreMinted] = useState(true);
-  const [mintedCurrent, setMintedCurrent] = useState([]);
-
-  const [redeemableCount, setRedeemableCount] = useState({
-    prev: 0,
-    next: IMAGES_PER_RENDER
-  });
-  const [hasMoreRedeemable, setHasMoreRedeemable] = useState(true);
-  const [redeemableCurrent, setRedeemableCurrent] = useState([]);
+  const [hasMore, setHasMore] = useState(true);
+  const [current, setCurrent] = useState([]);
 
   const cancelRef = useRef();
-  const [contentType, setContentType] = useState('All');
   const [fetched, setFetched] = useState(false);
-  const [onlyMintable, setOnlyMintable] = useState(true);
   const [dialogStatus, setDialogStatus] = useState(false);
   const [dialogData, setDialogData] = useState('');
 
@@ -63,13 +47,12 @@ export const AllVouchers = () => {
   const [loadingText, setLoadingText] = useState('');
   const [isRedeemed, setIsRedeemed] = useState(false);
 
-  const [mintedVouchers, setMintedVouchers] = useState([]);
-  const [redeemableVouchers, setRedeemableVouchers] = useState([]);
+  const [artist, setArtist] = useState(null);
+  const [createdVouchers, setCreatedVouchers] = useState([]);
 
   const onClose = async () => {
     setDialogStatus(false);
     if (isRedeemed) {
-      setContentType('All');
       await handleFetch();
     }
   };
@@ -127,40 +110,20 @@ export const AllVouchers = () => {
   };
 
   const getMoreData = () => {
-    if (!onlyMintable && mintedVouchers.length) {
-      if (mintedCurrent.length === mintedVouchers.length) {
-        setHasMoreMinted(false);
+    if (createdVouchers.length) {
+      if (current.length === createdVouchers.length) {
+        setHasMore(false);
         return;
       } else {
-        setMintedCurrent(
-          mintedCurrent.concat(
-            mintedVouchers.slice(
-              mintedCount.prev + IMAGES_PER_RENDER,
-              mintedCount.next + IMAGES_PER_RENDER
+        setCurrent(
+          current.concat(
+            createdVouchers.slice(
+              count.prev + IMAGES_PER_RENDER,
+              count.next + IMAGES_PER_RENDER
             )
           )
         );
-        setMintedCount((prevState) => ({
-          prev: prevState.prev + IMAGES_PER_RENDER,
-          next: prevState.next + IMAGES_PER_RENDER
-        }));
-        return;
-      }
-    } else if (onlyMintable && redeemableVouchers.length) {
-      if (redeemableCurrent.length === redeemableVouchers.length) {
-        setHasMoreRedeemable(false);
-        return;
-      } else {
-        setRedeemableCurrent(
-          redeemableCurrent.concat(
-            redeemableVouchers.slice(
-              redeemableCount.prev + IMAGES_PER_RENDER,
-              redeemableCount.next + IMAGES_PER_RENDER
-            )
-          )
-        );
-
-        setRedeemableCount((prevState) => ({
+        setCount((prevState) => ({
           prev: prevState.prev + IMAGES_PER_RENDER,
           next: prevState.next + IMAGES_PER_RENDER
         }));
@@ -172,14 +135,11 @@ export const AllVouchers = () => {
   const resetState = () => {
     setIsRedeemed(false);
     setFetched(false);
-    setMintedVouchers([]);
-    setRedeemableVouchers([]);
+    setCreatedVouchers([]);
+    setArtist(null);
+    setCurrent([]);
 
-    setMintedCount({
-      prev: 0,
-      next: IMAGES_PER_RENDER
-    });
-    setRedeemableCount({
+    setCount({
       prev: 0,
       next: IMAGES_PER_RENDER
     });
@@ -188,46 +148,36 @@ export const AllVouchers = () => {
   const handleFetch = async () => {
     resetState();
 
-    const mintedVouchers = await fetchVouchers(
-      context.signature,
-      true,
-      contentType.toLowerCase()
-    );
-    if (mintedVouchers.data.data.vouchers.length > 0) {
-      setMintedVouchers(mintedVouchers.data.data.vouchers);
-      setMintedCurrent(
-        mintedVouchers.data.data.vouchers.slice(
-          mintedCount.prev,
-          mintedCount.next
-        )
-      );
+    if (!utils.isAddress(artistAddress)) {
+      triggerToast('Invalid artist address');
+      setFetched(true);
+      return;
     }
-    const unmintedVouchers = await fetchVouchers(
-      context.signature,
-      false,
-      contentType.toLowerCase()
-    );
-    if (unmintedVouchers.data.data.vouchers.length > 0) {
-      setRedeemableVouchers(unmintedVouchers.data.data.vouchers);
-      setRedeemableCurrent(
-        unmintedVouchers.data.data.vouchers.slice(
-          redeemableCount.prev,
-          redeemableCount.next
-        )
-      );
-    }
-    setFetched(true);
-  };
 
-  useEffect(() => {
-    getMoreData();
-  }, [onlyMintable]);
+    const { data } = await fetchArtist(context.signature, artistAddress);
+
+    if (!data.data.artist) {
+      setArtist(null);
+      setFetched(true);
+      return;
+    }
+
+    if (data.data.artist.createdVouchers.length > 0) {
+      setArtist(data.data.artist);
+      setCreatedVouchers(data.data.artist.createdVouchers);
+      setCurrent(
+        data.data.artist.createdVouchers.slice(count.prev, count.next)
+      );
+      setFetched(true);
+      return;
+    }
+  };
 
   useEffect(() => {
     if (context.signature) {
       handleFetch();
     }
-  }, [context.signature, contentType]);
+  }, [context.signature]);
 
   return (
     <Flex
@@ -237,6 +187,8 @@ export const AllVouchers = () => {
       minH='70vh'
       mb='1rem'
     >
+      {fetched && artist && <ArtistInfo artist={artist} />}
+
       {/* If wallet is not connected */}
       {!context.signature && (
         <Flex direction='column' alignItems='center' my='auto'>
@@ -255,7 +207,7 @@ export const AllVouchers = () => {
       {/* Wallet connect & is fetching vouchers */}
       {!fetched && context.signature && (
         <Flex direction='column' alignItems='center' my='auto'>
-          <ChakraImage src='assets/loader.gif' alt='loading' w='200px' />
+          <ChakraImage src='/assets/loader.gif' alt='loading' w='200px' />
           <StyledTag fontSize={{ base: '1rem', lg: '18px' }}>
             Fetching vouchers...
           </StyledTag>
@@ -263,56 +215,14 @@ export const AllVouchers = () => {
       )}
 
       {/* Vouchers fetched */}
-      {fetched && (
+      {fetched && artist && (
         <Flex direction='column' w='100%' alignItems='center'>
-          <Flex
-            w='100%'
-            direction={{ base: 'column', lg: 'row' }}
-            alignItems={{ base: 'flex-start', lg: 'center' }}
-            justifyContent='space-between'
-            mb='2rem'
-          >
-            <FormControl
-              display='flex'
-              direction='row'
-              fontFamily={theme.fonts.spaceMono}
-              color={theme.colors.brand.darkCharcoal}
-            >
-              <FormLabel fontWeight='bold'>Show mintable only</FormLabel>
-              <Switch
-                defaultChecked={onlyMintable}
-                onChange={() => setOnlyMintable((prevState) => !prevState)}
-              />
-            </FormControl>
-            <RadioBox
-              stack='horizontal'
-              options={['All', 'Image', 'Video', 'Audio']}
-              updateRadio={setContentType}
-              name='content_type'
-              defaultValue={contentType}
-              value={contentType}
-            />
-          </Flex>
-
-          {onlyMintable && redeemableVouchers.length && (
+          {createdVouchers.length && (
             <InfiniteGrid
-              onlyMintable={onlyMintable}
-              currentVouchers={redeemableCurrent}
-              fullVouchersLength={redeemableVouchers.length}
+              currentVouchers={current}
+              fullVouchersLength={createdVouchers.length}
               getMoreData={getMoreData}
-              hasMoreVouchers={hasMoreRedeemable}
-              setDialogData={setDialogData}
-              setDialogStatus={setDialogStatus}
-            />
-          )}
-
-          {!onlyMintable && mintedVouchers.length && (
-            <InfiniteGrid
-              onlyMintable={onlyMintable}
-              currentVouchers={mintedCurrent}
-              getMoreData={getMoreData}
-              hasMoreVouchers={hasMoreMinted}
-              fullVouchersLength={mintedVouchers.length}
+              hasMoreVouchers={hasMore}
               setDialogData={setDialogData}
               setDialogStatus={setDialogStatus}
             />
@@ -320,8 +230,7 @@ export const AllVouchers = () => {
         </Flex>
       )}
 
-      {/* fetched && no mintable vouchers && mintable filter */}
-      {fetched && !mintedVouchers.length && !onlyMintable && (
+      {fetched && !artist && (
         <Flex direction='column' alignItems='center' my='auto'>
           <ChakraImage
             src={illustrations.notFound}
@@ -330,22 +239,22 @@ export const AllVouchers = () => {
             mb='1rem'
           />
           <StyledTag fontSize={{ base: '1rem', lg: '18px' }}>
-            No vouchers minted.
+            Artist not found!
           </StyledTag>
         </Flex>
       )}
 
-      {/* fetched && no vouchers minted && not mintable filter */}
-      {fetched && !redeemableVouchers.length && onlyMintable && (
+      {/* fetched && no mintable vouchers && mintable filter */}
+      {artist && !createdVouchers.length && (
         <Flex direction='column' alignItems='center' my='auto'>
           <ChakraImage
             src={illustrations.notFound}
             alt='not found'
             w='200px'
-            mb='2rem'
+            mb='1rem'
           />
           <StyledTag fontSize={{ base: '1rem', lg: '18px' }}>
-            No mintable vouchers available.
+            No vouchers created.
           </StyledTag>
         </Flex>
       )}
@@ -356,7 +265,6 @@ export const AllVouchers = () => {
           cancelRef={cancelRef}
           onClose={onClose}
           voucher={dialogData}
-          onlyMintable={onlyMintable}
           isRedeemed={isRedeemed}
           loading={loading}
           loadingText={loadingText}

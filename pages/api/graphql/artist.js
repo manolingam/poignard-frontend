@@ -10,12 +10,28 @@ const handler = async (req, res) => {
 
   if (req.method === 'POST') {
     try {
-      const typeQuery = `query fetchVouchers { vouchers(where:{minted: ${req.body.minted}, contentType: "${req.body.contentType}"}) { _id tokenID tokenURI metadata createdBy {name ethAddress} minPrice signature contentType mintedBy} }`;
-      const defaultQuery = `query fetchVouchers { vouchers(where:{minted: ${req.body.minted}}) { _id tokenID tokenURI metadata createdBy {name ethAddress} minPrice signature contentType mintedBy} }`;
+      const defaultQuery = `query fetchArtist 
+      { artist(where:{ethAddress: "${req.body.ethAddress}"}) { 
+        name 
+        bio 
+        ethAddress 
+        instagramHandle
+        twitterHandle
+        createdVouchers {
+          tokenID 
+          tokenURI 
+          minPrice 
+          signature 
+          metadata
+          minted 
+          mintedBy 
+          contentType}
+        }
+      }`;
 
       const graphqlQuery = {
-        operationName: 'fetchVouchers',
-        query: req.body.contentType !== 'all' ? typeQuery : defaultQuery,
+        operationName: 'fetchArtist',
+        query: defaultQuery,
         variables: {}
       };
 
