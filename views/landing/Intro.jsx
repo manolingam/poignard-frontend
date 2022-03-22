@@ -97,7 +97,7 @@ export const Intro = () => {
         </Flex>
       </Flex>
       <Image
-        src={illustrations.machineArt}
+        src={illustrations.poignartEth}
         alt='machine art'
         w='600px'
         h='auto'

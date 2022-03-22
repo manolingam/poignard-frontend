@@ -21,7 +21,7 @@ import { AppContext } from '../../context/AppContext';
 import { theme } from '../../themes/theme';
 import { IMAGES_PER_RENDER } from '../../config';
 import { fetchVouchers, redeemVoucher } from '../../utils/requests';
-import { redeem } from '../../utils/web3';
+import { redeem, getTokenURI } from '../../utils/web3';
 import { illustrations } from '../../utils/constants';
 
 const StyledTag = styled(Text)`
@@ -77,7 +77,7 @@ export const AllVouchers = () => {
   const storeData = async (voucher) => {
     try {
       setLoadingText('Storing offchain data..');
-      const { data } = await redeemVoucher(
+      await redeemVoucher(
         {
           tokenID: voucher.tokenID
         },
@@ -94,6 +94,20 @@ export const AllVouchers = () => {
   const handleRedeem = async (voucher) => {
     if (Number(context.chainId) == 4) {
       setLoading(true);
+      setLoadingText('Checking token..');
+      let uri;
+      try {
+        uri = await getTokenURI(voucher.tokenID, context.ethersProvider);
+      } catch (err) {
+        console.log(err.message);
+      }
+
+      if (uri) {
+        await storeData(voucher);
+        setLoading(false);
+        return;
+      }
+
       setLoadingText('Awaiting transaction..');
       let tx;
 

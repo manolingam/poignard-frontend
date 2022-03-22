@@ -14,11 +14,13 @@ export const explainerQA = [
   },
   {
     q: 'Who is behind this?',
-    a: 'PoignART is a team of volunteers with deep and varied web3 experience, including in public goods/non-profits. Some were born in Ukraine. Some still have family and friends there. But everyone deeply cares about the people of Ukraine.'
+    a: 'PoignART is a team of volunteers located all over the world with a deep and varied web3 experience, including in public goods/non-profits. Some were born in Ukraine and many still have family and friends fighting for their freedom, children, and lives. No matter what our ethnicity, culture, or beliefs are, ALL of us care deeply for the people of Ukraine. Click here to learn more about the team.'
   }
 ];
 
 export const illustrations = {
+  poignartEth:
+    'https://res.cloudinary.com/saimano/image/upload/v1647959760/PoignArt/illustrations/poignart_eth_jtaq6o.png',
   cyberfox:
     'https://res.cloudinary.com/saimano/image/upload/v1647680035/PoignArt/illustrations/cyberfox-fin1_zcy3kq.png',
   peace:
