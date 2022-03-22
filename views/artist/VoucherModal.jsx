@@ -14,11 +14,12 @@ import {
 import styled from '@emotion/styled';
 import { utils } from 'ethers';
 
+import useWarnings from '../../hooks/useWarnings';
+
 import { uriToHttp } from '../../utils/helpers';
 import { theme } from '../../themes/theme';
 
 import { POIGNARD_CONTRACT_ADDRESS } from '../../config';
-import { fetchArtist } from '../../utils/requests';
 
 const StyledButton = styled(Button)`
   height: 50px;
@@ -49,11 +50,16 @@ export const VoucherModal = ({
   handleRedeem,
   setDialogStatus
 }) => {
+  const { triggerToast } = useWarnings();
   return (
     <AlertDialog
       isOpen={dialogStatus}
       leastDestructiveRef={cancelRef}
       onClose={onClose}
+      closeOnOverlayClick={!loading}
+      onOverlayClick={() => {
+        loading && triggerToast('Wait for the current tx to finish.');
+      }}
       isCentered
     >
       <AlertDialogOverlay>
@@ -130,7 +136,7 @@ export const VoucherModal = ({
           </AlertDialogBody>
 
           <AlertDialogFooter>
-            {voucher.minted || isRedeemed ? (
+            {(voucher.minted || isRedeemed) && (
               <Button
                 w='100%'
                 mb='1rem'
@@ -148,7 +154,9 @@ export const VoucherModal = ({
               >
                 View on opensea
               </Button>
-            ) : (
+            )}
+
+            {!voucher.minted && !isRedeemed && (
               <StyledButton
                 className='dialog-button-select'
                 isLoading={loading}

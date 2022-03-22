@@ -13,7 +13,7 @@ import { AppContext } from '../../context/AppContext';
 import { theme } from '../../themes/theme';
 import { IMAGES_PER_RENDER } from '../../config';
 import { fetchArtist, redeemVoucher } from '../../utils/requests';
-import { redeem } from '../../utils/web3';
+import { redeem, getTokenURI } from '../../utils/web3';
 import { illustrations } from '../../utils/constants';
 import { ArtistInfo } from './ArtistInfo';
 
@@ -77,6 +77,21 @@ export const AllVouchers = ({ artistAddress }) => {
   const handleRedeem = async (voucher) => {
     if (Number(context.chainId) == 4) {
       setLoading(true);
+      setLoadingText('Checking token..');
+
+      let uri;
+      try {
+        uri = await getTokenURI(voucher.tokenID, context.ethersProvider);
+      } catch (err) {
+        console.log(err.message);
+      }
+
+      if (uri) {
+        await storeData(voucher);
+        setLoading(false);
+        return;
+      }
+
       setLoadingText('Awaiting transaction..');
       let tx;
 

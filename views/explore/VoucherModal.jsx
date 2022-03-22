@@ -10,10 +10,12 @@ import {
   AlertDialogFooter,
   Image as ChakraImage
 } from '@chakra-ui/react';
+
 import Link from 'next/link';
 import styled from '@emotion/styled';
 import { utils } from 'ethers';
 
+import useWarnings from '../../hooks/useWarnings';
 import { uriToHttp } from '../../utils/helpers';
 import { theme } from '../../themes/theme';
 
@@ -49,11 +51,16 @@ export const VoucherModal = ({
   handleRedeem,
   setDialogStatus
 }) => {
+  const { triggerToast } = useWarnings();
   return (
     <AlertDialog
       isOpen={dialogStatus}
       leastDestructiveRef={cancelRef}
       onClose={onClose}
+      closeOnOverlayClick={!loading}
+      onOverlayClick={() => {
+        loading && triggerToast('Wait for the current tx to finish.');
+      }}
       isCentered
     >
       <AlertDialogOverlay>
@@ -139,70 +146,49 @@ export const VoucherModal = ({
                   }}
                 >{`Created by ${voucher.createdBy.name}`}</Text>
               </Link>
-
-              {!onlyMintable && (
-                <Button
-                  w='100%'
-                  mt='2rem'
-                  mb='1rem'
-                  borderRadius='10px'
-                  bg='rgb(32, 129, 226)'
-                  color={theme.colors.brand.white}
-                  fontWeight='bold'
-                  fontFamily={theme.fonts.spaceGrotesk}
-                  onClick={() =>
-                    window.open(
-                      `https://testnets.opensea.io/assets/${POIGNARD_CONTRACT_ADDRESS}/${voucher.tokenID}`,
-                      '_blank'
-                    )
-                  }
-                >
-                  View on opensea
-                </Button>
-              )}
             </Flex>
           </AlertDialogBody>
 
-          {onlyMintable && (
-            <AlertDialogFooter>
-              {isRedeemed ? (
-                <Button
-                  w='100%'
-                  mt='2rem'
-                  mb='1rem'
-                  borderRadius='10px'
-                  bg='rgb(32, 129, 226)'
-                  color={theme.colors.brand.white}
-                  fontWeight='bold'
-                  fontFamily={theme.fonts.spaceGrotesk}
-                  onClick={() =>
-                    window.open(
-                      `https://testnets.opensea.io/assets/${POIGNARD_CONTRACT_ADDRESS}/${voucher.tokenID}`,
-                      '_blank'
-                    )
+          <AlertDialogFooter>
+            {(!onlyMintable || isRedeemed) && (
+              <Button
+                w='100%'
+                mt='2rem'
+                mb='1rem'
+                borderRadius='10px'
+                bg='rgb(32, 129, 226)'
+                color={theme.colors.brand.white}
+                fontWeight='bold'
+                fontFamily={theme.fonts.spaceGrotesk}
+                onClick={() =>
+                  window.open(
+                    `https://testnets.opensea.io/assets/${POIGNARD_CONTRACT_ADDRESS}/${voucher.tokenID}`,
+                    '_blank'
+                  )
+                }
+              >
+                View on opensea
+              </Button>
+            )}
+
+            {onlyMintable && !isRedeemed && (
+              <StyledButton
+                className='dialog-button-select'
+                isLoading={loading}
+                loadingText={loadingText}
+                onClick={() => {
+                  if (isRedeemed) {
+                    handleFetch();
+                    setDialogStatus(false);
+                  } else {
+                    handleRedeem(voucher);
                   }
-                >
-                  View on opensea
-                </Button>
-              ) : (
-                <StyledButton
-                  className='dialog-button-select'
-                  isLoading={loading}
-                  loadingText={loadingText}
-                  onClick={() => {
-                    if (isRedeemed) {
-                      handleFetch();
-                      setDialogStatus(false);
-                    } else {
-                      handleRedeem(voucher);
-                    }
-                  }}
-                >
-                  {`Mint for ${utils.formatEther(voucher.minPrice)} ETH`}
-                </StyledButton>
-              )}
-            </AlertDialogFooter>
-          )}
+                }}
+              >
+                {`Mint for ${utils.formatEther(voucher.minPrice)} ETH`}
+              </StyledButton>
+            )}
+          </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialogOverlay>
     </AlertDialog>
