@@ -156,9 +156,11 @@ export const VoucherModal = ({
                 fontFamily={theme.fonts.spaceMono}
                 fontSize='12px'
               >
-                <Text>
-                  {`Sold for ${utils.formatEther(voucher.minPrice)} ETH`}{' '}
-                </Text>
+                {voucher.minted && (
+                  <Text>
+                    {`Sold for ${utils.formatEther(voucher.minPrice)} ETH`}{' '}
+                  </Text>
+                )}
                 <Text>{`${new Date(
                   Number(voucher.createdAt)
                 ).toDateString()}`}</Text>
