@@ -31,6 +31,7 @@ const handler = async (req, res) => {
           metadata
           minted 
           mintedBy 
+          createdAt
           contentType}
         }
       }`;

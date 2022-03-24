@@ -15,8 +15,8 @@ const handler = async (req, res) => {
 
   if (req.method === 'POST') {
     try {
-      const typeQuery = `query fetchVouchers { vouchers(where:{minted: ${req.body.minted}, contentType: "${req.body.contentType}"}) { _id tokenID tokenURI metadata createdBy {name ethAddress merkleProof} minPrice signature contentType mintedBy} }`;
-      const defaultQuery = `query fetchVouchers { vouchers(where:{minted: ${req.body.minted}}) { _id tokenID tokenURI metadata createdBy {name ethAddress merkleProof} minPrice signature contentType mintedBy} }`;
+      const typeQuery = `query fetchVouchers { vouchers(where:{minted: ${req.body.minted}, contentType: "${req.body.contentType}"}) { _id tokenID tokenURI metadata createdBy {name ethAddress merkleProof} minPrice signature contentType mintedBy createdAt} }`;
+      const defaultQuery = `query fetchVouchers { vouchers(where:{minted: ${req.body.minted}}) { _id tokenID tokenURI metadata createdBy {name ethAddress merkleProof} minPrice signature contentType mintedBy createdAt} }`;
 
       const graphqlQuery = {
         operationName: 'fetchVouchers',

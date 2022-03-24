@@ -1,5 +1,6 @@
 import {
   Flex,
+  Box,
   Button,
   Text,
   AlertDialog,
@@ -146,6 +147,22 @@ export const VoucherModal = ({
                   }}
                 >{`Created by ${voucher.createdBy.name}`}</Text>
               </Link>
+              <Flex
+                direction='row'
+                alignItems='center'
+                justifyContent='space-between'
+                mt='.5rem'
+                color={theme.colors.brand.spanishGrey}
+                fontFamily={theme.fonts.spaceMono}
+                fontSize='12px'
+              >
+                <Text>
+                  {`Sold for ${utils.formatEther(voucher.minPrice)} ETH`}{' '}
+                </Text>
+                <Text>{`${new Date(
+                  Number(voucher.createdAt)
+                ).toDateString()}`}</Text>
+              </Flex>
             </Flex>
           </AlertDialogBody>
 
@@ -153,7 +170,6 @@ export const VoucherModal = ({
             {(!onlyMintable || isRedeemed) && (
               <Button
                 w='100%'
-                mt='2rem'
                 mb='1rem'
                 borderRadius='10px'
                 bg='rgb(32, 129, 226)'
