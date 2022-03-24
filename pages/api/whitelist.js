@@ -17,8 +17,8 @@ const handler = async (req, res) => {
     try {
       const token = jwt.sign(req.body.signature, process.env.JWT_SECRET);
       const { data } = await axios.post(
-        `${API_ENDPOINT}/api/artist`,
-        req.body.artist,
+        `${API_ENDPOINT}/api/whitelist`,
+        { ethAddress: req.body.ethAddress },
         {
           headers: {
             authorization: 'Bearer ' + token

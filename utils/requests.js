@@ -5,6 +5,11 @@ export const verifyArtist = async (ethAddress, signature) => {
   return result;
 };
 
+export const whitelistArtist = async (ethAddress, signature) => {
+  const result = await axios.post('/api/whitelist', { ethAddress, signature });
+  return result;
+};
+
 export const submitArtistInfo = async (artist, signature) => {
   const result = await axios.post('/api/artist', { artist, signature });
   return result;

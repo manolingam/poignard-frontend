@@ -1,6 +1,11 @@
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
 
+const API_ENDPOINT =
+  process.env.ENV_MODE === 'development'
+    ? process.env.API_BASE_URL_DEV
+    : process.env.API_BASE_URL_PROD;
+
 const handler = async (req, res) => {
   const { method } = req;
 
@@ -17,6 +22,7 @@ const handler = async (req, res) => {
         ethAddress 
         instagramHandle
         twitterHandle
+        merkleProof
         createdVouchers {
           tokenID 
           tokenURI 
@@ -37,7 +43,7 @@ const handler = async (req, res) => {
 
       const token = jwt.sign(req.body.signature, process.env.JWT_SECRET);
       const { data } = await axios.post(
-        `${process.env.API_BASE_URL}/graphql`,
+        `${API_ENDPOINT}/graphql`,
         graphqlQuery,
         {
           headers: {

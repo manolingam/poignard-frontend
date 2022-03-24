@@ -60,10 +60,10 @@ export const Manifesto = () => {
       <VStack spacing={5} justifyContent='center'>
         <StyledHeading>Make Art - Stop War!</StyledHeading>
         <StyledBodyText fontSize='20px' maxW='960px' px='2rem'>
-          Create Ukraine-themed art to show support and raise money for Ukraine
-          suffering under Russian invasion. Art has always made the world a
-          better place. Today, your art will save lives and move hearts. Create
-          and upload your art in a few easy steps.
+          Create Ukraine-themed art to show support and raise money for the
+          people of Ukraine suffering under Russian invasion. Art has always
+          made the world a better place. Today, your art will save lives and
+          move hearts. Create and upload your art in a few easy steps.
         </StyledBodyText>
         <br />
         <Flex direction='row'>

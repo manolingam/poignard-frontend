@@ -16,7 +16,7 @@ class AppContextProvider extends Component {
     signature: null,
     //artist form state
     artist_name: '',
-    artist_email: '',
+    artist_website: '',
     artist_bio: '',
     artist_discord: '',
     artist_telegram: '',

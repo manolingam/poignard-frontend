@@ -1,6 +1,11 @@
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
 
+const API_ENDPOINT =
+  process.env.ENV_MODE === 'development'
+    ? process.env.API_BASE_URL_DEV
+    : process.env.API_BASE_URL_PROD;
+
 const handler = async (req, res) => {
   const { method } = req;
 
@@ -11,14 +16,11 @@ const handler = async (req, res) => {
   if (req.method === 'POST') {
     try {
       const token = jwt.sign(req.body.signature, process.env.JWT_SECRET);
-      const { data } = await axios.get(
-        `${process.env.API_BASE_URL}/api/verify`,
-        {
-          headers: {
-            authorization: 'Bearer ' + token
-          }
+      const { data } = await axios.get(`${API_ENDPOINT}/api/verify`, {
+        headers: {
+          authorization: 'Bearer ' + token
         }
-      );
+      });
       res.status(201).json(data);
     } catch (err) {
       console.log(err);
