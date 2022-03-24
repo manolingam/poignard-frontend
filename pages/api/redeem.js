@@ -1,6 +1,11 @@
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
 
+const API_ENDPOINT =
+  process.env.ENV_MODE === 'development'
+    ? process.env.API_BASE_URL_DEV
+    : process.env.API_BASE_URL_PROD;
+
 const handler = async (req, res) => {
   const { method } = req;
 
@@ -12,7 +17,7 @@ const handler = async (req, res) => {
     try {
       const token = jwt.sign(req.body.signature, process.env.JWT_SECRET);
       const { data } = await axios.post(
-        `${process.env.API_BASE_URL}/api/redeem`,
+        `${API_ENDPOINT}/api/redeem`,
         req.body.redeem,
         {
           headers: {

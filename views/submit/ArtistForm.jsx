@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from 'react';
+import { useContext, useState } from 'react';
 import {
   Flex,
   FormControl,
@@ -11,7 +11,6 @@ import {
 import styled from '@emotion/styled';
 
 import { AppContext } from '../../context/AppContext';
-import { vetArtist, checkMinterRole } from '../../utils/web3';
 import { submitArtistInfo } from '../../utils/requests';
 import useWarnings from '../../hooks/useWarnings';
 
@@ -50,23 +49,14 @@ export const ArtistForm = () => {
   const [loading, setLoading] = useState(false);
   const [loadingText, setLoadingText] = useState('');
 
-  const verifyRole = async () => {
-    const isMinter = await checkMinterRole(
-      context.ethersProvider,
-      context.signerAddress
-    );
-    if (isMinter) {
-      context.setWeb3Data({ hasMinterRole: isMinter });
-    }
-  };
-
   const storeData = async () => {
     try {
+      setLoading(true);
       setLoadingText('Storing offchain data..');
       const { data } = await submitArtistInfo(
         {
           name: context.artist_name,
-          emailAddress: context.artist_email,
+          website: context.artist_website,
           bio: context.artist_bio,
           ethAddress: context.signerAddress,
           discordHandle: context.artist_discord,
@@ -82,53 +72,12 @@ export const ArtistForm = () => {
       console.log(err);
       triggerToast('Failed to store data offchain.');
     }
+
+    setLoading(false);
   };
-
-  const addMinterRole = async () => {
-    if (Number(context.chainId) == 4) {
-      setLoading(true);
-      setLoadingText('Awaiting transaction..');
-
-      let tx;
-
-      try {
-        tx = await vetArtist(
-          context.ethersProvider,
-          context.signerAddress,
-          context.db_merkleProof
-        );
-        setLoadingText('Transaction in progress..');
-      } catch (err) {
-        triggerToast('User denied transaction.');
-        console.log(err);
-      }
-
-      if (tx) {
-        const { status } = await tx.wait();
-        if (status === 1) {
-          await storeData();
-        } else {
-          triggerToast('Transaction failed.');
-        }
-      }
-
-      setLoading(false);
-    } else {
-      triggerToast('Please switch to the Rinkeby testnet');
-    }
-  };
-
-  useEffect(() => {
-    verifyRole();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const handleSubmit = async () => {
-    if (context.hasMinterRole) {
-      await storeData();
-    } else {
-      await addMinterRole();
-    }
+    await storeData();
   };
 
   return (
@@ -159,13 +108,12 @@ export const ArtistForm = () => {
           fontFamily={theme.fonts.spaceMono}
           color={theme.colors.brand.darkCharcoal}
         >
-          <FormLabel>Wanna share your email?</FormLabel>
+          <FormLabel>Got a website?</FormLabel>
           <StyledInput
-            type='email'
-            placeholder='Optional, but if you prefer email'
+            placeholder='Optional, but if you have a website'
             onChange={context.inputChangeHandler}
-            name='artist_email'
-            value={context.artist_email}
+            name='artist_website'
+            value={context.artist_website}
           />
         </FormControl>
       </Stack>
@@ -282,7 +230,7 @@ export const ArtistForm = () => {
             }
           }}
         >
-          {context.hasMinterRole ? 'Submit' : 'Vet & Submit'}
+          Submit
         </StyledButton>
       </Flex>
     </Flex>

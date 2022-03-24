@@ -96,6 +96,7 @@ export const AllVouchers = () => {
       setLoading(true);
       setLoadingText('Checking token..');
       let uri;
+
       try {
         uri = await getTokenURI(voucher.tokenID, context.ethersProvider);
       } catch (err) {
@@ -103,6 +104,7 @@ export const AllVouchers = () => {
       }
 
       if (uri) {
+        triggerToast('Token already minted. Updating records!');
         await storeData(voucher);
         setLoading(false);
         return;
@@ -120,7 +122,8 @@ export const AllVouchers = () => {
             minPrice: BigNumber.from(voucher.minPrice),
             uri: voucher.tokenURI
           },
-          voucher.signature
+          voucher.signature,
+          voucher.createdBy.merkleProof
         );
         setLoadingText('Transaction in progress..');
         if (tx) {
@@ -308,7 +311,7 @@ export const AllVouchers = () => {
             />
           </Flex>
 
-          {onlyMintable && redeemableVouchers.length && (
+          {onlyMintable && redeemableVouchers.length != 0 && (
             <InfiniteGrid
               onlyMintable={onlyMintable}
               currentVouchers={redeemableCurrent}
@@ -320,7 +323,7 @@ export const AllVouchers = () => {
             />
           )}
 
-          {!onlyMintable && mintedVouchers.length && (
+          {!onlyMintable && mintedVouchers.length != 0 && (
             <InfiniteGrid
               onlyMintable={onlyMintable}
               currentVouchers={mintedCurrent}

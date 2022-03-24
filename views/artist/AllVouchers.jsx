@@ -87,6 +87,7 @@ export const AllVouchers = ({ artistAddress }) => {
       }
 
       if (uri) {
+        triggerToast('Token already minted. Updating records!');
         await storeData(voucher);
         setLoading(false);
         return;
@@ -104,7 +105,8 @@ export const AllVouchers = ({ artistAddress }) => {
             minPrice: BigNumber.from(voucher.minPrice),
             uri: voucher.tokenURI
           },
-          voucher.signature
+          voucher.signature,
+          voucher.createdBy.merkleProof
         );
         setLoadingText('Transaction in progress..');
         if (tx) {
@@ -202,7 +204,13 @@ export const AllVouchers = ({ artistAddress }) => {
       minH='70vh'
       mb='1rem'
     >
-      {fetched && artist && <ArtistInfo artist={artist} />}
+      {fetched && artist && (
+        <ArtistInfo
+          artist={artist}
+          signer={context.signerAddress}
+          signature={context.signature}
+        />
+      )}
 
       {/* If wallet is not connected */}
       {!context.signature && (
