@@ -132,6 +132,22 @@ export const VoucherModal = ({
                 {voucher.metadata.description.substring(0, 250)}
                 {voucher.metadata.description.length > 250 && ' ..'}
               </Text>
+              <Flex
+                direction='row'
+                alignItems='center'
+                justifyContent='space-between'
+                mt='.5rem'
+                color={theme.colors.brand.spanishGrey}
+                fontFamily={theme.fonts.spaceMono}
+                fontSize='12px'
+              >
+                <Text>
+                  {`Sold for ${utils.formatEther(voucher.minPrice)} ETH`}{' '}
+                </Text>
+                <Text>{`${new Date(
+                  Number(voucher.createdAt)
+                ).toDateString()}`}</Text>
+              </Flex>
             </Flex>
           </AlertDialogBody>
 
