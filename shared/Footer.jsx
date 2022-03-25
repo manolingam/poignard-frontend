@@ -35,7 +35,14 @@ export const Footer = () => {
       px={{ base: '2rem', lg: '5rem' }}
       py='4rem'
     >
-      <Image src={logos.poignartFull} alt='logo' mt={{ base: '2rem' }} />
+      <Link href='/' passHref>
+        <Image
+          src={logos.poignartFull}
+          alt='logo'
+          mt={{ base: '2rem' }}
+          cursor='pointer'
+        />
+      </Link>
 
       <SimpleGrid
         columns={{ base: 1, md: 3, lg: 3 }}
@@ -56,14 +63,20 @@ export const Footer = () => {
             </Text>
           </Link>
           <StyledLink
-            href='https://medium.com/@poignart/poignart-mission-statement-4e17b6300543'
+            href='https://docs.google.com/forms/d/e/1FAIpQLSff5aorK4Yjrfa4ws50byFxHxzQKt1Czv1F5iYE3IPxY7iaQQ/viewform'
             isExternal
           >
-            Read Manifesto
+            Get whitelisted
           </StyledLink>
         </VStack>
         <VStack alignItems='flex-start'>
           <StyledFooterHeaderText>For Supporters</StyledFooterHeaderText>
+          <StyledLink
+            href='https://medium.com/@poignart/poignart-mission-statement-4e17b6300543'
+            isExternal
+          >
+            Read manifesto
+          </StyledLink>
           <Link href='/explore' passHref>
             <Text
               fontFamily={theme.fonts.spaceGrotesk}

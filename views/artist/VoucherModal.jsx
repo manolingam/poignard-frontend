@@ -63,7 +63,7 @@ export const VoucherModal = ({
       isCentered
     >
       <AlertDialogOverlay>
-        <AlertDialogContent>
+        <AlertDialogContent maxW='xl'>
           <AlertDialogHeader
             fontSize='25px'
             fontWeight='bold'
@@ -80,8 +80,8 @@ export const VoucherModal = ({
                 <ChakraImage
                   src={uriToHttp(voucher.metadata.image)}
                   alt='minted nft'
-                  fallbackSrc='assets/loader.gif'
-                  height='200px'
+                  fallbackSrc='/assets/loader.gif'
+                  maxH='60vh'
                   width='auto'
                   objectFit={
                     voucher.contentType === 'audio' ? 'cover' : 'contain'

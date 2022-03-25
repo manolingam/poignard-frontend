@@ -65,7 +65,7 @@ export const VoucherModal = ({
       isCentered
     >
       <AlertDialogOverlay>
-        <AlertDialogContent>
+        <AlertDialogContent maxW='xl'>
           <AlertDialogHeader
             fontSize='25px'
             fontWeight='bold'
@@ -74,7 +74,6 @@ export const VoucherModal = ({
           >
             {voucher.metadata.name.substring(0, 25)}
           </AlertDialogHeader>
-
           <AlertDialogBody fontFamily={theme.fonts.spaceMono}>
             <Flex direction='column'>
               {(voucher.contentType === 'image' ||
@@ -83,7 +82,7 @@ export const VoucherModal = ({
                   src={uriToHttp(voucher.metadata.image)}
                   alt='minted nft'
                   fallbackSrc='assets/loader.gif'
-                  height='200px'
+                  maxH='60vh'
                   width='auto'
                   objectFit={
                     voucher.contentType === 'audio' ? 'cover' : 'contain'
@@ -167,7 +166,6 @@ export const VoucherModal = ({
               </Flex>
             </Flex>
           </AlertDialogBody>
-
           <AlertDialogFooter>
             {(!onlyMintable || isRedeemed) && (
               <Button

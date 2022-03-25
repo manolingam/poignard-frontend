@@ -30,11 +30,7 @@ import RadioBox from '../../shared/RadioBox';
 import { AppContext } from '../../context/AppContext';
 import { uploadArt, uploadMetadata } from '../../utils/ipfs';
 import { generateNFTVoucher, uriToHttp } from '../../utils/helpers';
-import {
-  submitVoucher,
-  verifyArtist,
-  uploadToBucket
-} from '../../utils/requests';
+import { submitVoucher, verifyArtist } from '../../utils/requests';
 import useWarnings from '../../hooks/useWarnings';
 
 import { theme } from '../../themes/theme';
@@ -156,7 +152,7 @@ export const ArtworkForm = () => {
         setAnimationUri(_animationUri);
         metadata['animation_url'] = _animationUri;
 
-        if (contentType === 'Video') {
+        if (contentType === 'Video' || contentType === 'Audio') {
           const urlReader = new FileReader();
           urlReader.addEventListener('load', async () => {
             const params = {
@@ -164,7 +160,8 @@ export const ArtworkForm = () => {
               Key: _animationUri.replace('ipfs://', ''),
               Body: Buffer.from(urlReader.result),
               ACL: 'public-read',
-              ContentType: 'video/mp4'
+              ContentType:
+                document.getElementById('anim-file-input').files[0].type
             };
             await S3_CLIENT.send(new PutObjectCommand(params));
           });
@@ -199,7 +196,7 @@ export const ArtworkForm = () => {
         .getSigner()
         ._signTypedData(domain, types, voucher);
 
-      const { data } = await submitVoucher(
+      await submitVoucher(
         {
           tokenID: context.db_next_token_id,
           tokenURI: tokenUri,

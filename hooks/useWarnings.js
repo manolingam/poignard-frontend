@@ -7,7 +7,7 @@ const useWarnings = () => {
 
   const triggerToast = (message) => {
     toast({
-      duration: 3000,
+      duration: 8000,
       position: 'top',
       render: () => (
         <Box

@@ -15,6 +15,7 @@ import {
   AlertDialogFooter,
   FormControl,
   FormLabel,
+  FormHelperText,
   Input
 } from '@chakra-ui/react';
 import styled from '@emotion/styled';
@@ -175,15 +176,11 @@ export const ArtistInfo = ({ artist, signer, signature }) => {
                   name='whitelist_address'
                   value={whitelistAddress}
                 />
+                <FormHelperText mt='1rem'>
+                  Note that it will take 24 hours for the address to be added to
+                  the merkle root.
+                </FormHelperText>
               </FormControl>
-              <Text
-                color={theme.colors.brand.graniteGrey}
-                fontFamily={theme.fonts.spaceGrotesk}
-                mt='1rem'
-              >
-                Note that it will take 24 hours for the address to be added to
-                the merkle root.
-              </Text>
             </AlertDialogBody>
 
             <AlertDialogFooter>
