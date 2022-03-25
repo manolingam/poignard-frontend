@@ -73,11 +73,13 @@ export const InfiniteGrid = ({
               mb='2rem'
             >
               <Image
-                src={`${POIGNART_BUCKET_BASE_URL}/${voucher.metadata.image.replace(
-                  'ipfs://',
-                  ''
-                )}`}
-                loader={() => uriToHttp(voucher.metadata.image, 'fleek')}
+                src={uriToHttp(voucher.metadata.image)}
+                loader={() =>
+                  `${POIGNART_BUCKET_BASE_URL}/${voucher.metadata.image.replace(
+                    'ipfs://',
+                    ''
+                  )}`
+                }
                 alt='minted nft'
                 width='300px'
                 height='100%'

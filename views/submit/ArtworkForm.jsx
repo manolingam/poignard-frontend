@@ -48,7 +48,8 @@ import {
   META_DATA_EXTERNAL_URL,
   ACCEPTED_IMAGE_FILE_FORMATS,
   ACCEPTED_AUDIO_FILE_FORMATS,
-  ACCEPTED_VIDEO_FILE_FORMATS
+  ACCEPTED_VIDEO_FILE_FORMATS,
+  POIGNART_BUCKET_BASE_URL
 } from '../../config';
 
 const StyledTextArea = styled(Textarea)`
@@ -548,9 +549,13 @@ export const ArtworkForm = () => {
 
               <AlertDialogBody fontFamily={theme.fonts.spaceMono}>
                 <ChakraImage
-                  src={uriToHttp(imageUri, 'infura')}
+                  crossOrigin='anonymous'
+                  src={uriToHttp(imageUri)}
                   alt='minted nft'
-                  fallbackSrc='assets/loader.gif'
+                  fallbackSrc={`${POIGNART_BUCKET_BASE_URL}/${imageUri.replace(
+                    'ipfs://',
+                    ''
+                  )}`}
                   height='auto'
                   width='100%'
                   mb='2rem'

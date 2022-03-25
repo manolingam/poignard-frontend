@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import {
   Flex,
   Button,
@@ -82,10 +81,13 @@ export const VoucherModal = ({
               {(voucher.contentType === 'image' ||
                 voucher.contentType === 'audio') && (
                 <ChakraImage
-                  src={uriToHttp(voucher.metadata.image, 'infura')}
+                  src={uriToHttp(voucher.metadata.image)}
                   crossOrigin='anonymous'
                   alt='minted nft'
-                  fallbackSrc='/assets/loader.gif'
+                  fallbackSrc={`${POIGNART_BUCKET_BASE_URL}/${voucher.metadata.image.replace(
+                    'ipfs://',
+                    ''
+                  )}`}
                   maxH='60vh'
                   width='auto'
                   objectFit={

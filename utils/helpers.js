@@ -50,14 +50,12 @@ export const uploadToBucket = async (_uri, _file) => {
   urlReader.readAsArrayBuffer(_file);
 };
 
-export const uriToHttp = (uri, gateway) => {
+export const uriToHttp = (uri) => {
   const protocol = uri.split(':')[0].toLowerCase();
   switch (protocol) {
     case 'ipfs':
       const hash = uri.match(/^ipfs:(\/\/)?(.*)$/i)?.[2];
-      return gateway === 'infura'
-        ? `https://poignart.infura-ipfs.io/ipfs/${hash}/`
-        : `https://ipfs.fleek.co/ipfs/${hash}/`;
+      return `https://poignart.infura-ipfs.io/ipfs/${hash}/`;
     default:
       return [];
   }
