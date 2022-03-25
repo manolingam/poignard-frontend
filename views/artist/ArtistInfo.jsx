@@ -90,24 +90,26 @@ export const ArtistInfo = ({ artist, signer, signature }) => {
 
   return (
     <>
-      <SimpleGrid
-        columns={{ lg: 2, md: 2, base: 1 }}
-        gridGap={{ base: 5, lg: 10 }}
+      <Flex
+        w='100%'
+        direction='column'
+        alignItems='center'
+        justifyContent='center'
         pb='2rem'
         mb='1rem'
-        placeItems='center'
       >
         <ChakraImage
           src={`https://avatars.dicebear.com/api/croodles-neutral/${artist.name}.svg`}
           alt={artist.name}
-          h='100%'
+          h='100px'
           w='auto'
+          mr={{ base: '0', md: '1rem', lg: '1rem' }}
         ></ChakraImage>
 
         <Flex
           h='100%'
           direction='column'
-          alignItems={{ base: 'center', lg: 'flex-start' }}
+          alignItems='center'
           justifyContent='center'
         >
           <Flex direction='row'>
@@ -142,7 +144,7 @@ export const ArtistInfo = ({ artist, signer, signature }) => {
             </StyledButton>
           )}
         </Flex>
-      </SimpleGrid>
+      </Flex>
       <AlertDialog
         isOpen={dialogStatus}
         leastDestructiveRef={cancelRef}
