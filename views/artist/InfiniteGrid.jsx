@@ -72,10 +72,8 @@ export const InfiniteGrid = ({
               mb='2rem'
             >
               <Image
-                src={`${POIGNART_BUCKET_BASE_URL}/${voucher.metadata.image.replace(
-                  'ipfs://',
-                  ''
-                )}`}
+                src={uriToHttp(voucher.metadata.image, 'infura')}
+                crossOrigin='anonymous'
                 loader={() => uriToHttp(voucher.metadata.image, 'fleek')}
                 alt='minted nft'
                 width='300px'
