@@ -244,7 +244,7 @@ export const AllVouchers = ({ artistAddress }) => {
       {/* Vouchers fetched */}
       {fetched && artist && (
         <Flex direction='column' w='100%' alignItems='center'>
-          {createdVouchers.length && (
+          {createdVouchers.length > 0 && (
             <InfiniteGrid
               currentVouchers={current}
               fullVouchersLength={createdVouchers.length}
