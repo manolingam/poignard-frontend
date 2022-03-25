@@ -27,6 +27,46 @@ export const S3_CLIENT = new S3Client({
   }
 });
 
+export const devMode =
+  process.env.NEXT_PUBLIC_ENV_MODE === 'development' ? true : false;
+
+export const CHAIN_ID = devMode ? 4 : 1;
+export const POIGNARD_CONTRACT_ADDRESS = devMode
+  ? process.env.NEXT_PUBLIC_DEV_POIGNART_CONTRACT_ADDRESS
+  : process.env.NEXT_PUBLIC_PROD_POIGNART_CONTRACT_ADDRESS;
+export const META_DATA_EXTERNAL_URL = devMode
+  ? process.env.NEXT_PUBLIC_DEV_META_DATA_EXTERNAL_URL
+  : process.env.NEXT_PUBLIC_PROD_META_DATA_EXTERNAL_URL;
+
+export const API_ENDPOINT = devMode
+  ? process.env.API_BASE_URL_DEV
+  : process.env.API_BASE_URL_PROD;
+
+export const JWT_SECRET = devMode
+  ? process.env.JWT_SECRET_DEV
+  : process.env.JWT_SECRET_PROD;
+
+export const OPENSEA_BASE_URL = devMode
+  ? 'https://testnets.opensea.io'
+  : 'https://opensea.io';
+
+export const POIGNART_BUCKET_BASE_URL =
+  'https://poignart.ams3.cdn.digitaloceanspaces.com';
+
+export const IN_APP_VOUCHERS_LIMIT =
+  process.env.NEXT_PUBLIC_INAPP_VOUCHERS_LIMIT;
+export const MAX_FILE_SIZE_MB = process.env.NEXT_PUBLIC_MAX_FILE_SIZE_MB;
+export const IMAGES_PER_RENDER = process.env.NEXT_PUBLIC_IMAGES_PER_RENDER;
+
+export const META_DATA_CREATED_BY = 'PoignART';
+export const SIGNING_DOMAIN_NAME = 'PoignartVoucher';
+export const SIGNING_DOMAIN_VERSION = '1';
+
+export const CHAIN_NAME = {
+  1: 'mainnet',
+  4: 'rinkeby'
+};
+
 export const ACCEPTED_IMAGE_FILE_FORMATS = [
   'image/png',
   'image/jpg',
@@ -41,16 +81,3 @@ export const ACCEPTED_AUDIO_FILE_FORMATS = [
   'audio/mpeg',
   'audio/wav'
 ];
-
-export const IN_APP_VOUCHERS_LIMIT =
-  process.env.NEXT_PUBLIC_INAPP_VOUCHERS_LIMIT;
-export const MAX_FILE_SIZE_MB = 25;
-export const IMAGES_PER_RENDER = 15;
-
-export const SIGNING_DOMAIN_NAME = 'PoignardVoucher';
-export const SIGNING_DOMAIN_VERSION = '1';
-export const POIGNARD_CONTRACT_ADDRESS =
-  '0x68334b6AF11d08B23cc32a63f116517b2Ee6E502';
-
-export const META_DATA_CREATED_BY = 'PoignART';
-export const META_DATA_EXTERNAL_URL = 'https://www.poign.art/';

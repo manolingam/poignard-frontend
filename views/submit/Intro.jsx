@@ -5,6 +5,8 @@ import styled from '@emotion/styled';
 import { theme } from '../../themes/theme';
 import { AppContext } from '../../context/AppContext';
 import { verifyArtist } from '../../utils/requests';
+import { CHAIN_ID, CHAIN_NAME } from '../../config';
+
 import useWarnings from '../../hooks/useWarnings';
 
 const StyledPrimaryHeading = styled(Heading)`
@@ -57,7 +59,7 @@ export const Intro = () => {
   const [isChecked, setIsChecked] = useState(false);
 
   const handleButtonClick = async () => {
-    if (Number(context.chainId) == 4) {
+    if (Number(context.chainId) == CHAIN_ID) {
       setLoading(true);
       setLoadingText('Checking whitelist..');
 
@@ -71,14 +73,12 @@ export const Intro = () => {
       } else if (data.response.verified && data.response.artist) {
         context.setDbData({
           db_artist: data.response.artist,
-          db_merkleProof: data.response.proof,
-          db_next_token_id: data.response.nextTokenID
+          db_merkleProof: data.response.proof
         });
         context.updateStage(context.stage + 2);
       } else if (data.response.verified && !data.response.artist) {
         context.setDbData({
-          db_merkleProof: data.response.proof,
-          db_next_token_id: data.response.nextTokenID
+          db_merkleProof: data.response.proof
         });
         context.updateStage(context.stage + 1);
       }
@@ -86,7 +86,7 @@ export const Intro = () => {
       setLoading(false);
       setIsChecked(true);
     } else {
-      triggerToast('Please switch to the Rinkeby testnet');
+      triggerToast(`Please switch to ${CHAIN_NAME[CHAIN_ID]}`);
     }
   };
 

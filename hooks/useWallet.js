@@ -22,12 +22,6 @@ export const useWallet = () => {
   const context = useContext(AppContext);
   const [signaturePending, setSignaturePending] = useState(false);
 
-  // const fetchEns = async (chainId, ethersProvider, address) => {
-  //   if (chainId !== 1) return null;
-  //   const ens = await ethersProvider.lookupAddress(address);
-  //   return ens;
-  // };
-
   const setWeb3Provider = async (modalProvider) => {
     const ethersProvider = new providers.Web3Provider(modalProvider);
     const web3 = new Web3(modalProvider);

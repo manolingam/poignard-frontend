@@ -20,7 +20,11 @@ import useWarnings from '../../hooks/useWarnings';
 import { uriToHttp } from '../../utils/helpers';
 import { theme } from '../../themes/theme';
 
-import { POIGNARD_CONTRACT_ADDRESS } from '../../config';
+import {
+  OPENSEA_BASE_URL,
+  POIGNARD_CONTRACT_ADDRESS,
+  POIGNART_BUCKET_BASE_URL
+} from '../../config';
 
 const StyledButton = styled(Button)`
   height: 50px;
@@ -80,8 +84,12 @@ export const VoucherModal = ({
                 voucher.contentType === 'audio') && (
                 <ChakraImage
                   src={uriToHttp(voucher.metadata.image)}
+                  crossOrigin='anonymous'
                   alt='minted nft'
-                  fallbackSrc='assets/loader.gif'
+                  fallbackSrc={`${POIGNART_BUCKET_BASE_URL}/${voucher.metadata.image.replace(
+                    'ipfs://',
+                    ''
+                  )}`}
                   maxH='60vh'
                   width='auto'
                   objectFit={
@@ -98,7 +106,7 @@ export const VoucherModal = ({
                   controls
                 >
                   <source
-                    src={`https://poignart.ams3.cdn.digitaloceanspaces.com/${voucher.metadata.animation_url.replace(
+                    src={`${POIGNART_BUCKET_BASE_URL}/${voucher.metadata.animation_url.replace(
                       'ipfs://',
                       ''
                     )}`}
@@ -121,7 +129,12 @@ export const VoucherModal = ({
                   }}
                   controls
                 >
-                  <source src={uriToHttp(voucher.metadata.animation_url)} />
+                  <source
+                    src={`${POIGNART_BUCKET_BASE_URL}/${voucher.metadata.animation_url.replace(
+                      'ipfs://',
+                      ''
+                    )}`}
+                  />
                 </audio>
               )}
 
@@ -178,7 +191,7 @@ export const VoucherModal = ({
                 fontFamily={theme.fonts.spaceGrotesk}
                 onClick={() =>
                   window.open(
-                    `https://testnets.opensea.io/assets/${POIGNARD_CONTRACT_ADDRESS}/${voucher.tokenID}`,
+                    `${OPENSEA_BASE_URL}/assets/${POIGNARD_CONTRACT_ADDRESS}/${voucher.tokenID}`,
                     '_blank'
                   )
                 }

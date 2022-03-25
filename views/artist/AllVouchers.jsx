@@ -11,7 +11,7 @@ import { InfiniteGrid } from './InfiniteGrid';
 import { AppContext } from '../../context/AppContext';
 
 import { theme } from '../../themes/theme';
-import { IMAGES_PER_RENDER } from '../../config';
+import { CHAIN_ID, CHAIN_NAME, IMAGES_PER_RENDER } from '../../config';
 import { fetchArtist, redeemVoucher } from '../../utils/requests';
 import { redeem, getTokenURI } from '../../utils/web3';
 import { illustrations } from '../../utils/constants';
@@ -75,7 +75,7 @@ export const AllVouchers = ({ artistAddress }) => {
   };
 
   const handleRedeem = async (voucher) => {
-    if (Number(context.chainId) == 4) {
+    if (Number(context.chainId) == CHAIN_ID) {
       setLoading(true);
       setLoadingText('Checking token..');
 
@@ -122,7 +122,7 @@ export const AllVouchers = ({ artistAddress }) => {
       }
       setLoading(false);
     } else {
-      triggerToast('Please switch to the Rinkeby testnet');
+      triggerToast(`Please switch to ${CHAIN_NAME[CHAIN_ID]}`);
     }
   };
 
@@ -187,6 +187,10 @@ export const AllVouchers = ({ artistAddress }) => {
       );
       setFetched(true);
       return;
+    } else if (data.data.artist) {
+      setArtist(data.data.artist);
+      setFetched(true);
+      return;
     }
   };
 
@@ -240,7 +244,7 @@ export const AllVouchers = ({ artistAddress }) => {
       {/* Vouchers fetched */}
       {fetched && artist && (
         <Flex direction='column' w='100%' alignItems='center'>
-          {createdVouchers.length && (
+          {createdVouchers.length > 0 && (
             <InfiniteGrid
               currentVouchers={current}
               fullVouchersLength={createdVouchers.length}

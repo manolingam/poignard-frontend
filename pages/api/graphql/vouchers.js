@@ -1,10 +1,7 @@
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
 
-const API_ENDPOINT =
-  process.env.ENV_MODE === 'development'
-    ? process.env.API_BASE_URL_DEV
-    : process.env.API_BASE_URL_PROD;
+import { API_ENDPOINT, JWT_SECRET } from '../../../config';
 
 const handler = async (req, res) => {
   const { method } = req;
@@ -24,7 +21,7 @@ const handler = async (req, res) => {
         variables: {}
       };
 
-      const token = jwt.sign(req.body.signature, process.env.JWT_SECRET);
+      const token = jwt.sign(req.body.signature, JWT_SECRET);
       const { data } = await axios.post(
         `${API_ENDPOINT}/graphql`,
         graphqlQuery,
