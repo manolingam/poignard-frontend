@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/no-children-prop */
 import { useContext, useState, useRef, useEffect } from 'react';
-import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+
 import {
   Flex,
   Box,
@@ -15,7 +15,7 @@ import {
   InputGroup,
   Button,
   Text,
-  Image,
+  Image as ChakraImage,
   AlertDialog,
   AlertDialogBody,
   AlertDialogFooter,
@@ -30,7 +30,11 @@ import { utils } from 'ethers';
 import RadioBox from '../../shared/RadioBox';
 import { AppContext } from '../../context/AppContext';
 import { uploadArt, uploadMetadata } from '../../utils/ipfs';
-import { generateNFTVoucher, uriToHttp } from '../../utils/helpers';
+import {
+  generateNFTVoucher,
+  uploadToBucket,
+  uriToHttp
+} from '../../utils/helpers';
 import { submitVoucher, verifyArtist } from '../../utils/requests';
 import { getMinPrice } from '../../utils/web3';
 import useWarnings from '../../hooks/useWarnings';
@@ -44,8 +48,7 @@ import {
   META_DATA_EXTERNAL_URL,
   ACCEPTED_IMAGE_FILE_FORMATS,
   ACCEPTED_AUDIO_FILE_FORMATS,
-  ACCEPTED_VIDEO_FILE_FORMATS,
-  S3_CLIENT
+  ACCEPTED_VIDEO_FILE_FORMATS
 } from '../../config';
 
 const StyledTextArea = styled(Textarea)`
@@ -117,9 +120,10 @@ export const ArtworkForm = () => {
       if (data.response.verified && data.response.artist) {
         context.setDbData({
           db_artist: data.response.artist,
-          db_merkleProof: data.response.proof,
-          db_next_token_id: data.response.nextTokenID
+          db_merkleProof: data.response.proof
         });
+
+        return data.response.nextTokenID;
       }
     } catch (err) {
       console.log(err);
@@ -148,6 +152,10 @@ export const ArtworkForm = () => {
       )}`;
       setImageUri(_imageUri);
       metadata['image'] = _imageUri;
+      await uploadToBucket(
+        _imageUri,
+        document.getElementById('image-file-input').files[0]
+      );
 
       if (contentType === 'Video' || contentType === 'Audio') {
         const _animationUri = `ipfs://${await uploadArt(
@@ -155,24 +163,10 @@ export const ArtworkForm = () => {
         )}`;
         setAnimationUri(_animationUri);
         metadata['animation_url'] = _animationUri;
-
-        if (contentType === 'Video' || contentType === 'Audio') {
-          const urlReader = new FileReader();
-          urlReader.addEventListener('load', async () => {
-            const params = {
-              Bucket: 'poignart',
-              Key: _animationUri.replace('ipfs://', ''),
-              Body: Buffer.from(urlReader.result),
-              ACL: 'public-read',
-              ContentType:
-                document.getElementById('anim-file-input').files[0].type
-            };
-            await S3_CLIENT.send(new PutObjectCommand(params));
-          });
-          urlReader.readAsArrayBuffer(
-            document.getElementById('anim-file-input').files[0]
-          );
-        }
+        await uploadToBucket(
+          _animationUri,
+          document.getElementById('anim-file-input').files[0]
+        );
       }
 
       const metadataUri = await uploadMetadata(metadata);
@@ -188,10 +182,10 @@ export const ArtworkForm = () => {
     try {
       setSignatureStatus(true);
 
-      await refreshTokenID();
+      const nextTokenId = await refreshTokenID();
       const mintPriceInWei = utils.parseUnits(context.art_price, 18);
       const { domain, types, voucher } = generateNFTVoucher(
-        context.db_next_token_id,
+        nextTokenId,
         tokenUri,
         mintPriceInWei,
         context.chainId
@@ -202,7 +196,7 @@ export const ArtworkForm = () => {
 
       await submitVoucher(
         {
-          tokenID: context.db_next_token_id,
+          tokenID: nextTokenId,
           tokenURI: tokenUri,
           minPrice: mintPriceInWei.toString(),
           createdBy: context.db_artist._id,
@@ -553,8 +547,8 @@ export const ArtworkForm = () => {
               </AlertDialogHeader>
 
               <AlertDialogBody fontFamily={theme.fonts.spaceMono}>
-                <Image
-                  src={uriToHttp(imageUri)}
+                <ChakraImage
+                  src={uriToHttp(imageUri, 'infura')}
                   alt='minted nft'
                   fallbackSrc='assets/loader.gif'
                   height='auto'

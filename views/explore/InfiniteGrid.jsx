@@ -4,9 +4,9 @@ import { utils } from 'ethers';
 import Image from 'next/image';
 import styled from '@emotion/styled';
 
-import { uriToHttp } from '../../utils/helpers';
-
 import { theme } from '../../themes/theme';
+import { uriToHttp } from '../../utils/helpers';
+import { POIGNART_BUCKET_BASE_URL } from '../../config';
 
 const StyledTag = styled(Text)`
   max-width: 75%;
@@ -73,7 +73,11 @@ export const InfiniteGrid = ({
               mb='2rem'
             >
               <Image
-                src={uriToHttp(voucher.metadata.image)}
+                src={`${POIGNART_BUCKET_BASE_URL}/${voucher.metadata.image.replace(
+                  'ipfs://',
+                  ''
+                )}`}
+                loader={() => uriToHttp(voucher.metadata.image, 'fleek')}
                 alt='minted nft'
                 width='300px'
                 height='100%'

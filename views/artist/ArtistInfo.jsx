@@ -25,6 +25,7 @@ import useWarnings from '../../hooks/useWarnings';
 import { whitelistArtist } from '../../utils/requests';
 
 import { theme } from '../../themes/theme';
+import { devMode } from '../../config';
 
 const StyledButton = styled(Button)`
   height: 25px;
@@ -132,7 +133,7 @@ export const ArtistInfo = ({ artist, signer, signature }) => {
             {artist.bio}
           </Text>
 
-          {artist.ethAddress === signer && (
+          {devMode && artist.ethAddress === signer && (
             <StyledButton
               fontSize={{ base: '10px', lg: '12px' }}
               onClick={() => setDialogStatus(true)}

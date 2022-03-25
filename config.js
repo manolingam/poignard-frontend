@@ -27,7 +27,7 @@ export const S3_CLIENT = new S3Client({
   }
 });
 
-const devMode =
+export const devMode =
   process.env.NEXT_PUBLIC_ENV_MODE === 'development' ? true : false;
 
 export const CHAIN_ID = devMode ? 4 : 1;
@@ -46,6 +46,13 @@ export const JWT_SECRET = devMode
   ? process.env.JWT_SECRET_DEV
   : process.env.JWT_SECRET_PROD;
 
+export const OPENSEA_BASE_URL = devMode
+  ? 'https://testnets.opensea.io'
+  : 'https://opensea.io';
+
+export const POIGNART_BUCKET_BASE_URL =
+  'https://poignart.ams3.cdn.digitaloceanspaces.com';
+
 export const IN_APP_VOUCHERS_LIMIT =
   process.env.NEXT_PUBLIC_INAPP_VOUCHERS_LIMIT;
 export const MAX_FILE_SIZE_MB = process.env.NEXT_PUBLIC_MAX_FILE_SIZE_MB;
@@ -54,6 +61,11 @@ export const IMAGES_PER_RENDER = process.env.NEXT_PUBLIC_IMAGES_PER_RENDER;
 export const META_DATA_CREATED_BY = 'PoignART';
 export const SIGNING_DOMAIN_NAME = 'PoignartVoucher';
 export const SIGNING_DOMAIN_VERSION = '1';
+
+export const CHAIN_NAME = {
+  1: 'mainnet',
+  4: 'rinkeby'
+};
 
 export const ACCEPTED_IMAGE_FILE_FORMATS = [
   'image/png',

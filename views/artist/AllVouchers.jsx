@@ -11,7 +11,7 @@ import { InfiniteGrid } from './InfiniteGrid';
 import { AppContext } from '../../context/AppContext';
 
 import { theme } from '../../themes/theme';
-import { CHAIN_ID, IMAGES_PER_RENDER } from '../../config';
+import { CHAIN_ID, CHAIN_NAME, IMAGES_PER_RENDER } from '../../config';
 import { fetchArtist, redeemVoucher } from '../../utils/requests';
 import { redeem, getTokenURI } from '../../utils/web3';
 import { illustrations } from '../../utils/constants';
@@ -122,7 +122,7 @@ export const AllVouchers = ({ artistAddress }) => {
       }
       setLoading(false);
     } else {
-      triggerToast('Please switch to the Rinkeby testnet');
+      triggerToast(`Please switch to ${CHAIN_NAME[CHAIN_ID]}`);
     }
   };
 
