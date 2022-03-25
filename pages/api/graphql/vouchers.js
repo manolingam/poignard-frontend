@@ -1,7 +1,7 @@
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
 
-import { API_ENDPOINT, JWT_SECRET } from '../../config';
+import { API_ENDPOINT, JWT_SECRET } from '../../../config';
 
 const handler = async (req, res) => {
   const { method } = req;
