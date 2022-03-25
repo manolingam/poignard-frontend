@@ -187,6 +187,10 @@ export const AllVouchers = ({ artistAddress }) => {
       );
       setFetched(true);
       return;
+    } else if (data.data.artist) {
+      setArtist(data.data.artist);
+      setFetched(true);
+      return;
     }
   };
 

@@ -178,7 +178,7 @@ export const ArtistInfo = ({ artist, signer, signature }) => {
                 />
                 <FormHelperText mt='1rem'>
                   Note that it will take 24 hours for the address to be added to
-                  the merkle root.
+                  the whitelist.
                 </FormHelperText>
               </FormControl>
             </AlertDialogBody>

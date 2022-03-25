@@ -12,11 +12,6 @@ export const getAccountString = (account) => {
 };
 
 export const generateNFTVoucher = (tokenId, uri, minPrice, chainId) => {
-  console.log(
-    SIGNING_DOMAIN_NAME,
-    SIGNING_DOMAIN_VERSION,
-    POIGNARD_CONTRACT_ADDRESS
-  );
   const domain = {
     name: SIGNING_DOMAIN_NAME,
     version: SIGNING_DOMAIN_VERSION,
