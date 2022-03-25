@@ -28,6 +28,19 @@ export const redeem = async (
   );
 };
 
+export const getMinPrice = async (ethersProvider) => {
+  const abiInterface = new utils.Interface([
+    'function minimumPrice() public view returns (uint)'
+  ]);
+  const contract = new Contract(
+    POIGNARD_CONTRACT_ADDRESS,
+    abiInterface,
+    ethersProvider
+  );
+
+  return contract.minimumPrice();
+};
+
 export const getTokenURI = async (tokenID, ethersProvider) => {
   const abiInterface = new utils.Interface([
     'function tokenURI(uint256 tokenId) public view virtual override returns (string memory)'

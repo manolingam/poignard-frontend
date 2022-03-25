@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/no-children-prop */
-import { useContext, useState, useRef } from 'react';
+import { useContext, useState, useRef, useEffect } from 'react';
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import {
   Flex,
@@ -31,6 +32,7 @@ import { AppContext } from '../../context/AppContext';
 import { uploadArt, uploadMetadata } from '../../utils/ipfs';
 import { generateNFTVoucher, uriToHttp } from '../../utils/helpers';
 import { submitVoucher, verifyArtist } from '../../utils/requests';
+import { getMinPrice } from '../../utils/web3';
 import useWarnings from '../../hooks/useWarnings';
 
 import { theme } from '../../themes/theme';
@@ -86,6 +88,8 @@ export const ArtworkForm = () => {
 
   const [contentType, setContentType] = useState('Image');
   const [image, setImage] = useState('');
+
+  const [voucherMinPrice, setVoucherMinPrice] = useState(0);
 
   const { triggerToast } = useWarnings();
 
@@ -257,6 +261,11 @@ export const ArtworkForm = () => {
       return triggerToast('Please fill in all the required fields.');
     }
 
+    if (context.art_price < voucherMinPrice) {
+      setButtonClickStatus(true);
+      return triggerToast(`Price must be greater than ${voucherMinPrice} ETH`);
+    }
+
     if (context.art_name.length > 25) {
       setButtonClickStatus(true);
       return triggerToast('Name should be less than 25 characters.');
@@ -330,6 +339,15 @@ export const ArtworkForm = () => {
     }
   };
 
+  const _voucherMinPrice = async () => {
+    const price = await getMinPrice(context.ethersProvider);
+    setVoucherMinPrice(utils.formatEther(price));
+  };
+
+  useEffect(() => {
+    _voucherMinPrice();
+  }, []);
+
   return (
     <Flex w='100%' direction='column'>
       <Stack
@@ -372,11 +390,14 @@ export const ArtworkForm = () => {
               placeholder='The price at which the NFT will be minted'
               onChange={context.inputChangeHandler}
               name='art_price'
-              min={0}
+              min={voucherMinPrice}
               value={context.art_price}
             />
             <InputRightAddon children='ETH' />
           </InputGroup>
+          <FormHelperText>
+            {`Min price is ${voucherMinPrice} ETH`}
+          </FormHelperText>
         </FormControl>
       </Stack>
 

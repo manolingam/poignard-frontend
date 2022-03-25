@@ -6,6 +6,7 @@ import { theme } from '../../themes/theme';
 import { AppContext } from '../../context/AppContext';
 import { verifyArtist } from '../../utils/requests';
 import useWarnings from '../../hooks/useWarnings';
+import { CHAIN_ID } from '../../config';
 
 const StyledPrimaryHeading = styled(Heading)`
   font-family: ${theme.fonts.spaceGrotesk};
@@ -57,7 +58,7 @@ export const Intro = () => {
   const [isChecked, setIsChecked] = useState(false);
 
   const handleButtonClick = async () => {
-    if (Number(context.chainId) == 4) {
+    if (Number(context.chainId) == CHAIN_ID) {
       setLoading(true);
       setLoadingText('Checking whitelist..');
 

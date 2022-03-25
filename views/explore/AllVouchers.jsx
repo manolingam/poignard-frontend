@@ -19,7 +19,7 @@ import { InfiniteGrid } from './InfiniteGrid';
 import { AppContext } from '../../context/AppContext';
 
 import { theme } from '../../themes/theme';
-import { IMAGES_PER_RENDER } from '../../config';
+import { CHAIN_ID, IMAGES_PER_RENDER } from '../../config';
 import { fetchVouchers, redeemVoucher } from '../../utils/requests';
 import { redeem, getTokenURI } from '../../utils/web3';
 import { illustrations } from '../../utils/constants';
@@ -92,7 +92,7 @@ export const AllVouchers = () => {
   };
 
   const handleRedeem = async (voucher) => {
-    if (Number(context.chainId) == 4) {
+    if (Number(context.chainId) == CHAIN_ID) {
       setLoading(true);
       setLoadingText('Checking token..');
       let uri;
