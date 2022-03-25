@@ -84,6 +84,7 @@ export const VoucherModal = ({
                 voucher.contentType === 'audio') && (
                 <ChakraImage
                   src={uriToHttp(voucher.metadata.image, 'infura')}
+                  crossOrigin='anonymous'
                   alt='minted nft'
                   fallbackSrc='assets/loader.gif'
                   maxH='60vh'
