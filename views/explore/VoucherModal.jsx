@@ -90,7 +90,7 @@ export const VoucherModal = ({
                     'ipfs://',
                     ''
                   )}`}
-                  maxH='60vh'
+                  maxH='45vh'
                   width='auto'
                   objectFit={
                     voucher.contentType === 'audio' ? 'cover' : 'contain'
