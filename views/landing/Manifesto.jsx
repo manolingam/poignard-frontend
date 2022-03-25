@@ -86,34 +86,36 @@ export const Manifesto = () => {
       </VStack>
 
       <SimpleGrid
-        columns={{ base: 1, md: 1, lg: 3 }}
+        columns='1'
         gridGap={{ base: 5, lg: 20 }}
         mt='8rem'
         placeItems='center'
       >
-        <Tooltip label='Author: @placeholder'>
+        {/* <Tooltip label='Author: @placeholder'>
           <Image
             src={illustrations.ghostOfKhiv}
             alt='featured art'
             w={{ base: '300px' }}
           />
-        </Tooltip>
+        </Tooltip> */}
 
-        <Tooltip label='Author: @placeholder'>
+        <Tooltip label='Author: @zap'>
           <Image
             src={illustrations.peace}
+            h='50vh'
+            w='auto'
+            objectFit='contain'
             alt='featured art'
-            w={{ base: '300px' }}
           />
         </Tooltip>
 
-        <Tooltip label='Author: @CybertoothKat'>
+        {/* <Tooltip label='Author: @CybertoothKat'>
           <Image
             src={illustrations.cyberfox}
             alt='featured art'
             w={{ base: '300px' }}
           />
-        </Tooltip>
+        </Tooltip> */}
       </SimpleGrid>
     </Flex>
   );

@@ -51,7 +51,7 @@ const Submit = () => {
       justifyContent='space-between'
     >
       <Meta />
-      <Header windowWidth={windowWidth} navLinks={false} />
+      <Header windowWidth={windowWidth} />
       <Flex
         direction='column'
         justifyContent='space-between'

@@ -46,16 +46,17 @@ export const Header = ({ windowWidth }) => {
       py={{ base: '1rem', lg: '2rem' }}
       w='100%'
     >
-      <Flex
-        direction='row'
-        alignItems='center'
-        justifyContent='center'
-        cursor='pointer'
-        onClick={() => (window.location.href = '/')}
-      >
-        <Image src={logos.poignartMono} alt='logo' mr='5px' />
-        {windowWidth > 600 && <Image src={logos.poignartFull} alt='logo' />}
-      </Flex>
+      <Link href='/' passHref>
+        <Flex
+          direction='row'
+          alignItems='center'
+          justifyContent='center'
+          cursor='pointer'
+        >
+          <Image src={logos.poignartMono} alt='logo' mr='5px' />
+          {windowWidth > 600 && <Image src={logos.poignartFull} alt='logo' />}
+        </Flex>
+      </Link>
 
       <Flex
         direction='row'
@@ -82,6 +83,36 @@ export const Header = ({ windowWidth }) => {
               </Link>
             );
           })}
+
+        {windowWidth > 600 && window.location.pathname === '/submit' && (
+          <Link href='/explore' passHref>
+            <Text
+              fontFamily={theme.fonts.spaceGrotesk}
+              color={theme.colors.brand.black}
+              fontWeight='bold'
+              mr='4rem'
+              cursor='pointer'
+              _hover={{ textDecoration: 'underline' }}
+            >
+              Explore
+            </Text>
+          </Link>
+        )}
+
+        {windowWidth > 600 && window.location.pathname === '/explore' && (
+          <Link href='/submit' passHref>
+            <Text
+              fontFamily={theme.fonts.spaceGrotesk}
+              color={theme.colors.brand.black}
+              fontWeight='bold'
+              mr='4rem'
+              cursor='pointer'
+              _hover={{ textDecoration: 'underline' }}
+            >
+              Submit
+            </Text>
+          </Link>
+        )}
 
         {!context.signature ? (
           <StyledConnectButton
