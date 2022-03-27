@@ -27,15 +27,10 @@ const StyledButton = styled(Button)`
   text-transform: uppercase;
   border: 2px solid ${theme.colors.brand.black};
   border-radius: 3px;
-  color: ${theme.colors.brand.black};
-  background: white;
   box-decoration-break: clone;
   padding-left: 24px;
   padding-right: 24px;
   margin-top: 1rem;
-  &:hover {
-    opacity: 0.6;
-  }
 `;
 
 const StyledHeading = styled(Heading)`
@@ -81,7 +76,7 @@ export const Voucher = ({
 }) => {
   return (
     <SimpleGrid
-      w='100%'
+      maxW='60rem'
       columns={{ base: 1, md: 1, lg: 2 }}
       gridGap={10}
       px={{ base: '1rem', lg: '4rem' }}
@@ -165,6 +160,8 @@ export const Voucher = ({
           {onlyMintable && !isRedeemed && (
             <StyledButton
               w='100%'
+              color={theme.colors.brand.white}
+              bg={theme.colors.brand.black}
               isLoading={loading}
               loadingText={loadingText}
               onClick={() => {
