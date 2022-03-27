@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState, useEffect, useContext, useRef } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import {
   Flex,
   Text,
@@ -13,8 +13,9 @@ import { BigNumber } from 'ethers';
 
 import useWarnings from '../../hooks/useWarnings';
 import RadioBox from '../../shared/RadioBox';
-import { VoucherModal } from './VoucherModal';
+
 import { InfiniteGrid } from './InfiniteGrid';
+import { Voucher } from './Voucher';
 
 import { AppContext } from '../../context/AppContext';
 
@@ -52,7 +53,6 @@ export const AllVouchers = () => {
   const [hasMoreRedeemable, setHasMoreRedeemable] = useState(true);
   const [redeemableCurrent, setRedeemableCurrent] = useState([]);
 
-  const cancelRef = useRef();
   const [contentType, setContentType] = useState('All');
   const [fetched, setFetched] = useState(false);
   const [onlyMintable, setOnlyMintable] = useState(true);
@@ -65,14 +65,6 @@ export const AllVouchers = () => {
 
   const [mintedVouchers, setMintedVouchers] = useState([]);
   const [redeemableVouchers, setRedeemableVouchers] = useState([]);
-
-  const onClose = async () => {
-    setDialogStatus(false);
-    if (isRedeemed) {
-      setContentType('All');
-      await handleFetch();
-    }
-  };
 
   const storeData = async (voucher) => {
     try {
@@ -251,127 +243,127 @@ export const AllVouchers = () => {
       direction='column'
       alignItems='center'
       px={{ base: '1rem', lg: '4rem' }}
-      minH='70vh'
       mb='1rem'
     >
-      {/* If wallet is not connected */}
-      {!context.signature && (
-        <Flex direction='column' alignItems='center' my='auto'>
-          <ChakraImage
-            src={illustrations.connectWallet}
-            alt='not found'
-            w='200px'
-            mb='2rem'
-          />
-          <StyledTag fontSize={{ base: '1rem', lg: '18px' }}>
-            Connect wallet to view vouchers.
-          </StyledTag>
-        </Flex>
-      )}
-
-      {/* Wallet connect & is fetching vouchers */}
-      {!fetched && context.signature && (
-        <Flex direction='column' alignItems='center' my='auto'>
-          <ChakraImage src='assets/loader.gif' alt='loading' w='200px' />
-          <StyledTag fontSize={{ base: '1rem', lg: '18px' }}>
-            Fetching vouchers...
-          </StyledTag>
-        </Flex>
-      )}
-
-      {/* Vouchers fetched */}
-      {fetched && (
-        <Flex direction='column' w='100%' alignItems='center'>
-          <Flex
-            w='100%'
-            direction={{ base: 'column', lg: 'row' }}
-            alignItems={{ base: 'flex-start', lg: 'center' }}
-            justifyContent='space-between'
-            mb='2rem'
-          >
-            <FormControl
-              display='flex'
-              direction='row'
-              fontFamily={theme.fonts.spaceMono}
-              color={theme.colors.brand.darkCharcoal}
-            >
-              <FormLabel fontWeight='bold'>Show mintable only</FormLabel>
-              <Switch
-                defaultChecked={onlyMintable}
-                onChange={() => setOnlyMintable((prevState) => !prevState)}
+      {!dialogStatus && (
+        <>
+          {/* If wallet is not connected */}
+          {!context.signature && (
+            <Flex direction='column' alignItems='center' my='auto'>
+              <ChakraImage
+                src={illustrations.connectWallet}
+                alt='not found'
+                w='200px'
+                mb='2rem'
               />
-            </FormControl>
-            <RadioBox
-              stack='horizontal'
-              options={['All', 'Image', 'Video', 'Audio']}
-              updateRadio={setContentType}
-              name='content_type'
-              defaultValue={contentType}
-              value={contentType}
-            />
-          </Flex>
-
-          {onlyMintable && redeemableVouchers.length != 0 && (
-            <InfiniteGrid
-              onlyMintable={onlyMintable}
-              currentVouchers={redeemableCurrent}
-              fullVouchersLength={redeemableVouchers.length}
-              getMoreData={getMoreData}
-              hasMoreVouchers={hasMoreRedeemable}
-              setDialogData={setDialogData}
-              setDialogStatus={setDialogStatus}
-            />
+              <StyledTag fontSize={{ base: '1rem', lg: '18px' }}>
+                Connect wallet to view vouchers.
+              </StyledTag>
+            </Flex>
           )}
 
-          {!onlyMintable && mintedVouchers.length != 0 && (
-            <InfiniteGrid
-              onlyMintable={onlyMintable}
-              currentVouchers={mintedCurrent}
-              getMoreData={getMoreData}
-              hasMoreVouchers={hasMoreMinted}
-              fullVouchersLength={mintedVouchers.length}
-              setDialogData={setDialogData}
-              setDialogStatus={setDialogStatus}
-            />
+          {/* Wallet connect & is fetching vouchers */}
+          {!fetched && context.signature && (
+            <Flex direction='column' alignItems='center' my='auto'>
+              <ChakraImage src='assets/loader.gif' alt='loading' w='200px' />
+              <StyledTag fontSize={{ base: '1rem', lg: '18px' }}>
+                Fetching vouchers...
+              </StyledTag>
+            </Flex>
           )}
-        </Flex>
-      )}
 
-      {/* fetched && no mintable vouchers && mintable filter */}
-      {fetched && !mintedVouchers.length && !onlyMintable && (
-        <Flex direction='column' alignItems='center' my='auto'>
-          <ChakraImage
-            src={illustrations.notFound}
-            alt='not found'
-            w='200px'
-            mb='1rem'
-          />
-          <StyledTag fontSize={{ base: '1rem', lg: '18px' }}>
-            No vouchers minted.
-          </StyledTag>
-        </Flex>
-      )}
+          {/* Vouchers fetched */}
+          {fetched && (
+            <Flex direction='column' w='100%' alignItems='center'>
+              <Flex
+                w='100%'
+                direction={{ base: 'column', lg: 'row' }}
+                alignItems={{ base: 'flex-start', lg: 'center' }}
+                justifyContent='space-between'
+                mb='2rem'
+              >
+                <FormControl
+                  display='flex'
+                  direction='row'
+                  fontFamily={theme.fonts.spaceMono}
+                  color={theme.colors.brand.darkCharcoal}
+                >
+                  <FormLabel fontWeight='bold'>Show mintable only</FormLabel>
+                  <Switch
+                    defaultChecked={onlyMintable}
+                    onChange={() => setOnlyMintable((prevState) => !prevState)}
+                  />
+                </FormControl>
+                <RadioBox
+                  stack='horizontal'
+                  options={['All', 'Image', 'Video', 'Audio']}
+                  updateRadio={setContentType}
+                  name='content_type'
+                  defaultValue={contentType}
+                  value={contentType}
+                />
+              </Flex>
 
-      {/* fetched && no vouchers minted && not mintable filter */}
-      {fetched && !redeemableVouchers.length && onlyMintable && (
-        <Flex direction='column' alignItems='center' my='auto'>
-          <ChakraImage
-            src={illustrations.notFound}
-            alt='not found'
-            w='200px'
-            mb='2rem'
-          />
-          <StyledTag fontSize={{ base: '1rem', lg: '18px' }}>
-            No mintable vouchers available.
-          </StyledTag>
-        </Flex>
+              {onlyMintable && redeemableVouchers.length != 0 && (
+                <InfiniteGrid
+                  onlyMintable={onlyMintable}
+                  currentVouchers={redeemableCurrent}
+                  fullVouchersLength={redeemableVouchers.length}
+                  getMoreData={getMoreData}
+                  hasMoreVouchers={hasMoreRedeemable}
+                  setDialogData={setDialogData}
+                  setDialogStatus={setDialogStatus}
+                />
+              )}
+
+              {!onlyMintable && mintedVouchers.length != 0 && (
+                <InfiniteGrid
+                  onlyMintable={onlyMintable}
+                  currentVouchers={mintedCurrent}
+                  getMoreData={getMoreData}
+                  hasMoreVouchers={hasMoreMinted}
+                  fullVouchersLength={mintedVouchers.length}
+                  setDialogData={setDialogData}
+                  setDialogStatus={setDialogStatus}
+                />
+              )}
+            </Flex>
+          )}
+
+          {/* fetched && no mintable vouchers && mintable filter */}
+          {fetched && !mintedVouchers.length && !onlyMintable && (
+            <Flex direction='column' alignItems='center' my='auto'>
+              <ChakraImage
+                src={illustrations.notFound}
+                alt='not found'
+                w='200px'
+                mb='1rem'
+              />
+              <StyledTag fontSize={{ base: '1rem', lg: '18px' }}>
+                No vouchers minted.
+              </StyledTag>
+            </Flex>
+          )}
+
+          {/* fetched && no vouchers minted && not mintable filter */}
+          {fetched && !redeemableVouchers.length && onlyMintable && (
+            <Flex direction='column' alignItems='center' my='auto'>
+              <ChakraImage
+                src={illustrations.notFound}
+                alt='not found'
+                w='200px'
+                mb='2rem'
+              />
+              <StyledTag fontSize={{ base: '1rem', lg: '18px' }}>
+                No mintable vouchers available.
+              </StyledTag>
+            </Flex>
+          )}
+        </>
       )}
 
       {dialogStatus && (
-        <VoucherModal
-          dialogStatus={dialogStatus}
-          cancelRef={cancelRef}
-          onClose={onClose}
+        <Voucher
           voucher={dialogData}
           onlyMintable={onlyMintable}
           isRedeemed={isRedeemed}
@@ -380,7 +372,6 @@ export const AllVouchers = () => {
           handleFetch={handleFetch}
           handleRedeem={handleRedeem}
           setDialogStatus={setDialogStatus}
-          signature={context.signature}
         />
       )}
     </Flex>
