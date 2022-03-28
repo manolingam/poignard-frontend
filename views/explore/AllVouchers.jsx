@@ -20,7 +20,7 @@ import { Voucher } from './Voucher';
 import { AppContext } from '../../context/AppContext';
 
 import { theme } from '../../themes/theme';
-import { CHAIN_ID, CHAIN_NAME, IMAGES_PER_RENDER } from '../../config';
+import { CHAIN_ID, CHAIN_NAME, VOUCHERS_PER_PAGE } from '../../config';
 import { fetchVouchers, redeemVoucher } from '../../utils/requests';
 import { redeem, getTokenURI } from '../../utils/web3';
 import { illustrations } from '../../utils/constants';
@@ -39,19 +39,10 @@ export const AllVouchers = () => {
   const context = useContext(AppContext);
   const { triggerToast } = useWarnings();
 
-  const [mintedCount, setMintedCount] = useState({
-    prev: 0,
-    next: IMAGES_PER_RENDER
-  });
-  const [hasMoreMinted, setHasMoreMinted] = useState(true);
-  const [mintedCurrent, setMintedCurrent] = useState([]);
-
-  const [redeemableCount, setRedeemableCount] = useState({
-    prev: 0,
-    next: IMAGES_PER_RENDER
-  });
-  const [hasMoreRedeemable, setHasMoreRedeemable] = useState(true);
-  const [redeemableCurrent, setRedeemableCurrent] = useState([]);
+  const [mintedVouchers, setMintedVouchers] = useState([]);
+  const [redeemableVouchers, setRedeemableVouchers] = useState([]);
+  const [totalMintedPages, setTotalMintedPages] = useState(0);
+  const [totalRedeemablePages, setTotalRedeemablePages] = useState(0);
 
   const [contentType, setContentType] = useState('All');
   const [fetched, setFetched] = useState(false);
@@ -63,9 +54,6 @@ export const AllVouchers = () => {
   const [loadingText, setLoadingText] = useState('');
   const [isRedeemed, setIsRedeemed] = useState(false);
 
-  const [mintedVouchers, setMintedVouchers] = useState([]);
-  const [redeemableVouchers, setRedeemableVouchers] = useState([]);
-
   const storeData = async (voucher) => {
     try {
       setLoadingText('Storing offchain data..');
@@ -75,7 +63,6 @@ export const AllVouchers = () => {
         },
         context.signature
       );
-
       setIsRedeemed(true);
     } catch (err) {
       console.log(err);
@@ -88,23 +75,19 @@ export const AllVouchers = () => {
       setLoading(true);
       setLoadingText('Checking token..');
       let uri;
-
       try {
         uri = await getTokenURI(voucher.tokenID, context.ethersProvider);
       } catch (err) {
         console.log(err.message);
       }
-
       if (uri) {
         triggerToast('Token already minted. Updating records!');
         await storeData(voucher);
         setLoading(false);
         return;
       }
-
       setLoadingText('Awaiting transaction..');
       let tx;
-
       try {
         tx = await redeem(
           context.ethersProvider,
@@ -135,68 +118,15 @@ export const AllVouchers = () => {
     }
   };
 
-  const getMoreData = () => {
-    if (!onlyMintable && mintedVouchers.length) {
-      if (mintedCurrent.length === mintedVouchers.length) {
-        setHasMoreMinted(false);
-        return;
-      } else {
-        setMintedCurrent(
-          mintedCurrent.concat(
-            mintedVouchers.slice(
-              mintedCount.prev + IMAGES_PER_RENDER,
-              mintedCount.next + IMAGES_PER_RENDER
-            )
-          )
-        );
-        setMintedCount((prevState) => ({
-          prev: prevState.prev + IMAGES_PER_RENDER,
-          next: prevState.next + IMAGES_PER_RENDER
-        }));
-        return;
-      }
-    } else if (onlyMintable && redeemableVouchers.length) {
-      if (redeemableCurrent.length === redeemableVouchers.length) {
-        setHasMoreRedeemable(false);
-        return;
-      } else {
-        setRedeemableCurrent(
-          redeemableCurrent.concat(
-            redeemableVouchers.slice(
-              redeemableCount.prev + IMAGES_PER_RENDER,
-              redeemableCount.next + IMAGES_PER_RENDER
-            )
-          )
-        );
-
-        setRedeemableCount((prevState) => ({
-          prev: prevState.prev + IMAGES_PER_RENDER,
-          next: prevState.next + IMAGES_PER_RENDER
-        }));
-        return;
-      }
-    }
-  };
-
   const resetState = () => {
     setIsRedeemed(false);
     setFetched(false);
     setMintedVouchers([]);
     setRedeemableVouchers([]);
-
-    setMintedCount({
-      prev: 0,
-      next: IMAGES_PER_RENDER
-    });
-    setRedeemableCount({
-      prev: 0,
-      next: IMAGES_PER_RENDER
-    });
   };
 
   const handleFetch = async () => {
     resetState();
-
     const mintedVouchers = await fetchVouchers(
       context.signature,
       true,
@@ -204,13 +134,11 @@ export const AllVouchers = () => {
     );
     if (mintedVouchers.data.data.vouchers.length > 0) {
       setMintedVouchers(mintedVouchers.data.data.vouchers);
-      setMintedCurrent(
-        mintedVouchers.data.data.vouchers.slice(
-          mintedCount.prev,
-          mintedCount.next
-        )
+      setTotalMintedPages(
+        Math.ceil(mintedVouchers.data.data.vouchers.length / VOUCHERS_PER_PAGE)
       );
     }
+
     const unmintedVouchers = await fetchVouchers(
       context.signature,
       false,
@@ -218,19 +146,14 @@ export const AllVouchers = () => {
     );
     if (unmintedVouchers.data.data.vouchers.length > 0) {
       setRedeemableVouchers(unmintedVouchers.data.data.vouchers);
-      setRedeemableCurrent(
-        unmintedVouchers.data.data.vouchers.slice(
-          redeemableCount.prev,
-          redeemableCount.next
+      setTotalRedeemablePages(
+        Math.ceil(
+          unmintedVouchers.data.data.vouchers.length / VOUCHERS_PER_PAGE
         )
       );
     }
     setFetched(true);
   };
-
-  useEffect(() => {
-    getMoreData();
-  }, [onlyMintable]);
 
   useEffect(() => {
     if (context.signature) {
@@ -306,11 +229,9 @@ export const AllVouchers = () => {
 
               {onlyMintable && redeemableVouchers.length != 0 && (
                 <InfiniteGrid
+                  allVouchers={redeemableVouchers}
                   onlyMintable={onlyMintable}
-                  currentVouchers={redeemableCurrent}
-                  fullVouchersLength={redeemableVouchers.length}
-                  getMoreData={getMoreData}
-                  hasMoreVouchers={hasMoreRedeemable}
+                  totalPages={totalRedeemablePages}
                   setDialogData={setDialogData}
                   setDialogStatus={setDialogStatus}
                 />
@@ -318,11 +239,9 @@ export const AllVouchers = () => {
 
               {!onlyMintable && mintedVouchers.length != 0 && (
                 <InfiniteGrid
+                  allVouchers={mintedVouchers}
                   onlyMintable={onlyMintable}
-                  currentVouchers={mintedCurrent}
-                  getMoreData={getMoreData}
-                  hasMoreVouchers={hasMoreMinted}
-                  fullVouchersLength={mintedVouchers.length}
+                  totalPages={totalMintedPages}
                   setDialogData={setDialogData}
                   setDialogStatus={setDialogStatus}
                 />
