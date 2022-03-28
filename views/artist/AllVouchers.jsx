@@ -12,7 +12,7 @@ import { ArtistInfo } from './ArtistInfo';
 import { Voucher } from './Voucher';
 
 import { theme } from '../../themes/theme';
-import { CHAIN_ID, CHAIN_NAME, IMAGES_PER_RENDER } from '../../config';
+import { CHAIN_ID, CHAIN_NAME, VOUCHERS_PER_PAGE } from '../../config';
 import { fetchArtist, redeemVoucher } from '../../utils/requests';
 import { redeem, getTokenURI } from '../../utils/web3';
 import { illustrations } from '../../utils/constants';
@@ -31,13 +31,6 @@ export const AllVouchers = ({ artistAddress }) => {
   const context = useContext(AppContext);
   const { triggerToast } = useWarnings();
 
-  const [count, setCount] = useState({
-    prev: 0,
-    next: IMAGES_PER_RENDER
-  });
-  const [hasMore, setHasMore] = useState(true);
-  const [current, setCurrent] = useState([]);
-
   const [fetched, setFetched] = useState(false);
   const [dialogStatus, setDialogStatus] = useState(false);
   const [dialogData, setDialogData] = useState('');
@@ -48,6 +41,7 @@ export const AllVouchers = ({ artistAddress }) => {
 
   const [artist, setArtist] = useState(null);
   const [createdVouchers, setCreatedVouchers] = useState([]);
+  const [totalCreatedVouchersPages, setTotalCreatedVouchersPages] = useState(0);
 
   const storeData = async (voucher) => {
     try {
@@ -119,40 +113,11 @@ export const AllVouchers = ({ artistAddress }) => {
     }
   };
 
-  const getMoreData = () => {
-    if (createdVouchers.length) {
-      if (current.length === createdVouchers.length) {
-        setHasMore(false);
-        return;
-      } else {
-        setCurrent(
-          current.concat(
-            createdVouchers.slice(
-              count.prev + IMAGES_PER_RENDER,
-              count.next + IMAGES_PER_RENDER
-            )
-          )
-        );
-        setCount((prevState) => ({
-          prev: prevState.prev + IMAGES_PER_RENDER,
-          next: prevState.next + IMAGES_PER_RENDER
-        }));
-        return;
-      }
-    }
-  };
-
   const resetState = () => {
     setIsRedeemed(false);
     setFetched(false);
     setCreatedVouchers([]);
     setArtist(null);
-    setCurrent([]);
-
-    setCount({
-      prev: 0,
-      next: IMAGES_PER_RENDER
-    });
   };
 
   const handleFetch = async () => {
@@ -175,8 +140,8 @@ export const AllVouchers = ({ artistAddress }) => {
     if (data.data.artist.createdVouchers.length > 0) {
       setArtist(data.data.artist);
       setCreatedVouchers(data.data.artist.createdVouchers);
-      setCurrent(
-        data.data.artist.createdVouchers.slice(count.prev, count.next)
+      setTotalCreatedVouchersPages(
+        Math.ceil(data.data.artist.createdVouchers.length / VOUCHERS_PER_PAGE)
       );
       setFetched(true);
       return;
@@ -240,10 +205,8 @@ export const AllVouchers = ({ artistAddress }) => {
             <Flex direction='column' w='100%' alignItems='center'>
               {createdVouchers.length > 0 && (
                 <InfiniteGrid
-                  currentVouchers={current}
-                  fullVouchersLength={createdVouchers.length}
-                  getMoreData={getMoreData}
-                  hasMoreVouchers={hasMore}
+                  allVouchers={createdVouchers}
+                  totalPages={totalCreatedVouchersPages}
                   setDialogData={setDialogData}
                   setDialogStatus={setDialogStatus}
                 />

@@ -1,22 +1,13 @@
-import InfiniteScroll from 'react-infinite-scroll-component';
-import { SimpleGrid, Box, Text } from '@chakra-ui/react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useState, useEffect } from 'react';
+import { SimpleGrid, Box, Text, Flex, Button } from '@chakra-ui/react';
 import { utils } from 'ethers';
 import Image from 'next/image';
 import styled from '@emotion/styled';
 
 import { theme } from '../../themes/theme';
 import { uriToHttp } from '../../utils/helpers';
-import { POIGNART_BUCKET_BASE_URL } from '../../config';
-
-const StyledTag = styled(Text)`
-  max-width: 75%;
-  font-family: ${theme.fonts.spaceMono};
-  color: ${theme.colors.brand.darkCharcoal};
-  text-align: center;
-  text-transform: uppercase;
-  font-weight: bold;
-  margin: auto;
-`;
+import { POIGNART_BUCKET_BASE_URL, VOUCHERS_PER_PAGE } from '../../config';
 
 const StyledTokenId = styled(Text)`
   position: absolute;
@@ -27,31 +18,45 @@ const StyledTokenId = styled(Text)`
   font-family: ${theme.fonts.spaceMono};
 `;
 
+const StyledButton = styled(Button)`
+  height: 50px;
+  font-family: ${theme.fonts.spaceGrotesk};
+  text-transform: uppercase;
+  border: 2px solid ${theme.colors.brand.black};
+  border-radius: 3px;
+  box-decoration-break: clone;
+  padding-left: 24px;
+  padding-right: 24px;
+  margin-top: 1rem;
+`;
+
 export const InfiniteGrid = ({
+  allVouchers,
   onlyMintable,
-  currentVouchers,
-  getMoreData,
-  hasMoreVouchers,
-  fullVouchersLength,
+  totalPages,
   setDialogData,
   setDialogStatus
 }) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [currentVouchers, setCurrentVouchers] = useState([]);
+
+  const paginate = () => {
+    const indexOfLastVoucher = currentPage * VOUCHERS_PER_PAGE;
+    const indexOfFirstVoucher = indexOfLastVoucher - VOUCHERS_PER_PAGE;
+    const currentVouchers = allVouchers.slice(
+      indexOfFirstVoucher,
+      indexOfLastVoucher
+    );
+
+    setCurrentVouchers(currentVouchers);
+  };
+
+  useEffect(() => {
+    paginate();
+  }, [currentPage]);
+
   return (
-    <InfiniteScroll
-      dataLength={fullVouchersLength}
-      next={getMoreData}
-      hasMore={hasMoreVouchers}
-      loader={
-        <StyledTag fontSize={{ base: '1rem', lg: '18px' }}>
-          Scroll for more..
-        </StyledTag>
-      }
-      endMessage={
-        <StyledTag fontSize={{ base: '1rem', lg: '18px' }}>
-          End of list :))
-        </StyledTag>
-      }
-    >
+    <Flex direction='column' alignItems='center'>
       <SimpleGrid
         columns={{ lg: 3, md: 2, base: 1 }}
         gridGap={{ base: 5, lg: 10 }}
@@ -121,6 +126,21 @@ export const InfiniteGrid = ({
           );
         })}
       </SimpleGrid>
-    </InfiniteScroll>
+      <Flex direction='row'>
+        <StyledButton
+          mr='1rem'
+          disabled={currentPage - 1 == 0}
+          onClick={() => setCurrentPage((currentPage) => currentPage - 1)}
+        >
+          Prev
+        </StyledButton>
+        <StyledButton
+          disabled={currentPage + 1 > totalPages}
+          onClick={() => setCurrentPage((currentPage) => currentPage + 1)}
+        >
+          Next
+        </StyledButton>
+      </Flex>
+    </Flex>
   );
 };
