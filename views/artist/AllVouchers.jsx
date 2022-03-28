@@ -1,21 +1,21 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState, useEffect, useContext, useRef } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Flex, Text, Image as ChakraImage } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 import { BigNumber, utils } from 'ethers';
 
-import useWarnings from '../../hooks/useWarnings';
-import { VoucherModal } from './VoucherModal';
-import { InfiniteGrid } from './InfiniteGrid';
-
 import { AppContext } from '../../context/AppContext';
+import useWarnings from '../../hooks/useWarnings';
+
+import { InfiniteGrid } from './InfiniteGrid';
+import { ArtistInfo } from './ArtistInfo';
+import { Voucher } from './Voucher';
 
 import { theme } from '../../themes/theme';
 import { CHAIN_ID, CHAIN_NAME, IMAGES_PER_RENDER } from '../../config';
 import { fetchArtist, redeemVoucher } from '../../utils/requests';
 import { redeem, getTokenURI } from '../../utils/web3';
 import { illustrations } from '../../utils/constants';
-import { ArtistInfo } from './ArtistInfo';
 
 const StyledTag = styled(Text)`
   max-width: 75%;
@@ -38,7 +38,6 @@ export const AllVouchers = ({ artistAddress }) => {
   const [hasMore, setHasMore] = useState(true);
   const [current, setCurrent] = useState([]);
 
-  const cancelRef = useRef();
   const [fetched, setFetched] = useState(false);
   const [dialogStatus, setDialogStatus] = useState(false);
   const [dialogData, setDialogData] = useState('');
@@ -49,13 +48,6 @@ export const AllVouchers = ({ artistAddress }) => {
 
   const [artist, setArtist] = useState(null);
   const [createdVouchers, setCreatedVouchers] = useState([]);
-
-  const onClose = async () => {
-    setDialogStatus(false);
-    if (isRedeemed) {
-      await handleFetch();
-    }
-  };
 
   const storeData = async (voucher) => {
     try {
@@ -106,7 +98,7 @@ export const AllVouchers = ({ artistAddress }) => {
             uri: voucher.tokenURI
           },
           voucher.signature,
-          voucher.createdBy.merkleProof
+          artist.merkleProof
         );
         setLoadingText('Transaction in progress..');
         if (tx) {
@@ -118,6 +110,7 @@ export const AllVouchers = ({ artistAddress }) => {
           }
         }
       } catch (err) {
+        console.log(err);
         triggerToast('Transaction failed.');
       }
       setLoading(false);
@@ -205,92 +198,92 @@ export const AllVouchers = ({ artistAddress }) => {
       direction='column'
       alignItems='center'
       px={{ base: '1rem', lg: '4rem' }}
-      minH='70vh'
       mb='1rem'
     >
-      {fetched && artist && (
-        <ArtistInfo
-          artist={artist}
-          signer={context.signerAddress}
-          signature={context.signature}
-        />
-      )}
-
-      {/* If wallet is not connected */}
-      {!context.signature && (
-        <Flex direction='column' alignItems='center' my='auto'>
-          <ChakraImage
-            src={illustrations.connectWallet}
-            alt='not found'
-            w='200px'
-            mb='2rem'
-          />
-          <StyledTag fontSize={{ base: '1rem', lg: '18px' }}>
-            Connect wallet to view vouchers.
-          </StyledTag>
-        </Flex>
-      )}
-
-      {/* Wallet connect & is fetching vouchers */}
-      {!fetched && context.signature && (
-        <Flex direction='column' alignItems='center' my='auto'>
-          <ChakraImage src='/assets/loader.gif' alt='loading' w='200px' />
-          <StyledTag fontSize={{ base: '1rem', lg: '18px' }}>
-            Fetching vouchers...
-          </StyledTag>
-        </Flex>
-      )}
-
-      {/* Vouchers fetched */}
-      {fetched && artist && (
-        <Flex direction='column' w='100%' alignItems='center'>
-          {createdVouchers.length > 0 && (
-            <InfiniteGrid
-              currentVouchers={current}
-              fullVouchersLength={createdVouchers.length}
-              getMoreData={getMoreData}
-              hasMoreVouchers={hasMore}
-              setDialogData={setDialogData}
-              setDialogStatus={setDialogStatus}
+      {!dialogStatus && (
+        <>
+          {fetched && artist && (
+            <ArtistInfo
+              artist={artist}
+              signer={context.signerAddress}
+              signature={context.signature}
             />
           )}
-        </Flex>
-      )}
 
-      {fetched && !artist && (
-        <Flex direction='column' alignItems='center' my='auto'>
-          <ChakraImage
-            src={illustrations.notFound}
-            alt='not found'
-            w='200px'
-            mb='1rem'
-          />
-          <StyledTag fontSize={{ base: '1rem', lg: '18px' }}>
-            Artist not found!
-          </StyledTag>
-        </Flex>
-      )}
+          {/* If wallet is not connected */}
+          {!context.signature && (
+            <Flex direction='column' alignItems='center' my='auto'>
+              <ChakraImage
+                src={illustrations.connectWallet}
+                alt='not found'
+                w='200px'
+                mb='2rem'
+              />
+              <StyledTag fontSize={{ base: '1rem', lg: '18px' }}>
+                Connect wallet to view vouchers.
+              </StyledTag>
+            </Flex>
+          )}
 
-      {/* fetched && no mintable vouchers && mintable filter */}
-      {artist && !createdVouchers.length && (
-        <Flex direction='column' alignItems='center' my='auto'>
-          <ChakraImage
-            src={illustrations.notFound}
-            alt='not found'
-            w='200px'
-            mb='1rem'
-          />
-          <StyledTag fontSize={{ base: '1rem', lg: '18px' }}>
-            No vouchers created.
-          </StyledTag>
-        </Flex>
+          {/* Wallet connect & is fetching vouchers */}
+          {!fetched && context.signature && (
+            <Flex direction='column' alignItems='center' my='auto'>
+              <ChakraImage src='/assets/loader.gif' alt='loading' w='200px' />
+              <StyledTag fontSize={{ base: '1rem', lg: '18px' }}>
+                Fetching vouchers...
+              </StyledTag>
+            </Flex>
+          )}
+
+          {/* Vouchers fetched */}
+          {fetched && artist && (
+            <Flex direction='column' w='100%' alignItems='center'>
+              {createdVouchers.length > 0 && (
+                <InfiniteGrid
+                  currentVouchers={current}
+                  fullVouchersLength={createdVouchers.length}
+                  getMoreData={getMoreData}
+                  hasMoreVouchers={hasMore}
+                  setDialogData={setDialogData}
+                  setDialogStatus={setDialogStatus}
+                />
+              )}
+            </Flex>
+          )}
+
+          {fetched && !artist && (
+            <Flex direction='column' alignItems='center' my='auto'>
+              <ChakraImage
+                src={illustrations.notFound}
+                alt='not found'
+                w='200px'
+                mb='1rem'
+              />
+              <StyledTag fontSize={{ base: '1rem', lg: '18px' }}>
+                Artist not found!
+              </StyledTag>
+            </Flex>
+          )}
+
+          {/* fetched && no mintable vouchers && mintable filter */}
+          {artist && !createdVouchers.length && (
+            <Flex direction='column' alignItems='center' my='auto'>
+              <ChakraImage
+                src={illustrations.notFound}
+                alt='not found'
+                w='200px'
+                mb='1rem'
+              />
+              <StyledTag fontSize={{ base: '1rem', lg: '18px' }}>
+                No vouchers created.
+              </StyledTag>
+            </Flex>
+          )}
+        </>
       )}
 
       {dialogStatus && (
-        <VoucherModal
-          dialogStatus={dialogStatus}
-          cancelRef={cancelRef}
-          onClose={onClose}
+        <Voucher
           voucher={dialogData}
           isRedeemed={isRedeemed}
           loading={loading}
@@ -298,7 +291,6 @@ export const AllVouchers = ({ artistAddress }) => {
           handleFetch={handleFetch}
           handleRedeem={handleRedeem}
           setDialogStatus={setDialogStatus}
-          signature={context.signature}
         />
       )}
     </Flex>
