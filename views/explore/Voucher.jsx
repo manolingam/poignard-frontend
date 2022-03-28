@@ -72,7 +72,8 @@ export const Voucher = ({
   loadingText,
   handleFetch,
   handleRedeem,
-  setDialogStatus
+  setDialogStatus,
+  setContentType
 }) => {
   return (
     <SimpleGrid
@@ -140,7 +141,13 @@ export const Voucher = ({
             width='30%'
             mr='1rem'
             disabled={loading}
-            onClick={() => setDialogStatus(false)}
+            onClick={async () => {
+              setDialogStatus(false);
+              if (isRedeemed) {
+                setContentType('All');
+                await handleFetch();
+              }
+            }}
           >
             Back
           </StyledButton>

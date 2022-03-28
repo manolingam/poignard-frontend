@@ -7,8 +7,6 @@ import {
   SimpleGrid
 } from '@chakra-ui/react';
 
-import Link from 'next/link';
-
 import styled from '@emotion/styled';
 import { utils } from 'ethers';
 
@@ -128,7 +126,12 @@ export const Voucher = ({
             width='30%'
             mr='1rem'
             disabled={loading}
-            onClick={() => setDialogStatus(false)}
+            onClick={async () => {
+              setDialogStatus(false);
+              if (isRedeemed) {
+                await handleFetch();
+              }
+            }}
           >
             Back
           </StyledButton>

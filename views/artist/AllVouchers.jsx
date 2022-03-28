@@ -98,7 +98,7 @@ export const AllVouchers = ({ artistAddress }) => {
             uri: voucher.tokenURI
           },
           voucher.signature,
-          voucher.createdBy.merkleProof
+          artist.merkleProof
         );
         setLoadingText('Transaction in progress..');
         if (tx) {
@@ -110,6 +110,7 @@ export const AllVouchers = ({ artistAddress }) => {
           }
         }
       } catch (err) {
+        console.log(err);
         triggerToast('Transaction failed.');
       }
       setLoading(false);

@@ -372,6 +372,7 @@ export const AllVouchers = () => {
           handleFetch={handleFetch}
           handleRedeem={handleRedeem}
           setDialogStatus={setDialogStatus}
+          setContentType={setContentType}
         />
       )}
     </Flex>
