@@ -4,7 +4,8 @@ import {
   Text,
   Image,
   Heading,
-  Button
+  Button,
+  Link as ChakraLink
 } from '@chakra-ui/react';
 import Link from 'next/link';
 import styled from '@emotion/styled';
@@ -59,17 +60,25 @@ export const Intro = () => {
           We are a platform for artists to create NFTs in support of Ukraine:
         </StyledText>
         <StyledText>
-          1. Upload your Ukraine-themed art to be turned into NFTs. <br />
-          2. Set the sales price. <br />
-          3. 100% of proceeds go via{' '}
-          <Link
+          1. Get whitelisted{' '}
+          <ChakraLink
+            textDecoration='underline'
+            href='https://docs.google.com/forms/d/e/1FAIpQLSff5aorK4Yjrfa4ws50byFxHxzQKt1Czv1F5iYE3IPxY7iaQQ/viewform'
+            isExternal
+          >
+            here
+          </ChakraLink>{' '}
+          <br />
+          2. Upload your art. <br />
+          3. Set the sales price. <br />
+          4. 100% of proceeds go to{' '}
+          <ChakraLink
             textDecoration='underline'
             href='https://unchain.fund/'
             isExternal
           >
             Unchain.fund
-          </Link>{' '}
-          to vetted NGOs.
+          </ChakraLink>{' '}
         </StyledText>
         <Flex
           w='100%'
