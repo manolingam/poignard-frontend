@@ -8,6 +8,7 @@ import styled from '@emotion/styled';
 import { theme } from '../../themes/theme';
 import { uriToHttp } from '../../utils/helpers';
 import { POIGNART_BUCKET_BASE_URL, VOUCHERS_PER_PAGE } from '../../config';
+import Link from 'next/link';
 
 const StyledTokenId = styled(Text)`
   position: absolute;
@@ -30,12 +31,7 @@ const StyledButton = styled(Button)`
   margin-top: 1rem;
 `;
 
-export const InfiniteGrid = ({
-  allVouchers,
-  totalPages,
-  setDialogData,
-  setDialogStatus
-}) => {
+export const InfiniteGrid = ({ allVouchers, totalPages }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [currentVouchers, setCurrentVouchers] = useState([]);
 
@@ -63,65 +59,62 @@ export const InfiniteGrid = ({
       >
         {currentVouchers.map((voucher, index) => {
           return (
-            <Box
-              key={index}
-              position='relative'
-              cursor='pointer'
-              _hover={{
-                opacity: 0.7
-              }}
-              onClick={() => {
-                setDialogData(voucher);
-                setDialogStatus(true);
-              }}
-              mb='2rem'
-            >
-              <Image
-                crossOrigin='anonymous'
-                src={`${POIGNART_BUCKET_BASE_URL}/${voucher.metadata.image.replace(
-                  'ipfs://',
-                  ''
-                )}`}
-                loader={() => uriToHttp(voucher.metadata.image)}
-                alt='minted nft'
-                width='300px'
-                height='100%'
-                objectFit='cover'
-              />
-
+            <Link key={index} href={`/voucher/${voucher.tokenID}`} passHref>
               <Box
-                key={index}
-                position='absolute'
-                bottom='0'
-                left='0'
-                bg={theme.colors.brand.yellow}
-                p='7px'
-                h='35px'
-                w='35px'
+                position='relative'
+                cursor='pointer'
+                _hover={{
+                  opacity: 0.7
+                }}
+                mb='2rem'
               >
-                {voucher.contentType === 'audio' && (
-                  <span>
-                    <i className='fa-solid fa-music'></i>
-                  </span>
-                )}
-                {voucher.contentType === 'video' && (
-                  <span>
-                    <i className='fa-solid fa-video'></i>
-                  </span>
-                )}
-                {voucher.contentType === 'image' && (
-                  <span>
-                    <i className='fa-solid fa-image'></i>
-                  </span>
-                )}
-              </Box>
+                <Image
+                  crossOrigin='anonymous'
+                  src={`${POIGNART_BUCKET_BASE_URL}/${voucher.metadata.image.replace(
+                    'ipfs://',
+                    ''
+                  )}`}
+                  loader={() => uriToHttp(voucher.metadata.image)}
+                  alt='minted nft'
+                  width='300px'
+                  height='100%'
+                  objectFit='cover'
+                />
 
-              <StyledTokenId>
-                {!voucher.minted
-                  ? `${utils.formatEther(voucher.minPrice)} ETH`
-                  : 'Sold'}
-              </StyledTokenId>
-            </Box>
+                <Box
+                  key={index}
+                  position='absolute'
+                  bottom='0'
+                  left='0'
+                  bg={theme.colors.brand.yellow}
+                  p='7px'
+                  h='35px'
+                  w='35px'
+                >
+                  {voucher.contentType === 'audio' && (
+                    <span>
+                      <i className='fa-solid fa-music'></i>
+                    </span>
+                  )}
+                  {voucher.contentType === 'video' && (
+                    <span>
+                      <i className='fa-solid fa-video'></i>
+                    </span>
+                  )}
+                  {voucher.contentType === 'image' && (
+                    <span>
+                      <i className='fa-solid fa-image'></i>
+                    </span>
+                  )}
+                </Box>
+
+                <StyledTokenId>
+                  {!voucher.minted
+                    ? `${utils.formatEther(voucher.minPrice)} ETH`
+                    : 'Sold'}
+                </StyledTokenId>
+              </Box>
+            </Link>
           );
         })}
       </SimpleGrid>

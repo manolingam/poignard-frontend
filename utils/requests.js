@@ -34,6 +34,14 @@ export const fetchVouchers = async (signature, minted, contentType) => {
   return result;
 };
 
+export const fetchVoucher = async (signature, tokenId) => {
+  const result = await axios.post('/api/graphql/voucher', {
+    signature,
+    tokenId
+  });
+  return result;
+};
+
 export const fetchArtist = async (signature, ethAddress) => {
   const result = await axios.post('/api/graphql/artist', {
     signature,
