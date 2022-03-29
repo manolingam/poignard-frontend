@@ -2,19 +2,17 @@
 import { useState, useEffect, useContext } from 'react';
 import { Flex, Text, Image as ChakraImage } from '@chakra-ui/react';
 import styled from '@emotion/styled';
-import { BigNumber, utils } from 'ethers';
+import { utils } from 'ethers';
 
 import { AppContext } from '../../context/AppContext';
 import useWarnings from '../../hooks/useWarnings';
 
 import { InfiniteGrid } from './InfiniteGrid';
 import { ArtistInfo } from './ArtistInfo';
-import { Voucher } from './Voucher';
 
 import { theme } from '../../themes/theme';
-import { CHAIN_ID, CHAIN_NAME, VOUCHERS_PER_PAGE } from '../../config';
-import { fetchArtist, redeemVoucher } from '../../utils/requests';
-import { redeem, getTokenURI } from '../../utils/web3';
+import { VOUCHERS_PER_PAGE } from '../../config';
+import { fetchArtist } from '../../utils/requests';
 import { illustrations } from '../../utils/constants';
 
 const StyledTag = styled(Text)`
@@ -31,90 +29,13 @@ export const AllVouchers = ({ artistAddress }) => {
   const context = useContext(AppContext);
   const { triggerToast } = useWarnings();
 
-  const [fetched, setFetched] = useState(false);
-  const [dialogStatus, setDialogStatus] = useState(false);
-  const [dialogData, setDialogData] = useState('');
-
-  const [loading, setLoading] = useState(false);
-  const [loadingText, setLoadingText] = useState('');
-  const [isRedeemed, setIsRedeemed] = useState(false);
-
   const [artist, setArtist] = useState(null);
   const [createdVouchers, setCreatedVouchers] = useState([]);
   const [totalCreatedVouchersPages, setTotalCreatedVouchersPages] = useState(0);
 
-  const storeData = async (voucher) => {
-    try {
-      setLoadingText('Storing offchain data..');
-      const { data } = await redeemVoucher(
-        {
-          tokenID: voucher.tokenID
-        },
-        context.signature
-      );
-
-      setIsRedeemed(true);
-    } catch (err) {
-      console.log(err);
-      triggerToast('Failed to store data offchain.');
-    }
-  };
-
-  const handleRedeem = async (voucher) => {
-    if (Number(context.chainId) == CHAIN_ID) {
-      setLoading(true);
-      setLoadingText('Checking token..');
-
-      let uri;
-      try {
-        uri = await getTokenURI(voucher.tokenID, context.ethersProvider);
-      } catch (err) {
-        console.log(err.message);
-      }
-
-      if (uri) {
-        triggerToast('Token already minted. Updating records!');
-        await storeData(voucher);
-        setLoading(false);
-        return;
-      }
-
-      setLoadingText('Awaiting transaction..');
-      let tx;
-
-      try {
-        tx = await redeem(
-          context.ethersProvider,
-          context.signerAddress,
-          {
-            tokenId: voucher.tokenID,
-            minPrice: BigNumber.from(voucher.minPrice),
-            uri: voucher.tokenURI
-          },
-          voucher.signature,
-          artist.merkleProof
-        );
-        setLoadingText('Transaction in progress..');
-        if (tx) {
-          const { status } = await tx.wait();
-          if (status === 1) {
-            await storeData(voucher);
-          } else {
-            triggerToast('Transaction failed.');
-          }
-        }
-      } catch (err) {
-        console.log(err);
-        triggerToast('Transaction failed.');
-      }
-      setLoading(false);
-    } else {
-      triggerToast(`Please switch to ${CHAIN_NAME[CHAIN_ID]}`);
-    }
-  };
+  const [fetched, setFetched] = useState(false);
 
   const resetState = () => {
-    setIsRedeemed(false);
     setFetched(false);
     setCreatedVouchers([]);
     setArtist(null);
@@ -165,96 +86,75 @@ export const AllVouchers = ({ artistAddress }) => {
       px={{ base: '1rem', lg: '4rem' }}
       mb='1rem'
     >
-      {!dialogStatus && (
-        <>
-          {fetched && artist && (
-            <ArtistInfo
-              artist={artist}
-              signer={context.signerAddress}
-              signature={context.signature}
-            />
-          )}
-
-          {/* If wallet is not connected */}
-          {!context.signature && (
-            <Flex direction='column' alignItems='center' my='auto'>
-              <ChakraImage
-                src={illustrations.connectWallet}
-                alt='not found'
-                w='200px'
-                mb='2rem'
-              />
-              <StyledTag fontSize={{ base: '1rem', lg: '18px' }}>
-                Connect wallet to view vouchers.
-              </StyledTag>
-            </Flex>
-          )}
-
-          {/* Wallet connect & is fetching vouchers */}
-          {!fetched && context.signature && (
-            <Flex direction='column' alignItems='center' my='auto'>
-              <ChakraImage src='/assets/loader.gif' alt='loading' w='200px' />
-              <StyledTag fontSize={{ base: '1rem', lg: '18px' }}>
-                Fetching vouchers...
-              </StyledTag>
-            </Flex>
-          )}
-
-          {/* Vouchers fetched */}
-          {fetched && artist && (
-            <Flex direction='column' w='100%' alignItems='center'>
-              {createdVouchers.length > 0 && (
-                <InfiniteGrid
-                  allVouchers={createdVouchers}
-                  totalPages={totalCreatedVouchersPages}
-                  setDialogData={setDialogData}
-                  setDialogStatus={setDialogStatus}
-                />
-              )}
-            </Flex>
-          )}
-
-          {fetched && !artist && (
-            <Flex direction='column' alignItems='center' my='auto'>
-              <ChakraImage
-                src={illustrations.notFound}
-                alt='not found'
-                w='200px'
-                mb='1rem'
-              />
-              <StyledTag fontSize={{ base: '1rem', lg: '18px' }}>
-                Artist not found!
-              </StyledTag>
-            </Flex>
-          )}
-
-          {/* fetched && no mintable vouchers && mintable filter */}
-          {artist && !createdVouchers.length && (
-            <Flex direction='column' alignItems='center' my='auto'>
-              <ChakraImage
-                src={illustrations.notFound}
-                alt='not found'
-                w='200px'
-                mb='1rem'
-              />
-              <StyledTag fontSize={{ base: '1rem', lg: '18px' }}>
-                No vouchers created.
-              </StyledTag>
-            </Flex>
-          )}
-        </>
+      {fetched && artist && (
+        <ArtistInfo
+          artist={artist}
+          signer={context.signerAddress}
+          signature={context.signature}
+        />
       )}
 
-      {dialogStatus && (
-        <Voucher
-          voucher={dialogData}
-          isRedeemed={isRedeemed}
-          loading={loading}
-          loadingText={loadingText}
-          handleFetch={handleFetch}
-          handleRedeem={handleRedeem}
-          setDialogStatus={setDialogStatus}
-        />
+      {/* If wallet is not connected */}
+      {!context.signature && (
+        <Flex direction='column' alignItems='center' my='auto'>
+          <ChakraImage
+            src={illustrations.connectWallet}
+            alt='not found'
+            w='200px'
+            mb='2rem'
+          />
+          <StyledTag fontSize={{ base: '1rem', lg: '18px' }}>
+            Connect wallet to view vouchers.
+          </StyledTag>
+        </Flex>
+      )}
+
+      {/* Wallet connect & is fetching vouchers */}
+      {!fetched && context.signature && (
+        <Flex direction='column' alignItems='center' my='auto'>
+          <ChakraImage src='/assets/loader.gif' alt='loading' w='200px' />
+        </Flex>
+      )}
+
+      {/* Vouchers fetched */}
+      {fetched && artist && (
+        <Flex direction='column' w='100%' alignItems='center'>
+          {createdVouchers.length > 0 && (
+            <InfiniteGrid
+              allVouchers={createdVouchers}
+              totalPages={totalCreatedVouchersPages}
+            />
+          )}
+        </Flex>
+      )}
+
+      {fetched && !artist && (
+        <Flex direction='column' alignItems='center' my='auto'>
+          <ChakraImage
+            src={illustrations.notFound}
+            alt='not found'
+            w='200px'
+            mb='1rem'
+          />
+          <StyledTag fontSize={{ base: '1rem', lg: '18px' }}>
+            Artist not found!
+          </StyledTag>
+        </Flex>
+      )}
+
+      {/* fetched && no mintable vouchers && mintable filter */}
+      {artist && !createdVouchers.length && (
+        <Flex direction='column' alignItems='center' my='auto'>
+          <ChakraImage
+            src={illustrations.notFound}
+            alt='not found'
+            w='200px'
+            mb='1rem'
+          />
+          <StyledTag fontSize={{ base: '1rem', lg: '18px' }}>
+            No vouchers created.
+          </StyledTag>
+        </Flex>
       )}
     </Flex>
   );
