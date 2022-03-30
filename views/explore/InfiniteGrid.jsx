@@ -1,14 +1,20 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react';
-import { SimpleGrid, Box, Text, Flex, Button } from '@chakra-ui/react';
+import {
+  SimpleGrid,
+  Box,
+  Text,
+  Flex,
+  Button,
+  Image as ChakraImage
+} from '@chakra-ui/react';
 import { utils } from 'ethers';
-import Image from 'next/image';
 import Link from 'next/link';
 import styled from '@emotion/styled';
 
 import { theme } from '../../themes/theme';
 import { uriToHttp } from '../../utils/helpers';
-import { POIGNART_BUCKET_BASE_URL, VOUCHERS_PER_PAGE } from '../../config';
+import { VOUCHERS_PER_PAGE } from '../../config';
 
 const StyledTokenId = styled(Text)`
   position: absolute;
@@ -55,12 +61,13 @@ export const InfiniteGrid = ({ allVouchers, onlyMintable, totalPages }) => {
       <SimpleGrid
         columns={{ lg: 3, md: 2, base: 1 }}
         gridGap={{ base: 5, lg: 10 }}
-        w='100%'
       >
         {currentVouchers.map((voucher, index) => {
           return (
             <Link key={index} href={`/voucher/${voucher.tokenID}`} passHref>
               <Box
+                h='250px'
+                w='250px'
                 position='relative'
                 cursor='pointer'
                 _hover={{
@@ -68,15 +75,12 @@ export const InfiniteGrid = ({ allVouchers, onlyMintable, totalPages }) => {
                 }}
                 mb='2rem'
               >
-                <Image
+                <ChakraImage
                   crossOrigin='anonymous'
-                  src={`${POIGNART_BUCKET_BASE_URL}/${voucher.metadata.image.replace(
-                    'ipfs://',
-                    ''
-                  )}`}
-                  loader={() => uriToHttp(voucher.metadata.image)}
+                  src={uriToHttp(voucher.metadata.image)}
+                  fallbackSrc='/assets/loader.gif'
                   alt='minted nft'
-                  width='300px'
+                  width='100%'
                   height='100%'
                   objectFit='cover'
                 />

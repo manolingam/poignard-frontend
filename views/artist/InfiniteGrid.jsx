@@ -1,6 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react';
-import { SimpleGrid, Box, Text, Flex, Button } from '@chakra-ui/react';
+import {
+  SimpleGrid,
+  Box,
+  Text,
+  Flex,
+  Button,
+  Image as ChakraImage
+} from '@chakra-ui/react';
 import { utils } from 'ethers';
 import Image from 'next/image';
 import styled from '@emotion/styled';
@@ -61,6 +68,8 @@ export const InfiniteGrid = ({ allVouchers, totalPages }) => {
           return (
             <Link key={index} href={`/voucher/${voucher.tokenID}`} passHref>
               <Box
+                h='250px'
+                w='250px'
                 position='relative'
                 cursor='pointer'
                 _hover={{
@@ -68,15 +77,12 @@ export const InfiniteGrid = ({ allVouchers, totalPages }) => {
                 }}
                 mb='2rem'
               >
-                <Image
+                <ChakraImage
                   crossOrigin='anonymous'
-                  src={`${POIGNART_BUCKET_BASE_URL}/${voucher.metadata.image.replace(
-                    'ipfs://',
-                    ''
-                  )}`}
-                  loader={() => uriToHttp(voucher.metadata.image)}
+                  src={uriToHttp(voucher.metadata.image)}
+                  fallbackSrc='/assets/loader.gif'
                   alt='minted nft'
-                  width='300px'
+                  width='100%'
                   height='100%'
                   objectFit='cover'
                 />
