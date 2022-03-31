@@ -85,7 +85,7 @@ const StyledMisc = styled(Text)`
 
 const StyledCopy = styled(Text)`
   color: ${theme.colors.brand.black};
-  font-family: ${theme.fonts.spaceMono};
+  font-family: ${theme.fonts.spaceGrotesk};
   margin-top: 0.5rem;
   font-size: 12px;
 `;

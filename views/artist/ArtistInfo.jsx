@@ -53,17 +53,23 @@ const StyledInput = styled(Input)`
 
 const StyledCopy = styled(Text)`
   color: ${theme.colors.brand.black};
-  font-family: ${theme.fonts.spaceMono};
+  font-family: ${theme.fonts.spaceGrotesk};
   margin-bottom: 0.5rem;
   font-size: 12px;
 `;
 
-export const ArtistInfo = ({ artist, signer, signature, handleFetch }) => {
+export const ArtistInfo = ({
+  artist,
+  signer,
+  signature,
+  handleFetch,
+  requireProfileEdit,
+  setRequireProfileEdit
+}) => {
   const [whitelistAddress, setWhitelistAddress] = useState('');
 
   const { triggerToast } = useWarnings();
 
-  const [requireEdit, setRequireEdit] = useState(false);
   const [loading, setLoading] = useState(false);
   const [dialogStatus, setDialogStatus] = useState(false);
   const cancelRef = useRef();
@@ -83,13 +89,17 @@ export const ArtistInfo = ({ artist, signer, signature, handleFetch }) => {
     }
 
     try {
-      await whitelistArtist(whitelistAddress, signature);
+      const { data } = await whitelistArtist(whitelistAddress, signature);
       setDialogStatus(false);
       setWhitelistAddress('');
-      triggerToast('Address added for whitelisting.');
+      triggerToast(
+        `Artist will be whitelisted by ${new Date(
+          data.response.status.nextDate
+        ).toLocaleString()}`
+      );
     } catch (err) {
       console.log(err);
-      triggerToast('Error whitelisting address.');
+      triggerToast('Duplicate address to whitelist');
     }
     setLoading(false);
   };
@@ -216,10 +226,10 @@ export const ArtistInfo = ({ artist, signer, signature, handleFetch }) => {
               </StyledButton>
             )}
 
-            {artist.ethAddress === signer && (
+            {artist.ethAddress === signer && !requireProfileEdit && (
               <StyledButton
                 fontSize={{ base: '10px', lg: '12px' }}
-                onClick={() => setRequireEdit(true)}
+                onClick={() => setRequireProfileEdit(true)}
                 ml='1rem'
               >
                 Edit Profile
@@ -229,9 +239,9 @@ export const ArtistInfo = ({ artist, signer, signature, handleFetch }) => {
         </Flex>
       </Flex>
 
-      {requireEdit && (
+      {requireProfileEdit && (
         <Profile
-          setRequireEdit={setRequireEdit}
+          setRequireProfileEdit={setRequireProfileEdit}
           handleFetch={handleFetch}
           artist={artist}
         />

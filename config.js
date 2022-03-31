@@ -87,5 +87,8 @@ export const WHITELIST_ADMINS = [
   '0xe68967c95f5a9bccfdd711a2cbc23ec958f147ef',
   '0x53d7b5bcfcebe7df3f8d8947be4976d814275a8e',
   '0x9da847cd29d0da97fbfaee0692d336857cf00cd3',
-  '0x1e9c89aff77215f3ad26bffe0c50d4fdeba6a352'
+  '0x1e9c89aff77215f3ad26bffe0c50d4fdeba6a352',
+  //test address
+  '0xc9f2d9adfa6c24ce0d5a999f2ba3c6b06e36f75e',
+  '0x9ae7b89bcebe350cbbcdb7dd66e89c7d3629d641'
 ];

@@ -8,7 +8,6 @@ import {
   Textarea,
   Button
 } from '@chakra-ui/react';
-import Link from 'next/link';
 import styled from '@emotion/styled';
 
 import { AppContext } from '../../context/AppContext';
@@ -41,7 +40,7 @@ const StyledButton = styled(Button)`
   }
 `;
 
-export const Profile = ({ setRequireEdit, handleFetch, artist }) => {
+export const Profile = ({ setRequireProfileEdit, handleFetch, artist }) => {
   const context = useContext(AppContext);
 
   const [name, setName] = useState(artist.name);
@@ -77,7 +76,7 @@ export const Profile = ({ setRequireEdit, handleFetch, artist }) => {
       );
       await handleFetch();
       context.setDbData({ db_artist: data });
-      setRequireEdit(false);
+      setRequireProfileEdit(false);
       triggerToast('Successfully updated your profile!');
     } catch (err) {
       console.log(err);
@@ -211,7 +210,7 @@ export const Profile = ({ setRequireEdit, handleFetch, artist }) => {
         <StyledButton
           mr='1rem'
           color={theme.colors.brand.black}
-          onClick={() => setRequireEdit(false)}
+          onClick={() => setRequireProfileEdit(false)}
         >
           Cancel
         </StyledButton>
