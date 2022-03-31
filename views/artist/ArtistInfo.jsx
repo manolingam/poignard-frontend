@@ -1,6 +1,5 @@
 import { useState, useRef } from 'react';
 import {
-  SimpleGrid,
   Flex,
   Image as ChakraImage,
   Heading,
@@ -16,16 +15,19 @@ import {
   FormControl,
   FormLabel,
   FormHelperText,
-  Input
+  Input,
+  Link as ChakraLink
 } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 import { utils } from 'ethers';
 
+import { CopyIcon } from '../../icons/CopyIcon';
 import useWarnings from '../../hooks/useWarnings';
 import { whitelistArtist } from '../../utils/requests';
 
 import { theme } from '../../themes/theme';
-import { devMode } from '../../config';
+import { WHITELIST_ADMINS } from '../../config';
+import { Profile } from '../edit/Profile';
 
 const StyledButton = styled(Button)`
   height: 25px;
@@ -49,11 +51,19 @@ const StyledInput = styled(Input)`
   border-radius: 0;
 `;
 
-export const ArtistInfo = ({ artist, signer, signature }) => {
+const StyledCopy = styled(Text)`
+  color: ${theme.colors.brand.black};
+  font-family: ${theme.fonts.spaceMono};
+  margin-bottom: 0.5rem;
+  font-size: 12px;
+`;
+
+export const ArtistInfo = ({ artist, signer, signature, handleFetch }) => {
   const [whitelistAddress, setWhitelistAddress] = useState('');
 
   const { triggerToast } = useWarnings();
 
+  const [requireEdit, setRequireEdit] = useState(false);
   const [loading, setLoading] = useState(false);
   const [dialogStatus, setDialogStatus] = useState(false);
   const cancelRef = useRef();
@@ -88,6 +98,16 @@ export const ArtistInfo = ({ artist, signer, signature }) => {
     setWhitelistAddress(e.target.value);
   };
 
+  const copyToClipboard = (value) => {
+    const tempInput = document.createElement('input');
+    tempInput.value = value;
+    document.body.appendChild(tempInput);
+    tempInput.select();
+    document.execCommand('copy');
+    document.body.removeChild(tempInput);
+    triggerToast('Copied to clipboard!');
+  };
+
   return (
     <>
       <Flex
@@ -107,6 +127,7 @@ export const ArtistInfo = ({ artist, signer, signature }) => {
         ></ChakraImage>
 
         <Flex
+          w='100%'
           h='100%'
           direction='column'
           alignItems='center'
@@ -125,6 +146,7 @@ export const ArtistInfo = ({ artist, signer, signature }) => {
               </span>
             </Box>
           </Flex>
+
           <Text
             fontFamily={theme.fonts.spaceMono}
             color={theme.colors.brand.graniteGrey}
@@ -135,16 +157,86 @@ export const ArtistInfo = ({ artist, signer, signature }) => {
             {artist.bio}
           </Text>
 
-          {devMode && artist.ethAddress === signer && (
-            <StyledButton
-              fontSize={{ base: '10px', lg: '12px' }}
-              onClick={() => setDialogStatus(true)}
-            >
-              Whitelist Address
-            </StyledButton>
-          )}
+          <Flex w='100px' justifyContent='space-evenly' mb='1rem'>
+            {artist.twitterHandle && (
+              <ChakraLink
+                href={`https://twitter.com/${artist.twitterHandle}`}
+                isExternal
+              >
+                <Box h='15px' w='15px' cursor='pointer'>
+                  <span>
+                    <i className='fa-brands fa-twitter'></i>
+                  </span>
+                </Box>
+              </ChakraLink>
+            )}
+            {artist.instagramHandle && (
+              <ChakraLink
+                href={`https://www.instagram.com/${artist.instagramHandle}`}
+                isExternal
+              >
+                <Box h='15px' w='15px' cursor='pointer'>
+                  <span>
+                    <i className='fa-brands fa-instagram'></i>
+                  </span>
+                </Box>
+              </ChakraLink>
+            )}
+            {artist.telegramHandle && (
+              <ChakraLink
+                href={` https://t.me/${artist.telegramHandle}`}
+                isExternal
+              >
+                <Box h='15px' w='15px' cursor='pointer'>
+                  <span>
+                    <i className='fa-brands fa-telegram'></i>
+                  </span>
+                </Box>
+              </ChakraLink>
+            )}
+          </Flex>
+
+          <StyledCopy
+            onClick={() => copyToClipboard(window.location.href)}
+            cursor='pointer'
+            _hover={{
+              color: theme.colors.brand.black
+            }}
+          >
+            Copy profile link <CopyIcon boxSize={4} />
+          </StyledCopy>
+
+          <Flex mt='1rem'>
+            {WHITELIST_ADMINS.includes(signer) && artist.ethAddress === signer && (
+              <StyledButton
+                fontSize={{ base: '10px', lg: '12px' }}
+                onClick={() => setDialogStatus(true)}
+              >
+                Whitelist Address
+              </StyledButton>
+            )}
+
+            {artist.ethAddress === signer && (
+              <StyledButton
+                fontSize={{ base: '10px', lg: '12px' }}
+                onClick={() => setRequireEdit(true)}
+                ml='1rem'
+              >
+                Edit Profile
+              </StyledButton>
+            )}
+          </Flex>
         </Flex>
       </Flex>
+
+      {requireEdit && (
+        <Profile
+          setRequireEdit={setRequireEdit}
+          handleFetch={handleFetch}
+          artist={artist}
+        />
+      )}
+
       <AlertDialog
         isOpen={dialogStatus}
         leastDestructiveRef={cancelRef}

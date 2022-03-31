@@ -17,8 +17,11 @@ const handler = async (req, res) => {
         name 
         bio 
         ethAddress 
+        website
         instagramHandle
         twitterHandle
+        discordHandle
+        telegramHandle
         merkleProof
         createdVouchers {
           tokenID 

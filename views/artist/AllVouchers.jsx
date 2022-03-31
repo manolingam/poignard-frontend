@@ -91,6 +91,7 @@ export const AllVouchers = ({ artistAddress }) => {
           artist={artist}
           signer={context.signerAddress}
           signature={context.signature}
+          handleFetch={handleFetch}
         />
       )}
 

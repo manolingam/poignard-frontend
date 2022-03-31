@@ -15,6 +15,11 @@ export const submitArtistInfo = async (artist, signature) => {
   return result;
 };
 
+export const editArtistInfo = async (artist, signature) => {
+  const result = await axios.post('/api/edit/profile', { artist, signature });
+  return result;
+};
+
 export const submitVoucher = async (token, signature) => {
   const result = await axios.post('/api/voucher', { token, signature });
   return result;
