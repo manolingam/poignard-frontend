@@ -9,12 +9,11 @@ import {
   Image as ChakraImage
 } from '@chakra-ui/react';
 import { utils } from 'ethers';
-import Image from 'next/image';
 import styled from '@emotion/styled';
 
 import { theme } from '../../themes/theme';
 import { uriToHttp } from '../../utils/helpers';
-import { POIGNART_BUCKET_BASE_URL, VOUCHERS_PER_PAGE } from '../../config';
+import { VOUCHERS_PER_PAGE } from '../../config';
 import Link from 'next/link';
 
 const StyledTokenId = styled(Text)`

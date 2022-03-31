@@ -7,6 +7,7 @@ import WalletConnectProvider from '@walletconnect/web3-provider';
 import { AppContext } from '../context/AppContext';
 
 import { theme } from '../themes/theme';
+import { fetchArtist } from '../utils/requests';
 import { SECRETS } from '../config';
 
 const providerOptions = {
@@ -33,6 +34,14 @@ export const useWallet = () => {
     let signature = await ethersProvider
       .getSigner()
       .signMessage('Welcome to PoignART!');
+
+    const { data } = await fetchArtist(signature, signerAddress);
+
+    if (data.data.artist) {
+      context.setDbData({
+        db_artist: data.data.artist
+      });
+    }
 
     context.setWeb3Data({
       ethersProvider,

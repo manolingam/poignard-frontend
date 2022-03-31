@@ -25,10 +25,11 @@ const StyledTag = styled(Text)`
   margin: auto;
 `;
 
-export const AllVouchers = ({ artistAddress }) => {
+export const Dashboard = ({ artistAddress }) => {
   const context = useContext(AppContext);
   const { triggerToast } = useWarnings();
 
+  const [requireProfileEdit, setRequireProfileEdit] = useState(false);
   const [artist, setArtist] = useState(null);
   const [createdVouchers, setCreatedVouchers] = useState([]);
   const [totalCreatedVouchersPages, setTotalCreatedVouchersPages] = useState(0);
@@ -77,7 +78,7 @@ export const AllVouchers = ({ artistAddress }) => {
     if (context.signature) {
       handleFetch();
     }
-  }, [context.signature]);
+  }, [context.signature, artistAddress]);
 
   return (
     <Flex
@@ -91,6 +92,9 @@ export const AllVouchers = ({ artistAddress }) => {
           artist={artist}
           signer={context.signerAddress}
           signature={context.signature}
+          handleFetch={handleFetch}
+          requireProfileEdit={requireProfileEdit}
+          setRequireProfileEdit={setRequireProfileEdit}
         />
       )}
 
@@ -117,7 +121,7 @@ export const AllVouchers = ({ artistAddress }) => {
       )}
 
       {/* Vouchers fetched */}
-      {fetched && artist && (
+      {fetched && artist && !requireProfileEdit && (
         <Flex direction='column' w='100%' alignItems='center'>
           {createdVouchers.length > 0 && (
             <InfiniteGrid
@@ -143,7 +147,7 @@ export const AllVouchers = ({ artistAddress }) => {
       )}
 
       {/* fetched && no mintable vouchers && mintable filter */}
-      {artist && !createdVouchers.length && (
+      {artist && !createdVouchers.length && !requireProfileEdit && (
         <Flex direction='column' alignItems='center' my='auto'>
           <ChakraImage
             src={illustrations.notFound}

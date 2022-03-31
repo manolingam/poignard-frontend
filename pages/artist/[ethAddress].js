@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import { Meta } from '../../shared/Meta';
 import { Header } from '../../shared/Header';
 import { Footer } from '../../shared/Footer';
-import { AllVouchers } from '../../views/artist/AllVouchers';
+import { Dashboard } from '../../views/artist/Dashboard';
 
 const Artist = () => {
   const router = useRouter();
@@ -30,7 +30,7 @@ const Artist = () => {
     >
       <Meta />
       <Header windowWidth={windowWidth} />
-      <AllVouchers artistAddress={ethAddress} />
+      <Dashboard artistAddress={ethAddress} />
       <Footer />
     </Flex>
   );
