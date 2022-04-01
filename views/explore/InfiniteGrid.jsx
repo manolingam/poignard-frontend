@@ -10,6 +10,7 @@ import {
 } from '@chakra-ui/react';
 import { utils } from 'ethers';
 import Link from 'next/link';
+import Image from 'next/image';
 import styled from '@emotion/styled';
 
 import { theme } from '../../themes/theme';
@@ -75,13 +76,14 @@ export const InfiniteGrid = ({ allVouchers, onlyMintable, totalPages }) => {
                 }}
                 mb='2rem'
               >
-                <ChakraImage
+                <Image
                   crossOrigin='anonymous'
                   src={`${POIGNART_BUCKET_BASE_URL}/${voucher.metadata.image.replace(
                     'ipfs://',
                     ''
                   )}`}
-                  fallbackSrc={uriToHttp(voucher.metadata.image)}
+                  priority={true}
+                  loader={() => uriToHttp(voucher.metadata.image)}
                   alt='minted nft'
                   width='100%'
                   height='100%'
