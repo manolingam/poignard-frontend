@@ -1,13 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react';
-import {
-  SimpleGrid,
-  Box,
-  Text,
-  Flex,
-  Button,
-  Image as ChakraImage
-} from '@chakra-ui/react';
+import { SimpleGrid, Box, Text, Flex, Button } from '@chakra-ui/react';
 import { utils } from 'ethers';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -82,7 +75,7 @@ export const InfiniteGrid = ({ allVouchers, onlyMintable, totalPages }) => {
                     ''
                   )}`}
                   priority={true}
-                  loader={() => <Text>Optmizing..</Text>}
+                  loader={() => '/assets/loader.gif'}
                   alt='minted nft'
                   width='100%'
                   height='100%'
