@@ -75,7 +75,7 @@ export const InfiniteGrid = ({ allVouchers, onlyMintable, totalPages }) => {
                     ''
                   )}`}
                   priority={true}
-                  loader={() => '/assets/loader.gif'}
+                  // loader={() => uriToHttp(voucher.metadata.image)}
                   alt='minted nft'
                   width='100%'
                   height='100%'
