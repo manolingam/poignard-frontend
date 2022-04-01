@@ -13,7 +13,6 @@ import Link from 'next/link';
 import styled from '@emotion/styled';
 
 import { theme } from '../../themes/theme';
-import { uriToHttp } from '../../utils/helpers';
 import { VOUCHERS_PER_PAGE, POIGNART_BUCKET_BASE_URL } from '../../config';
 
 const StyledTokenId = styled(Text)`
@@ -81,7 +80,7 @@ export const InfiniteGrid = ({ allVouchers, onlyMintable, totalPages }) => {
                     'ipfs://',
                     ''
                   )}`}
-                  fallbackSrc={() => uriToHttp(voucher.metadata.image)}
+                  fallbackSrc='/assets/loader.gif'
                   alt='minted nft'
                   width='100%'
                   height='100%'
