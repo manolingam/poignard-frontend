@@ -53,8 +53,10 @@ export const Header = ({ windowWidth }) => {
           justifyContent='center'
           cursor='pointer'
         >
-          <Image src={logos.poignartMono} alt='logo' mr='5px' />
-          {windowWidth > 600 && <Image src={logos.poignartFull} alt='logo' />}
+          <Image src={logos.poignartMono} alt='logo' mr='5px' w='75px' />
+          {windowWidth > 700 && (
+            <Image src={logos.poignartFull} alt='logo' w='125px' />
+          )}
         </Flex>
       </Link>
 

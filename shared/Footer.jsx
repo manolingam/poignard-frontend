@@ -41,6 +41,7 @@ export const Footer = () => {
           alt='logo'
           mt={{ base: '2rem' }}
           cursor='pointer'
+          w='125px'
         />
       </Link>
 
