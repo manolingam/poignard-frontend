@@ -88,6 +88,7 @@ export const InfiniteGrid = ({ allVouchers, onlyMintable, totalPages }) => {
                   width='100%'
                   height='100%'
                   objectFit='cover'
+                  layout='responsive'
                 />
 
                 <Box
