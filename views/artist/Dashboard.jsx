@@ -51,7 +51,7 @@ export const Dashboard = ({ artistAddress }) => {
       return;
     }
 
-    const { data } = await fetchArtist(context.signature, artistAddress);
+    const { data } = await fetchArtist(artistAddress);
 
     if (!data.data.artist) {
       setArtist(null);
@@ -75,10 +75,10 @@ export const Dashboard = ({ artistAddress }) => {
   };
 
   useEffect(() => {
-    if (context.signature) {
+    if (utils.isAddress(artistAddress)) {
       handleFetch();
     }
-  }, [context.signature, artistAddress]);
+  }, [artistAddress]);
 
   return (
     <Flex
@@ -96,21 +96,6 @@ export const Dashboard = ({ artistAddress }) => {
           requireProfileEdit={requireProfileEdit}
           setRequireProfileEdit={setRequireProfileEdit}
         />
-      )}
-
-      {/* If wallet is not connected */}
-      {!context.signature && (
-        <Flex direction='column' alignItems='center' my='auto'>
-          <ChakraImage
-            src={illustrations.connectWallet}
-            alt='not found'
-            w='200px'
-            mb='2rem'
-          />
-          <StyledTag fontSize={{ base: '1rem', lg: '18px' }}>
-            Connect wallet to view vouchers.
-          </StyledTag>
-        </Flex>
       )}
 
       {/* Wallet connect & is fetching vouchers */}

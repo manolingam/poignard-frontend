@@ -166,16 +166,17 @@ export const Voucher = ({ voucherId }) => {
   };
 
   const handleFetch = async () => {
-    const { data } = await fetchVoucher(context.signature, Number(voucherId));
+    const { data } = await fetchVoucher(Number(voucherId));
+
     setVoucher(data.data.voucher);
     setFetched(true);
   };
 
   useEffect(() => {
-    if (context.signature) {
+    if (voucherId) {
       handleFetch();
     }
-  }, [context.signature]);
+  }, [voucherId]);
 
   const copyToClipboard = (value) => {
     const tempInput = document.createElement('input');
@@ -194,21 +195,7 @@ export const Voucher = ({ voucherId }) => {
       alignItems='center'
       minH='70vh'
     >
-      {!context.signature && (
-        <Flex direction='column' alignItems='center' my='auto'>
-          <ChakraImage
-            src={illustrations.connectWallet}
-            alt='not found'
-            w='200px'
-            mb='2rem'
-          />
-          <StyledTag fontSize={{ base: '1rem', lg: '18px' }}>
-            Connect wallet to view voucher.
-          </StyledTag>
-        </Flex>
-      )}
-
-      {!fetched && context.signature && (
+      {!fetched && (
         <Flex direction='column' alignItems='center' my='auto'>
           <ChakraImage src='/assets/loader.gif' alt='loading' w='200px' />
         </Flex>
@@ -317,7 +304,11 @@ export const Voucher = ({ voucherId }) => {
                   isLoading={loading}
                   loadingText={loadingText}
                   onClick={() => {
-                    handleRedeem(voucher);
+                    if (context.signature) {
+                      handleRedeem(voucher);
+                    } else {
+                      triggerToast('Connect wallet to redeem.');
+                    }
                   }}
                 >
                   {`Mint for ${utils.formatEther(voucher.minPrice)} ETH`}

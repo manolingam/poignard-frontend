@@ -35,7 +35,7 @@ export const useWallet = () => {
       .getSigner()
       .signMessage('Welcome to PoignART!');
 
-    const { data } = await fetchArtist(signature, signerAddress);
+    const { data } = await fetchArtist(signerAddress);
 
     if (data.data.artist) {
       context.setDbData({
