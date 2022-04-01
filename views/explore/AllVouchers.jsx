@@ -51,11 +51,7 @@ export const AllVouchers = () => {
 
   const handleFetch = async () => {
     resetState();
-    const mintedVouchers = await fetchVouchers(
-      context.signature,
-      true,
-      contentType.toLowerCase()
-    );
+    const mintedVouchers = await fetchVouchers(true, contentType.toLowerCase());
     if (mintedVouchers.data.data.vouchers.length > 0) {
       setMintedVouchers(mintedVouchers.data.data.vouchers);
       setTotalMintedPages(
@@ -64,7 +60,6 @@ export const AllVouchers = () => {
     }
 
     const unmintedVouchers = await fetchVouchers(
-      context.signature,
       false,
       contentType.toLowerCase()
     );
@@ -80,10 +75,8 @@ export const AllVouchers = () => {
   };
 
   useEffect(() => {
-    if (context.signature) {
-      handleFetch();
-    }
-  }, [context.signature, contentType]);
+    handleFetch();
+  }, [contentType]);
 
   return (
     <Flex
@@ -93,23 +86,8 @@ export const AllVouchers = () => {
       px={{ base: '1rem', lg: '4rem' }}
       mb='1rem'
     >
-      {/* If wallet is not connected */}
-      {!context.signature && (
-        <Flex direction='column' alignItems='center' my='auto'>
-          <ChakraImage
-            src={illustrations.connectWallet}
-            alt='not found'
-            w='200px'
-            mb='2rem'
-          />
-          <StyledTag fontSize={{ base: '1rem', lg: '18px' }}>
-            Connect wallet to view vouchers.
-          </StyledTag>
-        </Flex>
-      )}
-
       {/* Wallet connect & is fetching vouchers */}
-      {!fetched && context.signature && (
+      {!fetched && (
         <Flex direction='column' alignItems='center' my='auto'>
           <ChakraImage src='assets/loader.gif' alt='loading' w='200px' />
         </Flex>

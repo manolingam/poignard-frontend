@@ -21,7 +21,7 @@ const handler = async (req, res) => {
         variables: {}
       };
 
-      const token = jwt.sign(req.body.signature, JWT_SECRET);
+      const token = jwt.sign({}, JWT_SECRET);
       const { data } = await axios.post(
         `${API_ENDPOINT}/graphql`,
         graphqlQuery,
