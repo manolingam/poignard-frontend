@@ -1,5 +1,8 @@
-import { useState, useEffect } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useState, useEffect, useContext } from 'react';
 import { Flex } from '@chakra-ui/react';
+
+import { AppContext } from '../context/AppContext';
 
 import { theme } from '../themes/theme';
 
@@ -9,10 +12,10 @@ import { Footer } from '../shared/Footer';
 
 import { Manifesto } from '../views/landing/Manifesto';
 import { Intro } from '../views/landing/Intro';
-// import { Explainer } from '../views/landing/Explainer';
 import { SocialProofs } from '../views/landing/SocialProofs';
 
 export default function Home() {
+  const context = useContext(AppContext);
   const [windowWidth, setWindowWidth] = useState('');
 
   useEffect(() => {
@@ -21,6 +24,8 @@ export default function Home() {
     window.addEventListener('resize', (e) => {
       setWindowWidth(window.innerWidth);
     });
+
+    context.fetchAllVouchersInContext('all');
   }, []);
 
   return (
@@ -34,7 +39,6 @@ export default function Home() {
       <Header windowWidth={windowWidth} />
       <Intro />
       <Manifesto />
-      {/* <Explainer /> */}
       <SocialProofs />
       <Footer />
     </Flex>

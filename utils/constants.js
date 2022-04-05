@@ -11,10 +11,6 @@ export const explainerQA = [
   {
     q: 'Where will the money go?',
     a: '100% of proceeds go to Unchain.fund approved NGOs in Ukraine that are doing immediate and impactful work on the ground today.'
-  },
-  {
-    q: 'Who is behind this?',
-    a: 'PoignART is a team of volunteers located all over the world with a deep and varied web3 experience, including in public goods/non-profits. Some were born in Ukraine and many still have family and friends fighting for their freedom, children, and lives. No matter what our ethnicity, culture, or beliefs are, ALL of us care deeply for the people of Ukraine.'
   }
 ];
 

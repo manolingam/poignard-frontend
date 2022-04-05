@@ -155,6 +155,39 @@ export const FAQ = () => {
                 </AccordionItem>
               );
             })}
+
+            <AccordionItem fontFamily={theme.fonts.spaceGrotesk}>
+              <AccordionButton textTransform='uppercase'>
+                <Box
+                  color={theme.colors.brand.darkCharcoal}
+                  flex='1'
+                  textAlign='left'
+                >
+                  Who is behind this?
+                </Box>
+                <AccordionIcon />
+              </AccordionButton>
+              <AccordionPanel
+                color={theme.colors.brand.spanishGrey}
+                fontFamily={theme.fonts.spaceGrotesk}
+                pb={4}
+              >
+                PoignART is a team of volunteers located all over the world with
+                a deep and varied web3 experience, including in public
+                goods/non-profits. Some were born in Ukraine and many still have
+                family and friends fighting for their freedom, children, and
+                lives. No matter what our ethnicity, culture, or beliefs are,
+                ALL of us care deeply for the people of Ukraine. Read more about
+                the team{' '}
+                <ChakraLink
+                  href='https://medium.com/@poignart/the-inception-of-poign-art-bda1a05ad95c'
+                  isExternal
+                  textDecoration='underline'
+                >
+                  here.
+                </ChakraLink>
+              </AccordionPanel>
+            </AccordionItem>
           </Accordion>
         </ModalBody>
         <ModalFooter>
