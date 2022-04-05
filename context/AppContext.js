@@ -1,5 +1,8 @@
 import React, { Component, createContext } from 'react';
 
+import { fetchVouchers } from '../utils/requests';
+import { TIMEOUT_MINUTES } from '../config';
+
 export const AppContext = createContext();
 
 class AppContextProvider extends Component {
@@ -7,6 +10,8 @@ class AppContextProvider extends Component {
     // UX state
     stage: 0,
     faqModalStatus: false,
+    redeemEvent: false,
+    firstVouchersFetch: false,
     //web3 state
     ethersProvider: null,
     web3: null,
@@ -22,44 +27,24 @@ class AppContextProvider extends Component {
     artist_telegram: '',
     artist_insta: '',
     artist_twitter: '',
-    //artwork form state
-    art_name: '',
-    art_price: 0,
-    art_description: '',
-    art_image: '',
-    //contract state
-    hasMinterRole: false,
     //database state
     db_artist: null,
     db_merkleProof: '',
-    db_vouchers_minted: [],
-    db_vouchers_not_minted: []
+    db_minted_vouchers: [],
+    db_unminted_vouchers: []
   };
 
   updateFaqModalStatus = (status, faqType) => {
     this.setState({ faqModalStatus: status, faqType });
   };
 
-  inputChangeHandler = (e) => {
-    this.setState({ [e.target.name]: e.target.value });
-  };
-
-  resetArtState = () => {
-    this.setState({
-      art_name: '',
-      art_price: 0,
-      art_description: '',
-      art_image: ''
-    });
-  };
-
-  setArtImage = (image) => {
-    this.setState({ art_image: image });
-  };
-
   updateStage = (number) => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     this.setState({ stage: number });
+  };
+
+  updateRedeemEvent = (status) => {
+    this.setState({ redeemEvent: status });
   };
 
   setDbData = (data) => {
@@ -72,19 +57,45 @@ class AppContextProvider extends Component {
     });
   };
 
+  fetchAllVouchersInContext = async (contentType) => {
+    this.setState({ firstVouchersFetch: false });
+
+    const mintedVouchers = await fetchVouchers(true, contentType.toLowerCase());
+    if (mintedVouchers.data.data.vouchers.length > 0) {
+      this.setDbData({
+        db_minted_vouchers: mintedVouchers.data.data.vouchers
+      });
+    }
+    const unmintedVouchers = await fetchVouchers(
+      false,
+      contentType.toLowerCase()
+    );
+    if (unmintedVouchers.data.data.vouchers.length > 0) {
+      this.setDbData({
+        db_unminted_vouchers: unmintedVouchers.data.data.vouchers
+      });
+    }
+
+    this.setState({ firstVouchersFetch: true });
+
+    setTimeout(() => {
+      this.fetchAllVouchersInContext('all');
+    }, TIMEOUT_MINUTES * 60 * 1000);
+  };
+
   render() {
     return (
       <AppContext.Provider
         value={{
           ...this.state,
-          inputChangeHandler: this.inputChangeHandler,
-          resetArtState: this.resetArtState,
+
+          updateFaqModalStatus: this.updateFaqModalStatus,
           updateStage: this.updateStage,
-          setArtImage: this.setArtImage,
+          updateRedeemEvent: this.updateRedeemEvent,
+          fetchAllVouchersInContext: this.fetchAllVouchersInContext,
+
           setWeb3Data: this.setWeb3Data,
-          setDbData: this.setDbData,
-          updateArtistState: this.updateArtistState,
-          updateFaqModalStatus: this.updateFaqModalStatus
+          setDbData: this.setDbData
         }}
       >
         {this.props.children}

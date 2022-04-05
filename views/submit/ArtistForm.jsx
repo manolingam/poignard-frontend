@@ -44,6 +44,14 @@ export const ArtistForm = () => {
   const context = useContext(AppContext);
   const [buttonClick, setButtonClickStatus] = useState(false);
 
+  const [artistName, setArtistName] = useState('');
+  const [artistWebsite, setArtistWebsite] = useState('');
+  const [artistBio, setArtistBio] = useState('');
+  const [artistDiscord, setArtistDiscord] = useState('');
+  const [artistTelegram, setArtistTelegram] = useState('');
+  const [artistInsta, setArtistInsta] = useState('');
+  const [artistTwitter, setArtistTwitter] = useState('');
+
   const { triggerToast } = useWarnings();
 
   const [loading, setLoading] = useState(false);
@@ -55,14 +63,14 @@ export const ArtistForm = () => {
       setLoadingText('Storing offchain data..');
       const { data } = await submitArtistInfo(
         {
-          name: context.artist_name,
-          website: context.artist_website,
-          bio: context.artist_bio,
+          name: artistName,
+          website: artistWebsite,
+          bio: artistBio,
           ethAddress: context.signerAddress,
-          discordHandle: context.artist_discord,
-          telegramHandle: context.artist_telegram,
-          instagramHandle: context.artist_insta,
-          twitterHandle: context.artist_twitter
+          discordHandle: artistDiscord,
+          telegramHandle: artistTelegram,
+          instagramHandle: artistInsta,
+          twitterHandle: artistTwitter
         },
         context.signature
       );
@@ -89,7 +97,7 @@ export const ArtistForm = () => {
       >
         <FormControl
           isRequired
-          isInvalid={context.artist_name === '' && buttonClick ? true : false}
+          isInvalid={artistName === '' && buttonClick ? true : false}
           fontFamily={theme.fonts.spaceMono}
           color={theme.colors.brand.darkCharcoal}
           mb={10}
@@ -97,9 +105,8 @@ export const ArtistForm = () => {
           <FormLabel>What is your name?</FormLabel>
           <StyledInput
             placeholder='We mean the artist name'
-            onChange={context.inputChangeHandler}
-            name='artist_name'
-            value={context.artist_name}
+            onChange={(e) => setArtistName(e.target.value)}
+            value={artistName}
           />
         </FormControl>
 
@@ -111,9 +118,8 @@ export const ArtistForm = () => {
           <FormLabel>Got a website?</FormLabel>
           <StyledInput
             placeholder='Optional, but if you have a website'
-            onChange={context.inputChangeHandler}
-            name='artist_website'
-            value={context.artist_website}
+            onChange={(e) => setArtistWebsite(e.target.value)}
+            value={artistWebsite}
           />
         </FormControl>
       </Stack>
@@ -121,16 +127,15 @@ export const ArtistForm = () => {
       <FormControl
         mb={10}
         isRequired
-        isInvalid={context.artist_bio === '' && buttonClick ? true : false}
+        isInvalid={artistBio === '' && buttonClick ? true : false}
         fontFamily={theme.fonts.spaceMono}
         color={theme.colors.brand.darkCharcoal}
       >
         <FormLabel>Tell us about yourself</FormLabel>
         <StyledTextArea
           placeholder='About yourself'
-          onChange={context.inputChangeHandler}
-          name='artist_bio'
-          value={context.artist_bio}
+          onChange={(e) => setArtistBio(e.target.value)}
+          value={artistBio}
         />
       </FormControl>
 
@@ -141,9 +146,7 @@ export const ArtistForm = () => {
       >
         <FormControl
           isRequired
-          isInvalid={
-            context.artist_discord === '' && buttonClick ? true : false
-          }
+          isInvalid={artistDiscord === '' && buttonClick ? true : false}
           fontFamily={theme.fonts.spaceMono}
           color={theme.colors.brand.darkCharcoal}
           mb={10}
@@ -151,9 +154,8 @@ export const ArtistForm = () => {
           <FormLabel>Your Discord handle?</FormLabel>
           <StyledInput
             placeholder="Include the unique identifier after the #, no '@'"
-            onChange={context.inputChangeHandler}
-            name='artist_discord'
-            value={context.artist_discord}
+            onChange={(e) => setArtistDiscord(e.target.value)}
+            value={artistDiscord}
           />
         </FormControl>
         <FormControl
@@ -163,9 +165,8 @@ export const ArtistForm = () => {
           <FormLabel>Your Instagram?</FormLabel>
           <StyledInput
             placeholder="Optional, but we'll use it to show your work"
-            name='artist_insta'
-            onChange={context.inputChangeHandler}
-            value={context.artist_insta}
+            onChange={(e) => setArtistInsta(e.target.value)}
+            value={artistInsta}
           />
         </FormControl>
       </Stack>
@@ -183,9 +184,8 @@ export const ArtistForm = () => {
           <FormLabel>Got a Telegram?</FormLabel>
           <StyledInput
             placeholder='Optional as well..'
-            name='artist_telegram'
-            onChange={context.inputChangeHandler}
-            value={context.artist_telegram}
+            onChange={(e) => setArtistTelegram(e.target.value)}
+            value={artistTelegram}
           />
         </FormControl>
         <FormControl
@@ -195,9 +195,8 @@ export const ArtistForm = () => {
           <FormLabel>What about Twitter?</FormLabel>
           <StyledInput
             placeholder="Optional, but we'll use it to show your work"
-            name='artist_twitter'
-            onChange={context.inputChangeHandler}
-            value={context.artist_twitter}
+            onChange={(e) => setArtistTwitter(e.target.value)}
+            value={artistTwitter}
           />
         </FormControl>
       </Stack>
@@ -217,11 +216,7 @@ export const ArtistForm = () => {
           isLoading={loading}
           loadingText={loadingText}
           onClick={() => {
-            if (
-              context.artist_name &&
-              context.artist_bio &&
-              context.artist_discord
-            ) {
+            if (artistName && artistBio && artistDiscord) {
               setButtonClickStatus(false);
               handleSubmit();
             } else {

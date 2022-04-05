@@ -10,7 +10,6 @@ import styled from '@emotion/styled';
 
 import { AppContext } from '../context/AppContext';
 
-import { Meta } from '../shared/Meta';
 import { Header } from '../shared/Header';
 import { Footer } from '../shared/Footer';
 import { Intro } from '../views/submit/Intro';
@@ -50,7 +49,6 @@ const Submit = () => {
       minHeight='100vh'
       justifyContent='space-between'
     >
-      <Meta />
       <Header windowWidth={windowWidth} />
       <Flex
         direction='column'

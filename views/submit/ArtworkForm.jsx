@@ -80,6 +80,10 @@ export const ArtworkForm = () => {
   const context = useContext(AppContext);
   const cancelRef = useRef();
 
+  const [artName, setArtName] = useState('');
+  const [artDesc, setArtDesc] = useState('');
+  const [artPrice, setArtPrice] = useState(0);
+
   const [uriStatus, setUriStatus] = useState(false);
   const [signatureStatus, setSignatureStatus] = useState(false);
   const [tokenUri, setTokenUri] = useState('');
@@ -98,7 +102,9 @@ export const ArtworkForm = () => {
   const { triggerToast } = useWarnings();
 
   const onClose = () => {
-    context.resetArtState();
+    setArtName('');
+    setArtDesc('');
+    setArtPrice(0);
     setButtonClickStatus(false);
     setUriStatus(false);
     setSignatureStatus(false);
@@ -136,8 +142,8 @@ export const ArtworkForm = () => {
       setUriStatus(true);
 
       let metadata = {
-        name: context.art_name,
-        description: context.art_description,
+        name: artName,
+        description: artDesc,
         created_by: META_DATA_CREATED_BY,
         external_url: META_DATA_EXTERNAL_URL,
         attributes: [
@@ -184,7 +190,7 @@ export const ArtworkForm = () => {
       setSignatureStatus(true);
 
       const nextTokenId = await refreshTokenID();
-      const mintPriceInWei = utils.parseUnits(context.art_price, 18);
+      const mintPriceInWei = utils.parseUnits(artPrice, 18);
       const { domain, types, voucher } = generateNFTVoucher(
         nextTokenId,
         tokenUri,
@@ -205,8 +211,8 @@ export const ArtworkForm = () => {
           minted: false,
           contentType: contentType.toLowerCase(),
           metadata: {
-            name: context.art_name,
-            description: context.art_description,
+            name: artName,
+            description: artDesc,
             image: imageUri,
             animation_url: animationUri,
             attributes: [
@@ -251,22 +257,22 @@ export const ArtworkForm = () => {
         'You have reached the limit of vouchers you can submit in an hour!'
       );
 
-    if (!context.art_name || !context.art_description || !context.art_price) {
+    if (!artName || !artDesc || !artPrice) {
       setButtonClickStatus(true);
       return triggerToast('Please fill in all the required fields.');
     }
 
-    if (context.art_price < voucherMinPrice) {
+    if (artPrice < voucherMinPrice) {
       setButtonClickStatus(true);
       return triggerToast(`Price must be greater than ${voucherMinPrice} ETH`);
     }
 
-    if (context.art_name.length > 25) {
+    if (artName.length > 25) {
       setButtonClickStatus(true);
       return triggerToast('Name should be less than 25 characters.');
     }
 
-    if (context.art_description.length > 250) {
+    if (artDesc.length > 250) {
       setButtonClickStatus(true);
       return triggerToast('Description should be less than 250 characters.');
     }
@@ -352,7 +358,7 @@ export const ArtworkForm = () => {
       >
         <FormControl
           isRequired
-          isInvalid={context.art_name === '' && buttonClick ? true : false}
+          isInvalid={artName === '' && buttonClick ? true : false}
           fontFamily={theme.fonts.spaceMono}
           color={theme.colors.brand.darkCharcoal}
           mb={10}
@@ -360,20 +366,19 @@ export const ArtworkForm = () => {
           <FormLabel>Got a name for your art?</FormLabel>
           <StyledInput
             placeholder='A name for the NFT..'
-            onChange={context.inputChangeHandler}
-            name='art_name'
-            value={context.art_name}
+            onChange={(e) => setArtName(e.target.value)}
+            value={artName}
           />
           <FormHelperText>
-            {context.art_name.length < 25
-              ? `${25 - context.art_name.length} characters left`
+            {artName.length < 25
+              ? `${25 - artName.length} characters left`
               : `Over character limit`}
           </FormHelperText>
         </FormControl>
 
         <FormControl
           isRequired
-          isInvalid={context.art_price === '' && buttonClick ? true : false}
+          isInvalid={artPrice === '' && buttonClick ? true : false}
           fontFamily={theme.fonts.spaceMono}
           color={theme.colors.brand.darkCharcoal}
         >
@@ -383,10 +388,9 @@ export const ArtworkForm = () => {
               maxW='30%'
               type='number'
               placeholder='The price at which the NFT will be minted'
-              onChange={context.inputChangeHandler}
-              name='art_price'
+              onChange={(e) => setArtPrice(e.target.value)}
               min={voucherMinPrice}
-              value={context.art_price}
+              value={artPrice}
             />
             <InputRightAddon children='ETH' />
           </InputGroup>
@@ -399,20 +403,19 @@ export const ArtworkForm = () => {
       <FormControl
         mb={10}
         isRequired
-        isInvalid={context.art_description === '' && buttonClick ? true : false}
+        isInvalid={artDesc === '' && buttonClick ? true : false}
         fontFamily={theme.fonts.spaceMono}
         color={theme.colors.brand.darkCharcoal}
       >
         <FormLabel>Explain about the artwork</FormLabel>
         <StyledTextArea
           placeholder='The NFT description'
-          onChange={context.inputChangeHandler}
-          name='art_description'
-          value={context.art_description}
+          onChange={(e) => setArtDesc(e.target.value)}
+          value={artDesc}
         />
         <FormHelperText>
-          {context.art_description.length < 250
-            ? `${250 - context.art_description.length} characters left`
+          {artDesc.length < 250
+            ? `${250 - artDesc.length} characters left`
             : `Over character limit`}
         </FormHelperText>
       </FormControl>
@@ -544,7 +547,7 @@ export const ArtworkForm = () => {
                 fontFamily={theme.fonts.spaceGrotesk}
                 color={theme.colors.brand.yellow}
               >
-                {`Voucher Signed for ${context.art_name}!`}
+                {`Voucher Signed for ${artName}!`}
               </AlertDialogHeader>
 
               <AlertDialogBody fontFamily={theme.fonts.spaceMono}>
@@ -561,13 +564,13 @@ export const ArtworkForm = () => {
                   mb='2rem'
                 />
 
-                {context.art_description}
+                {artDesc}
                 <Text
                   mt='.5rem'
                   color={theme.colors.brand.chineseSilver}
                   fontWeight='bold'
                   fontFamily={theme.fonts.spaceGrotesk}
-                >{`Listing for ${context.art_price} ETH`}</Text>
+                >{`Listing for ${artPrice} ETH`}</Text>
               </AlertDialogBody>
 
               <AlertDialogFooter>

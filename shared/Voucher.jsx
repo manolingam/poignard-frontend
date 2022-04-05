@@ -97,7 +97,6 @@ export const Voucher = ({ voucherId }) => {
   const [fetched, setFetched] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loadingText, setLoadingText] = useState('');
-  const [isRedeemed, setIsRedeemed] = useState(false);
 
   const [voucher, setVoucher] = useState({});
 
@@ -110,7 +109,7 @@ export const Voucher = ({ voucherId }) => {
         },
         context.signature
       );
-      setIsRedeemed(true);
+      context.updateRedeemEvent(true);
     } catch (err) {
       console.log(err);
       triggerToast('Failed to store data offchain.');
@@ -167,7 +166,6 @@ export const Voucher = ({ voucherId }) => {
 
   const handleFetch = async () => {
     const { data } = await fetchVoucher(Number(voucherId));
-
     setVoucher(data.data.voucher);
     setFetched(true);
   };
@@ -280,10 +278,10 @@ export const Voucher = ({ voucherId }) => {
             <Flex mt='1rem'>
               <Link href='/explore' passHref>
                 <StyledButton width='30%' mr='1rem' disabled={loading}>
-                  Back
+                  Explore
                 </StyledButton>
               </Link>
-              {(voucher.minted || isRedeemed) && (
+              {(voucher.minted || context.redeemEvent) && (
                 <StyledButton
                   w='100%'
                   onClick={() =>
@@ -296,7 +294,7 @@ export const Voucher = ({ voucherId }) => {
                   View on opensea
                 </StyledButton>
               )}
-              {!voucher.minted && !isRedeemed && (
+              {!voucher.minted && !context.redeemEvent && (
                 <StyledButton
                   w='100%'
                   color={theme.colors.brand.white}

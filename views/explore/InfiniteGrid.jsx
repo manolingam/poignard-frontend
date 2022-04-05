@@ -15,6 +15,16 @@ import styled from '@emotion/styled';
 import { theme } from '../../themes/theme';
 import { VOUCHERS_PER_PAGE, POIGNART_BUCKET_BASE_URL } from '../../config';
 
+const StyledTag = styled(Text)`
+  max-width: 75%;
+  font-family: ${theme.fonts.spaceMono};
+  color: ${theme.colors.brand.darkCharcoal};
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: bold;
+  margin: auto;
+`;
+
 const StyledTokenId = styled(Text)`
   position: absolute;
   right: 0;
@@ -36,14 +46,15 @@ const StyledButton = styled(Button)`
   margin-top: 1rem;
 `;
 
-export const InfiniteGrid = ({ allVouchers, onlyMintable, totalPages }) => {
+export const InfiniteGrid = ({ allVouchers, onlyMintable, contentType }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [currentVouchers, setCurrentVouchers] = useState([]);
+  const [totalPages, setTotalPages] = useState(0);
 
-  const paginate = () => {
+  const paginate = (filteredVouchers) => {
     const indexOfLastVoucher = currentPage * VOUCHERS_PER_PAGE;
     const indexOfFirstVoucher = indexOfLastVoucher - VOUCHERS_PER_PAGE;
-    const currentVouchers = allVouchers.slice(
+    const currentVouchers = filteredVouchers.slice(
       indexOfFirstVoucher,
       indexOfLastVoucher
     );
@@ -51,80 +62,102 @@ export const InfiniteGrid = ({ allVouchers, onlyMintable, totalPages }) => {
     setCurrentVouchers(currentVouchers);
   };
 
+  const filterVouchers = () => {
+    const result = allVouchers.filter(filterVouchers);
+    function filterVouchers(voucher) {
+      if (contentType === 'All') return voucher;
+      return voucher.contentType === contentType.toLowerCase();
+    }
+    setTotalPages(Math.ceil(result.length / VOUCHERS_PER_PAGE));
+    paginate(result);
+  };
+
   useEffect(() => {
-    paginate();
+    paginate(allVouchers);
   }, [currentPage]);
+
+  useEffect(() => {
+    filterVouchers();
+  }, [contentType]);
 
   return (
     <Flex direction='column' alignItems='center'>
-      <SimpleGrid
-        columns={{ lg: 3, md: 2, base: 1 }}
-        gridGap={{ base: 5, lg: 10 }}
-      >
-        {currentVouchers.map((voucher, index) => {
-          return (
-            <Link key={index} href={`/voucher/${voucher.tokenID}`} passHref>
-              <Box
-                h='250px'
-                w='250px'
-                position='relative'
-                cursor='pointer'
-                _hover={{
-                  opacity: 0.7
-                }}
-                mb='2rem'
-              >
-                <ChakraImage
-                  crossOrigin='anonymous'
-                  src={`${POIGNART_BUCKET_BASE_URL}/${voucher.metadata.image.replace(
-                    'ipfs://',
-                    ''
-                  )}`}
-                  fallbackSrc='/assets/loader.gif'
-                  alt='minted nft'
-                  width='100%'
-                  height='100%'
-                  objectFit='cover'
-                  loading='eager'
-                />
-
+      {currentVouchers.length !== 0 && (
+        <SimpleGrid
+          columns={{ lg: 3, md: 2, base: 1 }}
+          gridGap={{ base: 5, lg: 10 }}
+        >
+          {currentVouchers.map((voucher, index) => {
+            return (
+              <Link key={index} href={`/voucher/${voucher.tokenID}`} passHref>
                 <Box
-                  key={index}
-                  position='absolute'
-                  bottom='0'
-                  left='0'
-                  bg={theme.colors.brand.yellow}
-                  p='7px'
-                  h='35px'
-                  w='35px'
+                  h='250px'
+                  w='250px'
+                  position='relative'
+                  cursor='pointer'
+                  _hover={{
+                    opacity: 0.7
+                  }}
+                  mb='2rem'
                 >
-                  {voucher.contentType === 'audio' && (
-                    <span>
-                      <i className='fa-solid fa-music'></i>
-                    </span>
-                  )}
-                  {voucher.contentType === 'video' && (
-                    <span>
-                      <i className='fa-solid fa-video'></i>
-                    </span>
-                  )}
-                  {voucher.contentType === 'image' && (
-                    <span>
-                      <i className='fa-solid fa-image'></i>
-                    </span>
-                  )}
-                </Box>
+                  <ChakraImage
+                    crossOrigin='anonymous'
+                    src={`${POIGNART_BUCKET_BASE_URL}/${voucher.metadata.image.replace(
+                      'ipfs://',
+                      ''
+                    )}`}
+                    fallbackSrc='/assets/loader.gif'
+                    alt='minted nft'
+                    width='100%'
+                    height='100%'
+                    objectFit='cover'
+                    loading='eager'
+                  />
 
-                <StyledTokenId>
-                  {onlyMintable
-                    ? `${utils.formatEther(voucher.minPrice)} ETH`
-                    : 'Sold'}
-                </StyledTokenId>
-              </Box>
-            </Link>
-          );
-        })}
-      </SimpleGrid>
+                  <Box
+                    key={index}
+                    position='absolute'
+                    bottom='0'
+                    left='0'
+                    bg={theme.colors.brand.yellow}
+                    p='7px'
+                    h='35px'
+                    w='35px'
+                  >
+                    {voucher.contentType === 'audio' && (
+                      <span>
+                        <i className='fa-solid fa-music'></i>
+                      </span>
+                    )}
+                    {voucher.contentType === 'video' && (
+                      <span>
+                        <i className='fa-solid fa-video'></i>
+                      </span>
+                    )}
+                    {voucher.contentType === 'image' && (
+                      <span>
+                        <i className='fa-solid fa-image'></i>
+                      </span>
+                    )}
+                  </Box>
+
+                  <StyledTokenId>
+                    {onlyMintable
+                      ? `${utils.formatEther(voucher.minPrice)} ETH`
+                      : 'Sold'}
+                  </StyledTokenId>
+                </Box>
+              </Link>
+            );
+          })}
+        </SimpleGrid>
+      )}
+
+      {currentVouchers.length === 0 && (
+        <StyledTag fontSize={{ base: '1rem', lg: '18px' }} py='4rem'>
+          No vouchers found for this filter.
+        </StyledTag>
+      )}
       <Flex direction='row'>
         <StyledButton
           mr='1rem'

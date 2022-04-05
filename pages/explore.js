@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Flex } from '@chakra-ui/react';
 
-import { Meta } from '../shared/Meta';
 import { Header } from '../shared/Header';
 import { Footer } from '../shared/Footer';
 import { AllVouchers } from '../views/explore/AllVouchers';
@@ -24,7 +23,6 @@ const Explore = () => {
       minHeight='100vh'
       justifyContent='space-between'
     >
-      <Meta />
       <Header windowWidth={windowWidth} />
       <AllVouchers />
       <Footer />
