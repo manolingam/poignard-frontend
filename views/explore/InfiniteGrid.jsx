@@ -51,7 +51,8 @@ export const InfiniteGrid = ({ allVouchers, onlyMintable, contentType }) => {
   const [currentVouchers, setCurrentVouchers] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
 
-  const paginate = (filteredVouchers) => {
+  const paginate = (filteredVouchers, pageNumber) => {
+    pageNumber ? setCurrentPage(pageNumber) : null;
     const indexOfLastVoucher = currentPage * VOUCHERS_PER_PAGE;
     const indexOfFirstVoucher = indexOfLastVoucher - VOUCHERS_PER_PAGE;
     const currentVouchers = filteredVouchers.slice(
@@ -62,22 +63,23 @@ export const InfiniteGrid = ({ allVouchers, onlyMintable, contentType }) => {
     setCurrentVouchers(currentVouchers);
   };
 
-  const filterVouchers = () => {
+  const filterVouchers = (page) => {
     const result = allVouchers.filter(filterVouchers);
     function filterVouchers(voucher) {
       if (contentType === 'All') return voucher;
       return voucher.contentType === contentType.toLowerCase();
     }
+
     setTotalPages(Math.ceil(result.length / VOUCHERS_PER_PAGE));
-    paginate(result);
+    paginate(result, page);
   };
 
   useEffect(() => {
-    paginate(allVouchers);
+    filterVouchers();
   }, [currentPage]);
 
   useEffect(() => {
-    filterVouchers();
+    filterVouchers(1);
   }, [contentType]);
 
   return (
