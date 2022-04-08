@@ -79,7 +79,7 @@ export const InfiniteGrid = ({ allVouchers, totalPages }) => {
                 <ChakraImage
                   crossOrigin='anonymous'
                   src={uriToHttp(voucher.metadata.image)}
-                  fallbackSrc='/assets/loader.gif'
+                  fallbackSrc='/assets/loader.svg'
                   alt='minted nft'
                   width='100%'
                   height='100%'
