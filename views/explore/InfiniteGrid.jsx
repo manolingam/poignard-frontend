@@ -1,9 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react';
-import { SimpleGrid, Box, Text, Flex, Button } from '@chakra-ui/react';
+import {
+  SimpleGrid,
+  Box,
+  Text,
+  Flex,
+  Button,
+  Image as ChakraImage
+} from '@chakra-ui/react';
 import { utils } from 'ethers';
 import Link from 'next/link';
-import Image from 'next/image';
 import styled from '@emotion/styled';
 
 import { theme } from '../../themes/theme';
@@ -96,13 +102,13 @@ export const InfiniteGrid = ({ allVouchers, onlyMintable, contentType }) => {
                   }}
                   mb='2rem'
                 >
-                  <Image
+                  <ChakraImage
                     crossOrigin='anonymous'
                     src={`${POIGNART_BUCKET_BASE_URL}/${voucher.metadata.image.replace(
                       'ipfs://',
                       ''
                     )}`}
-                    loader={() => '/assets/loader.svg'}
+                    fallbackSrc='assets/loader.svg'
                     alt='minted nft'
                     width='250px'
                     height='250px'
