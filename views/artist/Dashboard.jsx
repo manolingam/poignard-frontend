@@ -101,7 +101,7 @@ export const Dashboard = ({ artistAddress }) => {
       {/* Wallet connect & is fetching vouchers */}
       {!fetched && context.signature && (
         <Flex direction='column' alignItems='center' my='auto'>
-          <ChakraImage src='/assets/loader.gif' alt='loading' w='200px' />
+          <ChakraImage src='/assets/loader.svg' alt='loading' w='200px' />
         </Flex>
       )}
 

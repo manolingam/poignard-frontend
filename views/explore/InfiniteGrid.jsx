@@ -102,6 +102,7 @@ export const InfiniteGrid = ({ allVouchers, onlyMintable, contentType }) => {
                       'ipfs://',
                       ''
                     )}`}
+                    loader={() => '/assets/loader.svg'}
                     alt='minted nft'
                     width='250px'
                     height='250px'
