@@ -5,7 +5,8 @@ import {
   Button,
   Text,
   Image as ChakraImage,
-  SimpleGrid
+  SimpleGrid,
+  Skeleton
 } from '@chakra-ui/react';
 import { useContext, useState, useEffect } from 'react';
 import Link from 'next/link';
@@ -226,10 +227,7 @@ export const Voucher = ({ voucherId }) => {
                 src={uriToHttp(voucher.metadata.image)}
                 crossOrigin='anonymous'
                 alt='minted nft'
-                fallbackSrc={`${POIGNART_BUCKET_BASE_URL}/${voucher.metadata.image.replace(
-                  'ipfs://',
-                  ''
-                )}`}
+                fallback={<Skeleton h='250px' w='100%' />}
                 objectFit={
                   voucher.contentType === 'audio' ? 'cover' : 'contain'
                 }

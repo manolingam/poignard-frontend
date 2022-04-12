@@ -6,6 +6,7 @@ import {
   Text,
   Flex,
   Button,
+  Skeleton,
   Image as ChakraImage
 } from '@chakra-ui/react';
 import { utils } from 'ethers';
@@ -79,7 +80,7 @@ export const InfiniteGrid = ({ allVouchers, totalPages }) => {
                 <ChakraImage
                   crossOrigin='anonymous'
                   src={uriToHttp(voucher.metadata.image)}
-                  fallbackSrc='/assets/loader.svg'
+                  fallback={<Skeleton h='250px' w='250px' />}
                   alt='minted nft'
                   width='100%'
                   height='100%'

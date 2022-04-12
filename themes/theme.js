@@ -17,7 +17,10 @@ const colors = {
     black: '#000000',
     white: '#FFFFFF',
     yellow: '#ffd700',
-    yellowLight: '#fff8d1'
+    yellowLight: '#fff8d1',
+    unchainFontGreen: '#7fc23c',
+    unchainBgGreen: '#b7f66a',
+    unchainBgBlack: '#0f212b'
   }
 };
 

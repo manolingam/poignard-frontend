@@ -10,9 +10,13 @@ import { Meta } from '../shared/Meta';
 import { Header } from '../shared/Header';
 import { Footer } from '../shared/Footer';
 
-import { Manifesto } from '../views/landing/Manifesto';
-import { Intro } from '../views/landing/Intro';
-import { SocialProofs } from '../views/landing/SocialProofs';
+import { SectionOne } from '../views/landing/SectionOne';
+import { SectionTwo } from '../views/landing/SectionTwo';
+import { SectionThree } from '../views/landing/SectionThree';
+import { SectionFour } from '../views/landing/SectionFour';
+import { SectionFive } from '../views/landing/SectionFive';
+import { SectionSix } from '../views/landing/SectionSix';
+import { SectionSeven } from '../views/landing/SectionSeven';
 
 export default function Home() {
   const context = useContext(AppContext);
@@ -37,9 +41,13 @@ export default function Home() {
     >
       <Meta />
       <Header windowWidth={windowWidth} />
-      <Intro />
-      <Manifesto />
-      <SocialProofs />
+      <SectionOne />
+      <SectionTwo />
+      <SectionThree />
+      <SectionFour />
+      <SectionFive />
+      <SectionSix />
+      <SectionSeven />
       <Footer />
     </Flex>
   );
