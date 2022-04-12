@@ -1,14 +1,18 @@
 import Head from 'next/head';
 import Script from 'next/script';
 
-export const Meta = () => {
+export const Meta = ({ title, description, image }) => {
   return (
     <>
       <Head>
-        <title>PoignART</title>
+        <title>{title ? `${title} - PoignART` : 'PoignART'}</title>
         <meta
           name='description'
-          content='A platform for artists to create NFTs in support of Ukraine: all proceeds go to Unchain Fund.'
+          content={
+            description
+              ? description
+              : 'A platform for artists to create NFTs in support of Ukraine: all proceeds go to Unchain Fund.'
+          }
         />
         <link rel='icon' href='/favicon.ico' />
         <link
@@ -24,6 +28,11 @@ export const Meta = () => {
           crossOrigin='anonymous'
           referrerpolicy='no-referrer'
         />
+        {title && <meta property='og:title' content={title} />}
+        {description && (
+          <meta property='og:description' content={description} />
+        )}
+        {image && <meta property='og:image' content={image} />}
       </Head>
       <Script
         src='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/js/all.min.js'

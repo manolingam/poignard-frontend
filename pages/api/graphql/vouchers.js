@@ -14,10 +14,16 @@ const handler = async (req, res) => {
     try {
       const typeQuery = `query fetchVouchers { vouchers(where:{minted: ${req.body.minted}, contentType: "${req.body.contentType}"}) { _id tokenID tokenURI metadata createdBy {name ethAddress merkleProof} minPrice minted signature contentType mintedBy createdAt} }`;
       const defaultQuery = `query fetchVouchers { vouchers(where:{minted: ${req.body.minted}}) { _id tokenID tokenURI metadata createdBy {name ethAddress merkleProof} minPrice signature contentType mintedBy minted createdAt} }`;
+      const allQuery = `query fetchVouchers { vouchers { _id tokenID tokenURI metadata createdBy {name ethAddress merkleProof} minPrice signature contentType mintedBy minted createdAt} }`;
+
+      let query = allQuery;
+      if ([true, false].includes(req.body.minted)) {
+        query = req.body.contentType !== 'all' ? typeQuery : defaultQuery;
+      }
 
       const graphqlQuery = {
         operationName: 'fetchVouchers',
-        query: req.body.contentType !== 'all' ? typeQuery : defaultQuery,
+        query: query,
         variables: {}
       };
 

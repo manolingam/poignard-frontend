@@ -1,16 +1,13 @@
 import { useState, useEffect } from 'react';
 import { Flex } from '@chakra-ui/react';
-import { useRouter } from 'next/router';
+import { fetchVoucher, fetchVouchers } from '../../utils/requests';
 
 import { Meta } from '../../shared/Meta';
 import { Header } from '../../shared/Header';
 import { Footer } from '../../shared/Footer';
 import { Voucher } from '../../shared/Voucher';
 
-const Artist = () => {
-  const router = useRouter();
-  const { voucherId } = router.query;
-
+const Artist = ({ voucher }) => {
   const [windowWidth, setWindowWidth] = useState('');
 
   useEffect(() => {
@@ -21,14 +18,48 @@ const Artist = () => {
     });
   }, []);
 
+  const {
+    metadata: { title, description, image },
+  } = voucher ?? { metadata: {} };
+
   return (
     <Flex direction='column' w='100%'>
-      <Meta />
+      <Meta
+        {...{
+          title,
+          description,
+          // TODO convert image from ipfs:// to valid https:// URL
+          image,
+        }}
+      />
       <Header windowWidth={windowWidth} />
-      <Voucher voucherId={voucherId} />
+      <Voucher voucherId={voucher.tokenID.toString()} />
       <Footer />
     </Flex>
   );
+};
+
+export async function getStaticPaths() {
+  const { data } = await fetchVouchers(null, 'all');
+
+  const paths = data.data.vouchers.map((v) => ({
+    params: { voucherId: v.tokenID.toString() },
+  }));
+
+  return { paths, fallback: true };
+}
+
+export const getStaticProps = async (context) => {
+  const voucherId = context.params?.voucherId;
+
+  const { data } = await fetchVoucher(Number(voucherId));
+
+  return {
+    props: {
+      voucher: data.data.voucher,
+    },
+    revalidate: 1,
+  };
 };
 
 export default Artist;
