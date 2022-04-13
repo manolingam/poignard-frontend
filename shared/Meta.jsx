@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import Script from 'next/script';
 
-export const Meta = ({ title, description, image }) => {
+export const Meta = ({ title, description, image, url }) => {
   return (
     <>
       <Head>
@@ -33,6 +33,8 @@ export const Meta = ({ title, description, image }) => {
           <meta property='og:description' content={description} />
         )}
         {image && <meta property='og:image' content={image} />}
+        {url && <meta property='og:url' content={url} />}
+        <meta property='og:type' content='website' />
       </Head>
       <Script
         src='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/js/all.min.js'
