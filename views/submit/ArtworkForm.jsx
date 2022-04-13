@@ -605,9 +605,8 @@ export const ArtworkForm = () => {
                       '&url=' +
                       encodeURIComponent(
                         devMode
-                          ? 'https://rinkeby.poign.art.io/voucher/' +
-                              signedTokenId
-                          : 'https://poign.art.io/voucher/' + signedTokenId
+                          ? 'https://rinkeby.poign.art/voucher/' + signedTokenId
+                          : 'https://poign.art/voucher/' + signedTokenId
                       );
                     window.open(
                       start_text + generated_tweet + generated_url,

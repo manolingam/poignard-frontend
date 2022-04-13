@@ -373,8 +373,8 @@ export const Voucher = ({ voucher }) => {
                   voucher.minPrice
                 )} ETH on @PoignARTnft #Unchain_Ukraine ${
                   devMode
-                    ? 'https://rinkeby.poign.art.io/voucher/' + voucher.tokenID
-                    : 'https://poign.art.io/voucher/' + voucher.tokenID
+                    ? 'https://rinkeby.poign.art/voucher/' + voucher.tokenID
+                    : 'https://poign.art/voucher/' + voucher.tokenID
                 }`}
               </Textarea>
             </ModalBody>
