@@ -14,6 +14,32 @@ export const Meta = ({ title, description, image, url }) => {
               : 'A platform for artists to create NFTs in support of Ukraine: all proceeds go to Unchain Fund.'
           }
         />
+        {title && <meta property='og:title' content={title} />}
+        <meta
+          property='og:description'
+          content={
+            description
+              ? description
+              : 'A platform for artists to create NFTs in support of Ukraine: all proceeds go to Unchain Fund.'
+          }
+        />
+        {image && <meta property='og:image' content={image} />}
+        {url && <meta property='og:url' content={url} />}
+        <meta name='twitter:card' content='summary_large_image' />
+        <meta
+          name='twitter:title'
+          content={title ? `${title} - PoignART` : 'PoignART'}
+        />
+        <meta
+          name='twitter:description'
+          content={
+            description
+              ? description
+              : 'A platform for artists to create NFTs in support of Ukraine: all proceeds go to Unchain Fund.'
+          }
+        />
+        {image && <meta name='twitter:image' content={image} />}
+        <meta property='og:type' content='website' />
         <link rel='icon' href='/favicon.ico' />
         <link
           rel='stylesheet'
@@ -28,14 +54,6 @@ export const Meta = ({ title, description, image, url }) => {
           crossOrigin='anonymous'
           referrerpolicy='no-referrer'
         />
-        {title && <meta property='og:title' content={title} />}
-        {description && (
-          <meta property='og:description' content={description} />
-        )}
-        {image && <meta property='og:image' content={image} />}
-        {image && <meta name='twitter:image' content={image} />}
-        {url && <meta property='og:url' content={url} />}
-        <meta property='og:type' content='website' />
       </Head>
       <Script
         src='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/js/all.min.js'

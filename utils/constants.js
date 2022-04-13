@@ -128,7 +128,7 @@ export const teamInfo = [
     name: 'Luke',
     image:
       'https://res.cloudinary.com/saimano/image/upload/v1649827316/PoignArt/team/luke_t9ch1m.jpg',
-    twitter: '',
+    twitter: 'https://www.linkedin.com/mwlite/me',
     role: 'Marketer'
   }
 ];
