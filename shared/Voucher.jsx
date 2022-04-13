@@ -14,7 +14,6 @@ import {
   ModalCloseButton,
   ModalBody,
   ModalFooter,
-  useDisclosure,
   Textarea
 } from '@chakra-ui/react';
 import { useContext, useState } from 'react';
@@ -29,7 +28,6 @@ import { CopyIcon } from '../icons/CopyIcon';
 import { TwitterIcon } from '../icons/TwitterIcon';
 import { getTokenURI, redeem } from '../utils/web3';
 import { redeemVoucher } from '../utils/requests';
-import { illustrations } from '../utils/constants';
 import { theme } from '../themes/theme';
 
 import {

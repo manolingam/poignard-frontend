@@ -229,6 +229,7 @@ export const ArtworkForm = () => {
         context.signature
       );
 
+      context.fetchAllVouchersInContext('all');
       setSignedTokenId(nextTokenId);
       setSubmittedVouchers((prevState) => prevState + 1);
       setSignatureStatus(false);
