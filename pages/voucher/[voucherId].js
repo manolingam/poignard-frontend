@@ -105,7 +105,7 @@ const Artist = ({ voucher }) => {
           'ipfs://',
           ''
         )}`}
-        url={`${window.location.origin}/voucher/${voucher.tokenID}`}
+        url={`https://poign.art/voucher/${voucher.tokenID}`}
       />
       <Header windowWidth={windowWidth} />
       <Voucher voucher={voucher} />
