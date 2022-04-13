@@ -12,7 +12,7 @@ const handler = async (req, res) => {
 
   if (req.method === 'POST') {
     try {
-      const defaultQuery = `query fetchArtist 
+      const defaultQuery = `query fetchVoucher 
       { voucher(where:{tokenID: ${req.body.tokenId}}) { 
         tokenID
         tokenURI
@@ -32,7 +32,7 @@ const handler = async (req, res) => {
       }`;
 
       const graphqlQuery = {
-        operationName: 'fetchArtist',
+        operationName: 'fetchVoucher',
         query: defaultQuery,
         variables: {}
       };

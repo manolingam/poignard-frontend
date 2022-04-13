@@ -17,9 +17,8 @@ import useWarnings from '../hooks/useWarnings';
 
 import { AppContext } from '../context/AppContext';
 import { CopyIcon } from '../icons/CopyIcon';
-import { uriToHttp } from '../utils/helpers';
 import { getTokenURI, redeem } from '../utils/web3';
-import { fetchVoucher, redeemVoucher } from '../utils/requests';
+import { redeemVoucher } from '../utils/requests';
 import { illustrations } from '../utils/constants';
 import { theme } from '../themes/theme';
 
@@ -91,15 +90,13 @@ const StyledCopy = styled(Text)`
   font-size: 12px;
 `;
 
-export const Voucher = ({ voucherId }) => {
+export const Voucher = ({ voucher }) => {
   const context = useContext(AppContext);
   const { triggerToast } = useWarnings();
 
-  const [fetched, setFetched] = useState(false);
+  // const [fetched, setFetched] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loadingText, setLoadingText] = useState('');
-
-  const [voucher, setVoucher] = useState({});
 
   const storeData = async (voucher) => {
     try {
@@ -165,17 +162,17 @@ export const Voucher = ({ voucherId }) => {
     }
   };
 
-  const handleFetch = async () => {
-    const { data } = await fetchVoucher(Number(voucherId));
-    setVoucher(data.data.voucher);
-    setFetched(true);
-  };
+  // const handleFetch = async () => {
+  //   const { data } = await fetchVoucher(Number(voucherId));
+  //   setVoucher(data.data.voucher);
+  //   setFetched(true);
+  // };
 
-  useEffect(() => {
-    if (voucherId) {
-      handleFetch();
-    }
-  }, [voucherId]);
+  // useEffect(() => {
+  //   if (voucherId) {
+  //     handleFetch();
+  //   }
+  // }, [voucherId]);
 
   const copyToClipboard = (value) => {
     const tempInput = document.createElement('input');
@@ -190,17 +187,18 @@ export const Voucher = ({ voucherId }) => {
   return (
     <Flex
       px={{ base: '1rem', lg: '4rem' }}
+      py={{ base: '1rem', lg: '4rem' }}
       justifyContent='center'
       alignItems='center'
       minH='70vh'
     >
-      {!fetched && (
+      {!voucher && (
         <Flex direction='column' alignItems='center' my='auto'>
           <ChakraImage src='/assets/loader.svg' alt='loading' w='200px' />
         </Flex>
       )}
 
-      {fetched && !voucher && (
+      {!voucher && (
         <Flex direction='column' alignItems='center' my='auto'>
           <ChakraImage
             src={illustrations.notFound}
@@ -214,7 +212,7 @@ export const Voucher = ({ voucherId }) => {
         </Flex>
       )}
 
-      {fetched && voucher && (
+      {voucher && (
         <SimpleGrid
           columns={{ base: 1, md: 1, lg: 2 }}
           maxW='60rem'
@@ -224,7 +222,10 @@ export const Voucher = ({ voucherId }) => {
             {(voucher.contentType === 'image' ||
               voucher.contentType === 'audio') && (
               <ChakraImage
-                src={uriToHttp(voucher.metadata.image)}
+                src={`${POIGNART_BUCKET_BASE_URL}/${voucher.metadata.image.replace(
+                  'ipfs://',
+                  ''
+                )}`}
                 crossOrigin='anonymous'
                 alt='minted nft'
                 fallback={<Skeleton h='250px' w='100%' />}
