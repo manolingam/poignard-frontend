@@ -177,7 +177,15 @@ export const SectionFour = () => {
               management, software development, design, outreach and partnership
               management, marketing, growth hacking, and more! If your heart is
               with the people of Ukraine, we will find a place for you to
-              contribute and thrive.
+              contribute and thrive. Join our{' '}
+              <ChakraLink
+                textDecoration='underline'
+                href='https://discord.gg/qjPvUCakn3'
+                isExternal
+              >
+                discord
+              </ChakraLink>
+              .
             </StyledAccordianPanel>
           </StyledAccordianItem>
         </Accordion>

@@ -40,7 +40,7 @@ export const getStaticPaths = async () => {
 
   return {
     paths,
-    fallback: false
+    fallback: true
   };
 };
 
@@ -81,7 +81,8 @@ export const getStaticProps = async (context) => {
   });
 
   return {
-    props: { voucher: data.data.voucher }
+    props: { voucher: data.data.voucher },
+    revalidate: 1
   };
 };
 
