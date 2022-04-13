@@ -205,20 +205,14 @@ export const Voucher = ({ voucher }) => {
       alignItems='center'
       minH='70vh'
     >
-      {!voucher && (
+      {/* {!voucher && (
         <Flex direction='column' alignItems='center' my='auto'>
           <ChakraImage src='/assets/loader.svg' alt='loading' w='200px' />
         </Flex>
-      )}
+      )} */}
 
       {!voucher && (
         <Flex direction='column' alignItems='center' my='auto'>
-          <ChakraImage
-            src={illustrations.notFound}
-            alt='not found'
-            w='200px'
-            mb='1rem'
-          />
           <StyledTag fontSize={{ base: '1rem', lg: '18px' }}>
             Voucher not found!
           </StyledTag>
@@ -364,62 +358,64 @@ export const Voucher = ({ voucher }) => {
         </SimpleGrid>
       )}
 
-      <Modal isOpen={isOpen} onClose={() => setOpen(false)}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader fontFamily={theme.fonts.spaceMono}>
-            Thank you!
-          </ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <Text fontFamily={theme.fonts.spaceMono} mb='1rem'>
-              Spread the word about your contribution!
-            </Text>
-            <Textarea fontFamily={theme.fonts.spaceMono} isReadOnly>
-              {`I just minted a voucher for ${utils.formatEther(
-                voucher.minPrice
-              )} ETH on @PoignARTnft #Unchain_Ukraine ${
-                devMode
-                  ? 'https://rinkeby.poign.art.io/voucher/' + voucher.tokenID
-                  : 'https://poign.art.io/voucher/' + voucher.tokenID
-              }`}
-            </Textarea>
-          </ModalBody>
+      {voucher && (
+        <Modal isOpen={isOpen} onClose={() => setOpen(false)}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader fontFamily={theme.fonts.spaceMono}>
+              Thank you!
+            </ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <Text fontFamily={theme.fonts.spaceMono} mb='1rem'>
+                Spread the word about your contribution!
+              </Text>
+              <Textarea fontFamily={theme.fonts.spaceMono} isReadOnly>
+                {`I just minted a voucher for ${utils.formatEther(
+                  voucher.minPrice
+                )} ETH on @PoignARTnft #Unchain_Ukraine ${
+                  devMode
+                    ? 'https://rinkeby.poign.art.io/voucher/' + voucher.tokenID
+                    : 'https://poign.art.io/voucher/' + voucher.tokenID
+                }`}
+              </Textarea>
+            </ModalBody>
 
-          <ModalFooter>
-            <Button
-              w='100%'
-              leftIcon={<TwitterIcon />}
-              fontFamily={theme.fonts.spaceMono}
-              colorScheme='twitter'
-              variant='solid'
-              textDecoration='none'
-              onClick={() => {
-                var start_text = 'https://twitter.com/intent/tweet?text=';
-                var generated_tweet = encodeURIComponent(
-                  `I just minted a voucher for ${utils.formatEther(
-                    voucher.minPrice
-                  )} ETH on @PoignARTnft #Unchain_Ukraine`
-                );
-                var generated_url =
-                  '&url=' +
-                  encodeURIComponent(
-                    devMode
-                      ? 'https://rinkeby.poign.art.io/voucher/' +
-                          voucher.tokenID
-                      : 'https://poign.art.io/voucher/' + voucher.tokenID
+            <ModalFooter>
+              <Button
+                w='100%'
+                leftIcon={<TwitterIcon />}
+                fontFamily={theme.fonts.spaceMono}
+                colorScheme='twitter'
+                variant='solid'
+                textDecoration='none'
+                onClick={() => {
+                  var start_text = 'https://twitter.com/intent/tweet?text=';
+                  var generated_tweet = encodeURIComponent(
+                    `I just minted a voucher for ${utils.formatEther(
+                      voucher.minPrice
+                    )} ETH on @PoignARTnft #Unchain_Ukraine`
                   );
-                window.open(
-                  start_text + generated_tweet + generated_url,
-                  '_blank'
-                );
-              }}
-            >
-              Tweet
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+                  var generated_url =
+                    '&url=' +
+                    encodeURIComponent(
+                      devMode
+                        ? 'https://rinkeby.poign.art.io/voucher/' +
+                            voucher.tokenID
+                        : 'https://poign.art.io/voucher/' + voucher.tokenID
+                    );
+                  window.open(
+                    start_text + generated_tweet + generated_url,
+                    '_blank'
+                  );
+                }}
+              >
+                Tweet
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+      )}
     </Flex>
   );
 };

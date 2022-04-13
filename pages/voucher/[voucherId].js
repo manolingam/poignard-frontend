@@ -40,7 +40,7 @@ export const getStaticPaths = async () => {
 
   return {
     paths,
-    fallback: false
+    fallback: true
   };
 };
 
@@ -99,15 +99,17 @@ const VoucherPage = ({ voucher }) => {
 
   return (
     <Flex direction='column' w='100%'>
-      <Meta
-        title={voucher.metadata.title}
-        description={voucher.metadata.description}
-        image={`${POIGNART_BUCKET_BASE_URL}/${voucher.metadata.image.replace(
-          'ipfs://',
-          ''
-        )}`}
-        url={`https://poign.art/voucher/${voucher.tokenID}`}
-      />
+      {voucher && (
+        <Meta
+          title={voucher.metadata.title}
+          description={voucher.metadata.description}
+          image={`${POIGNART_BUCKET_BASE_URL}/${voucher.metadata.image.replace(
+            'ipfs://',
+            ''
+          )}`}
+          url={`https://poign.art/voucher/${voucher.tokenID}`}
+        />
+      )}
       <Header windowWidth={windowWidth} />
       <Voucher voucher={voucher} />
       <Footer />
