@@ -6,9 +6,18 @@ import {
   Text,
   Image as ChakraImage,
   SimpleGrid,
-  Skeleton
+  Skeleton,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
+  Textarea
 } from '@chakra-ui/react';
-import { useContext, useState, useEffect } from 'react';
+import { useContext, useState } from 'react';
 import Link from 'next/link';
 
 import styled from '@emotion/styled';
@@ -17,6 +26,7 @@ import useWarnings from '../hooks/useWarnings';
 
 import { AppContext } from '../context/AppContext';
 import { CopyIcon } from '../icons/CopyIcon';
+import { TwitterIcon } from '../icons/TwitterIcon';
 import { getTokenURI, redeem } from '../utils/web3';
 import { redeemVoucher } from '../utils/requests';
 import { illustrations } from '../utils/constants';
@@ -27,7 +37,8 @@ import {
   POIGNARD_CONTRACT_ADDRESS,
   POIGNART_BUCKET_BASE_URL,
   CHAIN_ID,
-  CHAIN_NAME
+  CHAIN_NAME,
+  devMode
 } from '../config';
 
 const StyledTag = styled(Text)`
@@ -93,6 +104,7 @@ const StyledCopy = styled(Text)`
 export const Voucher = ({ voucher }) => {
   const context = useContext(AppContext);
   const { triggerToast } = useWarnings();
+  const [isOpen, setOpen] = useState(false);
 
   // const [fetched, setFetched] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -149,6 +161,7 @@ export const Voucher = ({ voucher }) => {
           const { status } = await tx.wait();
           if (status === 1) {
             await storeData(voucher);
+            setOpen(true);
           } else {
             triggerToast('Transaction failed.');
           }
@@ -326,6 +339,7 @@ export const Voucher = ({ voucher }) => {
             >
               Copy voucher link <CopyIcon boxSize={4} />
             </StyledCopy>
+
             <Flex direction='column'>
               <StyledDescription>
                 {voucher.metadata.description.substring(0, 250)}
@@ -349,6 +363,63 @@ export const Voucher = ({ voucher }) => {
           </Flex>
         </SimpleGrid>
       )}
+
+      <Modal isOpen={isOpen} onClose={() => setOpen(false)}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader fontFamily={theme.fonts.spaceMono}>
+            Thank you!
+          </ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Text fontFamily={theme.fonts.spaceMono} mb='1rem'>
+              Spread the word about your contribution!
+            </Text>
+            <Textarea fontFamily={theme.fonts.spaceMono} isReadOnly>
+              {`I just minted a voucher for ${utils.formatEther(
+                voucher.minPrice
+              )} ETH on @PoignARTnft #Unchain_Ukraine ${
+                devMode
+                  ? 'https://rinkeby.poign.art.io/voucher/' + voucher.tokenID
+                  : 'https://poign.art.io/voucher/' + voucher.tokenID
+              }`}
+            </Textarea>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button
+              w='100%'
+              leftIcon={<TwitterIcon />}
+              fontFamily={theme.fonts.spaceMono}
+              colorScheme='twitter'
+              variant='solid'
+              textDecoration='none'
+              onClick={() => {
+                var start_text = 'https://twitter.com/intent/tweet?text=';
+                var generated_tweet = encodeURIComponent(
+                  `I just minted a voucher for ${utils.formatEther(
+                    voucher.minPrice
+                  )} ETH on @PoignARTnft #Unchain_Ukraine`
+                );
+                var generated_url =
+                  '&url=' +
+                  encodeURIComponent(
+                    devMode
+                      ? 'https://rinkeby.poign.art.io/voucher/' +
+                          voucher.tokenID
+                      : 'https://poign.art.io/voucher/' + voucher.tokenID
+                  );
+                window.open(
+                  start_text + generated_tweet + generated_url,
+                  '_blank'
+                );
+              }}
+            >
+              Tweet
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Flex>
   );
 };

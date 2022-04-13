@@ -135,6 +135,20 @@ export const Footer = () => {
               </ChakraLink>
             </HStack>
           </StyledLink>
+
+          <StyledLink>
+            <HStack>
+              <span style={{ width: '15px', marginRight: '5px' }}>
+                <i className='fa-brands fa-instagram-square'></i>
+              </span>
+              <ChakraLink
+                href='https://www.instagram.com/poignartnft/'
+                isExternal
+              >
+                Instagram
+              </ChakraLink>
+            </HStack>
+          </StyledLink>
         </VStack>
       </SimpleGrid>
     </Flex>

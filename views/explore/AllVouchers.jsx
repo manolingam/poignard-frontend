@@ -35,6 +35,7 @@ export const AllVouchers = () => {
       alignItems='center'
       justifyContent='center'
       px={{ base: '1rem', lg: '4rem' }}
+      py={{ base: '1rem', lg: '2rem' }}
       mb='1rem'
     >
       {/* Wallet connect & is fetching vouchers */}

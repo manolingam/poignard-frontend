@@ -24,9 +24,9 @@ import {
   AlertDialogOverlay
 } from '@chakra-ui/react';
 import styled from '@emotion/styled';
-import Link from 'next/link';
 import { utils } from 'ethers';
 
+import { TwitterIcon } from '../../icons/TwitterIcon';
 import RadioBox from '../../shared/RadioBox';
 import { AppContext } from '../../context/AppContext';
 import { uploadArt, uploadMetadata } from '../../utils/ipfs';
@@ -49,7 +49,8 @@ import {
   ACCEPTED_IMAGE_FILE_FORMATS,
   ACCEPTED_AUDIO_FILE_FORMATS,
   ACCEPTED_VIDEO_FILE_FORMATS,
-  POIGNART_BUCKET_BASE_URL
+  POIGNART_BUCKET_BASE_URL,
+  devMode
 } from '../../config';
 
 const StyledTextArea = styled(Textarea)`
@@ -98,6 +99,8 @@ export const ArtworkForm = () => {
   const [image, setImage] = useState('');
 
   const [voucherMinPrice, setVoucherMinPrice] = useState(0);
+
+  const [signedTokenId, setSignedTokenId] = useState('');
 
   const { triggerToast } = useWarnings();
 
@@ -226,6 +229,7 @@ export const ArtworkForm = () => {
         context.signature
       );
 
+      setSignedTokenId(nextTokenId);
       setSubmittedVouchers((prevState) => prevState + 1);
       setSignatureStatus(false);
       setDialogStatus(true);
@@ -571,32 +575,47 @@ export const ArtworkForm = () => {
                   fontWeight='bold'
                   fontFamily={theme.fonts.spaceGrotesk}
                 >{`Listing for ${artPrice} ETH`}</Text>
+                <Text fontFamily={theme.fonts.spaceMono} mb='1rem'>
+                  Spread the word about your contribution!
+                </Text>
+                <Textarea fontFamily={theme.fonts.spaceMono} isReadOnly>
+                  {`I just created a voucher for ${artPrice} ETH on @PoignARTnft #Unchain_Ukraine ${
+                    devMode
+                      ? 'https://rinkeby.poign.art.io/voucher/' + signedTokenId
+                      : 'https://poign.art.io/voucher/' + signedTokenId
+                  }`}
+                </Textarea>
               </AlertDialogBody>
 
               <AlertDialogFooter>
-                <Link href='/explore' passHref>
-                  <StyledButton
-                    className='dialog-button-cancel'
-                    ref={cancelRef}
-                  >
-                    Explore
-                  </StyledButton>
-                </Link>
-
-                <StyledButton
-                  ml={3}
+                <Button
+                  w='100%'
+                  leftIcon={<TwitterIcon />}
+                  fontFamily={theme.fonts.spaceMono}
+                  colorScheme='twitter'
+                  variant='solid'
+                  textDecoration='none'
                   onClick={() => {
-                    if (submittedVouchers < IN_APP_VOUCHERS_LIMIT) {
-                      onClose();
-                    } else {
-                      window.location.href = '/';
-                    }
+                    var start_text = 'https://twitter.com/intent/tweet?text=';
+                    var generated_tweet = encodeURIComponent(
+                      `I just created a voucher for ${artPrice} ETH on @PoignARTnft #Unchain_Ukraine`
+                    );
+                    var generated_url =
+                      '&url=' +
+                      encodeURIComponent(
+                        devMode
+                          ? 'https://rinkeby.poign.art.io/voucher/' +
+                              signedTokenId
+                          : 'https://poign.art.io/voucher/' + signedTokenId
+                      );
+                    window.open(
+                      start_text + generated_tweet + generated_url,
+                      '_blank'
+                    );
                   }}
                 >
-                  {submittedVouchers < IN_APP_VOUCHERS_LIMIT
-                    ? 'Submit Another'
-                    : 'Home'}
-                </StyledButton>
+                  Tweet
+                </Button>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialogOverlay>

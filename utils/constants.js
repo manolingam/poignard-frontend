@@ -63,14 +63,14 @@ export const teamInfo = [
   {
     name: 'Inna',
     image:
-      'https://res.cloudinary.com/saimano/image/upload/v1649776521/PoignArt/team/cyberfox_xgptkj.jpg',
+      'https://res.cloudinary.com/saimano/image/upload/v1649827320/PoignArt/team/inna_hblb1u.png',
     twitter: 'https://twitter.com/CyberF0x_',
     role: 'Editor'
   },
   {
     name: 'Dahveed',
     image:
-      'https://res.cloudinary.com/saimano/image/upload/v1649776522/PoignArt/team/davheed_sxjhok.png',
+      'https://res.cloudinary.com/saimano/image/upload/v1649827316/PoignArt/team/dahveed_ael04y.jpg',
     twitter: 'https://twitter.com/DavidKieve',
     role: 'Editor'
   },
@@ -91,7 +91,7 @@ export const teamInfo = [
   {
     name: 'Saimano',
     image:
-      'https://res.cloudinary.com/saimano/image/upload/v1649776522/PoignArt/team/saimano_swrtno.jpg',
+      'https://res.cloudinary.com/saimano/image/upload/v1649828383/PoignArt/team/saimano_wmamyk.jpg',
     twitter: 'https://twitter.com/saimano1996',
     role: 'FrontEnd Dev'
   },
@@ -104,24 +104,31 @@ export const teamInfo = [
     role: 'BackEnd Dev'
   },
   {
-    name: 'CyberTooth',
+    name: 'Chad',
     image:
-      'https://res.cloudinary.com/saimano/image/upload/v1649776521/PoignArt/team/cybertooth_ccvdd3.jpg',
+      'https://res.cloudinary.com/saimano/image/upload/v1649827868/PoignArt/team/chad_hlvo32.png',
     twitter: 'https://twitter.com/CybertoothK',
     role: 'Artist'
   },
   {
     name: 'Maryna',
     image:
-      'https://res.cloudinary.com/saimano/image/upload/v1649776522/PoignArt/team/maryna_svdlqf.jpg',
+      'https://res.cloudinary.com/saimano/image/upload/v1649827316/PoignArt/team/maryna_daxhsc.jpg',
     twitter: 'http://twitter.com/marynaeth',
     role: 'Artist'
   },
   {
-    name: 'Bestape',
+    name: 'Kyle aka Bestape',
     image:
-      'https://res.cloudinary.com/saimano/image/upload/v1649776522/PoignArt/team/bestape_ukmofm.jpg',
+      'https://res.cloudinary.com/saimano/image/upload/v1649827315/PoignArt/team/bestape_az8a2t.jpg',
     twitter: 'https://twitter.com/bestape',
     role: 'Artist'
+  },
+  {
+    name: 'Luke',
+    image:
+      'https://res.cloudinary.com/saimano/image/upload/v1649827316/PoignArt/team/luke_t9ch1m.jpg',
+    twitter: '',
+    role: 'Marketer'
   }
 ];

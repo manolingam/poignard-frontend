@@ -71,8 +71,9 @@ export const SectionFive = () => {
               src={info.image}
               h='150px'
               w='150px'
-              objectFit='contain'
-              filter='grayscale(100%)'
+              borderRadius='50%'
+              objectFit='cover'
+              filter='grayscale(50%)'
             />
 
             <HStack color={theme.colors.brand.yellow} mt='1rem'>

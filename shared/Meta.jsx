@@ -33,6 +33,7 @@ export const Meta = ({ title, description, image, url }) => {
           <meta property='og:description' content={description} />
         )}
         {image && <meta property='og:image' content={image} />}
+        {image && <meta name='twitter:image' content={image} />}
         {url && <meta property='og:url' content={url} />}
         <meta property='og:type' content='website' />
       </Head>
