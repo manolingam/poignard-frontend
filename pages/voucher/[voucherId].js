@@ -40,7 +40,7 @@ export const getStaticPaths = async () => {
 
   return {
     paths,
-    fallback: true
+    fallback: false
   };
 };
 
@@ -86,7 +86,7 @@ export const getStaticProps = async (context) => {
   };
 };
 
-const Artist = ({ voucher }) => {
+const VoucherPage = ({ voucher }) => {
   const [windowWidth, setWindowWidth] = useState('');
 
   useEffect(() => {
@@ -115,4 +115,4 @@ const Artist = ({ voucher }) => {
   );
 };
 
-export default Artist;
+export default VoucherPage;
