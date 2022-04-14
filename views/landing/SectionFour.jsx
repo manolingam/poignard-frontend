@@ -67,10 +67,10 @@ export const SectionFour = () => {
               world. Whatever you have in mind, please reach out to us through{' '}
               <ChakraLink
                 textDecoration='underline'
-                href='mailto:hello@poignart.ua'
+                href='mailto:poignart.nft@gmail.com'
                 isExternal
               >
-                hello@poignart.ua
+                poignart.nft@gmail.com
               </ChakraLink>
               .
               <br />
@@ -155,10 +155,10 @@ export const SectionFour = () => {
               Please get in touch through{' '}
               <ChakraLink
                 textDecoration='underline'
-                href='mailto:hello@poignart.ua'
+                href='mailto:poignart.nft@gmail.com'
                 isExternal
               >
-                hello@poignart.ua
+                poignart.nft@gmail.com
               </ChakraLink>{' '}
               with the subject line “Press Request” and a brief description of
               your intent.

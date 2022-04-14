@@ -8,6 +8,7 @@ import { Meta } from '../../shared/Meta';
 import { Header } from '../../shared/Header';
 import { Footer } from '../../shared/Footer';
 import { Voucher } from '../../shared/Voucher';
+import { Page404 } from '../../shared/404';
 
 import {
   JWT_SECRET,
@@ -98,22 +99,26 @@ const VoucherPage = ({ voucher }) => {
   }, []);
 
   return (
-    <Flex direction='column' w='100%'>
-      {voucher && (
-        <Meta
-          title={voucher.metadata.title}
-          description={voucher.metadata.description}
-          image={`${POIGNART_BUCKET_BASE_URL}/${voucher.metadata.image.replace(
-            'ipfs://',
-            ''
-          )}`}
-          url={`https://poign.art/voucher/${voucher.tokenID}`}
-        />
+    <>
+      {voucher ? (
+        <Flex direction='column' w='100%'>
+          <Meta
+            title={voucher.metadata.title}
+            description={voucher.metadata.description}
+            image={`${POIGNART_BUCKET_BASE_URL}/${voucher.metadata.image.replace(
+              'ipfs://',
+              ''
+            )}`}
+            url={`https://poign.art/voucher/${voucher.tokenID}`}
+          />
+          <Header windowWidth={windowWidth} />
+          <Voucher voucher={voucher} />
+          <Footer />
+        </Flex>
+      ) : (
+        <Page404 />
       )}
-      <Header windowWidth={windowWidth} />
-      <Voucher voucher={voucher} />
-      <Footer />
-    </Flex>
+    </>
   );
 };
 

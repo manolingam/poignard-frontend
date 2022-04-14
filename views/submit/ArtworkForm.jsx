@@ -229,7 +229,6 @@ export const ArtworkForm = () => {
         context.signature
       );
 
-      context.fetchAllVouchersInContext('all');
       setSignedTokenId(nextTokenId);
       setSubmittedVouchers((prevState) => prevState + 1);
       setSignatureStatus(false);
@@ -580,7 +579,7 @@ export const ArtworkForm = () => {
                   Spread the word about your contribution!
                 </Text>
                 <Textarea fontFamily={theme.fonts.spaceMono} isReadOnly>
-                  {`I just created a voucher for ${artPrice} ETH on @PoignARTnft #Unchain_Ukraine ${
+                  {`I just donated new art for Ukraine on @PoignARTnft Buy this piece for ${artPrice} ETH — 100% of proceeds will be donated to Ukraine! 🇺🇦 #Unchain_Ukraine #StandWithUkraine ${
                     devMode
                       ? 'https://rinkeby.poign.art.io/voucher/' + signedTokenId
                       : 'https://poign.art.io/voucher/' + signedTokenId
@@ -599,7 +598,7 @@ export const ArtworkForm = () => {
                   onClick={() => {
                     var start_text = 'https://twitter.com/intent/tweet?text=';
                     var generated_tweet = encodeURIComponent(
-                      `I just created a voucher for ${artPrice} ETH on @PoignARTnft #Unchain_Ukraine`
+                      `I just donated new art for Ukraine on @PoignARTnft Buy this piece for ${artPrice} ETH — 100% of proceeds will be donated to Ukraine! 🇺🇦 #Unchain_Ukraine #StandWithUkraine`
                     );
                     var generated_url =
                       '&url=' +

@@ -44,6 +44,8 @@ export const logos = {
     'https://res.cloudinary.com/saimano/image/upload/v1647680494/PoignArt/logos/gitcoin_g210rt.png',
   giveth:
     'https://res.cloudinary.com/saimano/image/upload/v1647682322/PoignArt/logos/giveth_hxmcc1.png',
+  everstake:
+    'https://res.cloudinary.com/saimano/image/upload/v1649939051/PoignArt/logos/everstake_q2tcoi.png',
   poignartMono:
     'https://res.cloudinary.com/saimano/image/upload/v1649767642/PoignArt/logos/logo_torch_ztjpnc.png',
   poignartFull:

@@ -22,7 +22,8 @@ const partners = [
   { name: 'unchain', website: 'https://unchain.fund/' },
   { name: 'nfdao', website: 'https://nfdao.io/' },
   { name: 'giveth', website: 'https://giveth.io/' },
-  { name: 'gitcoin', website: 'https://gitcoin.co/' }
+  { name: 'gitcoin', website: 'https://gitcoin.co/' },
+  { name: 'everstake', website: 'https://everstake.one/' }
 ];
 
 export const SectionSeven = () => {

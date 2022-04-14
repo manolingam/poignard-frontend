@@ -2,8 +2,6 @@
 import { useState, useEffect, useContext } from 'react';
 import { Flex } from '@chakra-ui/react';
 
-import { AppContext } from '../context/AppContext';
-
 import { theme } from '../themes/theme';
 
 import { Meta } from '../shared/Meta';
@@ -19,7 +17,6 @@ import { SectionSix } from '../views/landing/SectionSix';
 import { SectionSeven } from '../views/landing/SectionSeven';
 
 export default function Home() {
-  const context = useContext(AppContext);
   const [windowWidth, setWindowWidth] = useState('');
 
   useEffect(() => {
@@ -28,8 +25,6 @@ export default function Home() {
     window.addEventListener('resize', (e) => {
       setWindowWidth(window.innerWidth);
     });
-
-    context.fetchAllVouchersInContext('all');
   }, []);
 
   return (

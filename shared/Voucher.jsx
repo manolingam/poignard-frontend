@@ -104,7 +104,6 @@ export const Voucher = ({ voucher }) => {
   const { triggerToast } = useWarnings();
   const [isOpen, setOpen] = useState(false);
 
-  // const [fetched, setFetched] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loadingText, setLoadingText] = useState('');
 
@@ -173,18 +172,6 @@ export const Voucher = ({ voucher }) => {
     }
   };
 
-  // const handleFetch = async () => {
-  //   const { data } = await fetchVoucher(Number(voucherId));
-  //   setVoucher(data.data.voucher);
-  //   setFetched(true);
-  // };
-
-  // useEffect(() => {
-  //   if (voucherId) {
-  //     handleFetch();
-  //   }
-  // }, [voucherId]);
-
   const copyToClipboard = (value) => {
     const tempInput = document.createElement('input');
     tempInput.value = value;
@@ -203,20 +190,6 @@ export const Voucher = ({ voucher }) => {
       alignItems='center'
       minH='70vh'
     >
-      {/* {!voucher && (
-        <Flex direction='column' alignItems='center' my='auto'>
-          <ChakraImage src='/assets/loader.svg' alt='loading' w='200px' />
-        </Flex>
-      )} */}
-
-      {!voucher && (
-        <Flex direction='column' alignItems='center' my='auto'>
-          <StyledTag fontSize={{ base: '1rem', lg: '18px' }}>
-            Voucher not found!
-          </StyledTag>
-        </Flex>
-      )}
-
       {voucher && (
         <SimpleGrid
           columns={{ base: 1, md: 1, lg: 2 }}
@@ -369,9 +342,9 @@ export const Voucher = ({ voucher }) => {
                 Spread the word about your contribution!
               </Text>
               <Textarea fontFamily={theme.fonts.spaceMono} isReadOnly>
-                {`I just minted a voucher for ${utils.formatEther(
+                {`I just minted art for ${utils.formatEther(
                   voucher.minPrice
-                )} ETH on @PoignARTnft #Unchain_Ukraine ${
+                )} on @PoignARTnft 100% of proceeds are donated to Ukraine. 🇺🇦 #Unchain_Ukraine #StandWithUkraine ${
                   devMode
                     ? 'https://rinkeby.poign.art/voucher/' + voucher.tokenID
                     : 'https://poign.art/voucher/' + voucher.tokenID
@@ -390,9 +363,9 @@ export const Voucher = ({ voucher }) => {
                 onClick={() => {
                   var start_text = 'https://twitter.com/intent/tweet?text=';
                   var generated_tweet = encodeURIComponent(
-                    `I just minted a voucher for ${utils.formatEther(
+                    `I just minted art for ${utils.formatEther(
                       voucher.minPrice
-                    )} ETH on @PoignARTnft #Unchain_Ukraine`
+                    )} on @PoignARTnft 100% of proceeds are donated to Ukraine. 🇺🇦 #Unchain_Ukraine #StandWithUkraine`
                   );
                   var generated_url =
                     '&url=' +
