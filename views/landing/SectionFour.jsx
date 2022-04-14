@@ -41,7 +41,7 @@ const StyledAccordianPanel = styled(AccordionPanel)`
   padding-bottom: 4;
 `;
 
-export const SectionFour = () => {
+export const SectionFour = ({ unchainIncome }) => {
   return (
     <Flex
       id='section-four'
@@ -119,10 +119,10 @@ export const SectionFour = () => {
               Unchain is a charity project created by blockchain activists.
               Their goal is to break the chain of war, raising funds for
               humanitarian aid in Ukraine. In just one month from launching,
-              they raised over $7.5 million. Donations to Unchain go to migrant
-              support, food, psychological support, communication, protective
-              equipment, medicine, and direct aid - not weapons. Check them out
-              on{' '}
+              they raised over {unchainIncome}. Donations to Unchain go to
+              migrant support, food, psychological support, communication,
+              protective equipment, medicine, and direct aid - not weapons.
+              Check them out on{' '}
               <ChakraLink
                 textDecoration='underline'
                 href='https://cointelegraph.com/news/ukraine-has-received-37m-in-tracked-crypto-donations-so-far'

@@ -44,7 +44,7 @@ const StyledText = styled(Text)`
   font-size: 20px;
 `;
 
-export const SectionOne = () => {
+export const SectionOne = ({ unchainIncome }) => {
   return (
     <Grid
       templateColumns={{ lg: 'repeat(3, 1fr)', base: 'repeat(1, 1fr)' }}
@@ -69,7 +69,7 @@ export const SectionOne = () => {
             >
               Unchain.fund
             </ChakraLink>
-            . Over $7.5 million has been raised in just one month.
+            . Over {unchainIncome} has been raised in just one month.
           </StyledText>
           <Flex
             w='100%'
