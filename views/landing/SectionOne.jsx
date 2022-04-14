@@ -69,7 +69,7 @@ export const SectionOne = ({ unchainIncome }) => {
             >
               Unchain.fund
             </ChakraLink>
-            . Over {unchainIncome} has been raised in just one month.
+            . Over {unchainIncome} has been raised to date.
           </StyledText>
           <Flex
             w='100%'
