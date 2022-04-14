@@ -65,7 +65,7 @@ export const teamInfo = [
   {
     name: 'Inna',
     image:
-      'https://res.cloudinary.com/saimano/image/upload/v1649827320/PoignArt/team/inna_hblb1u.png',
+      'https://res.cloudinary.com/saimano/image/upload/v1649953303/PoignArt/team/inna_fyqled.jpg',
     twitter: 'https://twitter.com/CyberF0x_',
     role: 'Editor'
   },
