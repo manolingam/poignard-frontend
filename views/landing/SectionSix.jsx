@@ -1,17 +1,8 @@
-import {
-  Flex,
-  VStack,
-  Heading,
-  Text,
-  SimpleGrid,
-  Image,
-  Link,
-  Box
-} from '@chakra-ui/react';
+import { Flex, VStack, Heading, Text, SimpleGrid, Box } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 
 import { theme } from '../../themes/theme';
-import { illustrations, logos } from '../../utils/constants';
+import { illustrations } from '../../utils/constants';
 
 const StyledHeading = styled(Heading)`
   font-family: ${theme.fonts.spaceGrotesk};
@@ -20,42 +11,19 @@ const StyledHeading = styled(Heading)`
   margin-bottom: 1rem;
 `;
 
-const StyledTextOne = styled(Text)`
-  font-family: ${theme.fonts.spaceGrotesk};
-  color: ${theme.colors.brand.yellow};
-  font-weight: bold;
-  font-size: 35px;
-  padding-bottom: 1rem;
-`;
-
 const StyledTextTwo = styled(Text)`
   font-family: ${theme.fonts.spaceMono};
   color: ${theme.colors.brand.blackCharcoal};
 `;
 
-const StyledTextThree = styled(Text)`
-  font-family: ${theme.fonts.spaceGrotesk};
-  color: ${theme.colors.brand.yellow};
-  font-weight: bold;
-  font-size: 35px;
-  padding-bottom: 1rem;
-`;
-
-const partners = [
-  { name: 'unchain', website: 'https://unchain.fund/' },
-  { name: 'nfdao', website: 'https://nfdao.io/' },
-  { name: 'giveth', website: 'https://giveth.io/' },
-  { name: 'gitcoin', website: 'https://gitcoin.co/' }
-];
-
-export const SocialProofs = () => {
+export const SectionSix = () => {
   return (
     <Flex
       direction='column'
       px={{ base: '2rem', lg: '8rem' }}
       py={{ base: '2rem', lg: '6rem' }}
+      bg={theme.colors.brand.unchainBgGreen}
     >
-      <StyledTextOne>Social Proofs</StyledTextOne>
       <SimpleGrid columns={{ base: 1, md: 1, lg: 2 }} gridGap={20}>
         <Box
           minH='250px'
@@ -81,24 +49,6 @@ export const SocialProofs = () => {
           </StyledTextTwo>
         </VStack>
       </SimpleGrid>
-      <Flex
-        direction='column'
-        justifyContent='center'
-        mt={{ base: '2rem', lg: '8rem' }}
-      >
-        <StyledTextThree>Partnerships</StyledTextThree>
-        <SimpleGrid minChildWidth='50px' gridGap={20}>
-          {partners.map((partner, index) => (
-            <Link key={index} href={partner.website} isExternal mx='auto'>
-              <Image
-                src={logos[partner.name]}
-                alt='partner logo'
-                w={{ base: '300px' }}
-              />
-            </Link>
-          ))}
-        </SimpleGrid>
-      </Flex>
     </Flex>
   );
 };

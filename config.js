@@ -53,11 +53,12 @@ export const OPENSEA_BASE_URL = devMode
 export const POIGNART_BUCKET_BASE_URL =
   'https://poignart.ams3.cdn.digitaloceanspaces.com';
 
+export const UNCHAIN_INCOME_API = process.env.UNCHAIN_INCOME_API;
+
 export const IN_APP_VOUCHERS_LIMIT =
   process.env.NEXT_PUBLIC_INAPP_VOUCHERS_LIMIT;
 export const MAX_FILE_SIZE_MB = process.env.NEXT_PUBLIC_MAX_FILE_SIZE_MB;
 export const VOUCHERS_PER_PAGE = process.env.NEXT_PUBLIC_IMAGES_PER_RENDER;
-export const TIMEOUT_MINUTES = process.env.NEXT_PUBLIC_TIMEOUT_MINUTES;
 
 export const META_DATA_CREATED_BY = 'PoignART';
 export const SIGNING_DOMAIN_NAME = 'PoignartVoucher';

@@ -5,7 +5,8 @@ import {
   Image,
   Popover,
   PopoverTrigger,
-  PopoverContent
+  PopoverContent,
+  HStack
 } from '@chakra-ui/react';
 import { useContext } from 'react';
 import Link from 'next/link';
@@ -53,7 +54,7 @@ export const Header = ({ windowWidth }) => {
           justifyContent='center'
           cursor='pointer'
         >
-          <Image src={logos.poignartMono} alt='logo' mr='5px' w='75px' />
+          <Image src={logos.poignartMono} alt='logo' w='100px' />
           {windowWidth > 700 && (
             <Image src={logos.poignartFull} alt='logo' w='125px' />
           )}
@@ -66,7 +67,7 @@ export const Header = ({ windowWidth }) => {
         alignItems='center'
         fontSize={{ base: '1rem', lg: '1.3rem' }}
       >
-        {windowWidth > 600 &&
+        {windowWidth > 850 &&
           window.location.pathname !== '/submit' &&
           window.location.pathname !== '/explore' &&
           navItems.map((item, index) => {
@@ -86,7 +87,7 @@ export const Header = ({ windowWidth }) => {
             );
           })}
 
-        {windowWidth > 600 && window.location.pathname === '/submit' && (
+        {windowWidth > 850 && window.location.pathname === '/submit' && (
           <Link href='/explore' passHref>
             <Text
               fontFamily={theme.fonts.spaceGrotesk}
@@ -101,7 +102,7 @@ export const Header = ({ windowWidth }) => {
           </Link>
         )}
 
-        {windowWidth > 600 && window.location.pathname === '/explore' && (
+        {windowWidth > 850 && window.location.pathname === '/explore' && (
           <Link href='/submit' passHref>
             <Text
               fontFamily={theme.fonts.spaceGrotesk}
@@ -116,12 +117,32 @@ export const Header = ({ windowWidth }) => {
           </Link>
         )}
 
+        {windowWidth > 850 && (
+          <Link href='/#section-four' passHref>
+            <Text
+              fontFamily={theme.fonts.spaceGrotesk}
+              color={theme.colors.brand.black}
+              fontWeight='bold'
+              mr='4rem'
+              cursor='pointer'
+              _hover={{ textDecoration: 'underline' }}
+            >
+              FAQ
+            </Text>
+          </Link>
+        )}
+
         {!context.signature ? (
           <StyledConnectButton
             onClick={connectWallet}
             isLoading={signaturePending}
             loadingText='Signature Pending'
           >
+            <HStack mr='.5rem'>
+              <span style={{ width: '15px', marginRight: '1px' }}>
+                <i className='fa-brands fa-ethereum'></i>
+              </span>
+            </HStack>
             CONNECT
           </StyledConnectButton>
         ) : (

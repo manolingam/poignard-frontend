@@ -1,8 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import { Flex } from '@chakra-ui/react';
-
-import { AppContext } from '../context/AppContext';
+import axios from 'axios';
 
 import { theme } from '../themes/theme';
 
@@ -10,12 +9,38 @@ import { Meta } from '../shared/Meta';
 import { Header } from '../shared/Header';
 import { Footer } from '../shared/Footer';
 
-import { Manifesto } from '../views/landing/Manifesto';
-import { Intro } from '../views/landing/Intro';
-import { SocialProofs } from '../views/landing/SocialProofs';
+import { SectionOne } from '../views/landing/SectionOne';
+import { SectionTwo } from '../views/landing/SectionTwo';
+import { SectionThree } from '../views/landing/SectionThree';
+import { SectionFour } from '../views/landing/SectionFour';
+import { SectionFive } from '../views/landing/SectionFive';
+import { SectionSix } from '../views/landing/SectionSix';
+import { SectionSeven } from '../views/landing/SectionSeven';
 
-export default function Home() {
-  const context = useContext(AppContext);
+import { UNCHAIN_INCOME_API } from '../config';
+
+export const getServerSideProps = async () => {
+  const { data } = await axios.get(UNCHAIN_INCOME_API);
+
+  let totalIncome = 0;
+
+  data.wallets.walletUSD.map((wallet) => {
+    totalIncome += wallet.usd;
+  });
+
+  return {
+    props: {
+      unchainIncome: totalIncome
+        .toLocaleString('en-US', {
+          style: 'currency',
+          currency: 'USD'
+        })
+        .split('.')[0]
+    }
+  };
+};
+
+export default function Home({ unchainIncome }) {
   const [windowWidth, setWindowWidth] = useState('');
 
   useEffect(() => {
@@ -24,8 +49,6 @@ export default function Home() {
     window.addEventListener('resize', (e) => {
       setWindowWidth(window.innerWidth);
     });
-
-    context.fetchAllVouchersInContext('all');
   }, []);
 
   return (
@@ -37,9 +60,13 @@ export default function Home() {
     >
       <Meta />
       <Header windowWidth={windowWidth} />
-      <Intro />
-      <Manifesto />
-      <SocialProofs />
+      <SectionOne unchainIncome={unchainIncome} />
+      <SectionTwo />
+      <SectionThree />
+      <SectionFour unchainIncome={unchainIncome} />
+      <SectionFive />
+      <SectionSix />
+      <SectionSeven />
       <Footer />
     </Flex>
   );

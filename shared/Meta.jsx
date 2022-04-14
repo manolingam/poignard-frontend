@@ -1,15 +1,45 @@
 import Head from 'next/head';
 import Script from 'next/script';
 
-export const Meta = () => {
+export const Meta = ({ title, description, image, url }) => {
   return (
     <>
       <Head>
-        <title>PoignART</title>
+        <title>{title ? `${title} - PoignART` : 'PoignART'}</title>
         <meta
           name='description'
-          content='A platform for artists to create NFTs in support of Ukraine: all proceeds go to Unchain Fund.'
+          content={
+            description
+              ? description
+              : 'A platform for artists to create NFTs in support of Ukraine: all proceeds go to Unchain Fund.'
+          }
         />
+        {title && <meta property='og:title' content={title} />}
+        <meta
+          property='og:description'
+          content={
+            description
+              ? description
+              : 'A platform for artists to create NFTs in support of Ukraine: all proceeds go to Unchain Fund.'
+          }
+        />
+        {image && <meta property='og:image' content={image} />}
+        {url && <meta property='og:url' content={url} />}
+        <meta name='twitter:card' content='summary_large_image' />
+        <meta
+          name='twitter:title'
+          content={title ? `${title} - PoignART` : 'PoignART'}
+        />
+        <meta
+          name='twitter:description'
+          content={
+            description
+              ? description
+              : 'A platform for artists to create NFTs in support of Ukraine: all proceeds go to Unchain Fund.'
+          }
+        />
+        {image && <meta name='twitter:image' content={image} />}
+        <meta property='og:type' content='website' />
         <link rel='icon' href='/favicon.ico' />
         <link
           rel='stylesheet'

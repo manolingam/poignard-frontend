@@ -6,7 +6,8 @@ import {
   Text,
   Flex,
   Button,
-  Image as ChakraImage
+  Image as ChakraImage,
+  Skeleton
 } from '@chakra-ui/react';
 import { utils } from 'ethers';
 import Link from 'next/link';
@@ -108,7 +109,7 @@ export const InfiniteGrid = ({ allVouchers, onlyMintable, contentType }) => {
                       'ipfs://',
                       ''
                     )}`}
-                    fallbackSrc='assets/loader.svg'
+                    fallback={<Skeleton h='250px' w='250px' />}
                     alt='minted nft'
                     width='250px'
                     height='250px'

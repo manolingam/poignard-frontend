@@ -5,9 +5,18 @@ import {
   Button,
   Text,
   Image as ChakraImage,
-  SimpleGrid
+  SimpleGrid,
+  Skeleton,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  Textarea
 } from '@chakra-ui/react';
-import { useContext, useState, useEffect } from 'react';
+import { useContext, useState } from 'react';
 import Link from 'next/link';
 
 import styled from '@emotion/styled';
@@ -16,10 +25,9 @@ import useWarnings from '../hooks/useWarnings';
 
 import { AppContext } from '../context/AppContext';
 import { CopyIcon } from '../icons/CopyIcon';
-import { uriToHttp } from '../utils/helpers';
+import { TwitterIcon } from '../icons/TwitterIcon';
 import { getTokenURI, redeem } from '../utils/web3';
-import { fetchVoucher, redeemVoucher } from '../utils/requests';
-import { illustrations } from '../utils/constants';
+import { redeemVoucher } from '../utils/requests';
 import { theme } from '../themes/theme';
 
 import {
@@ -27,7 +35,8 @@ import {
   POIGNARD_CONTRACT_ADDRESS,
   POIGNART_BUCKET_BASE_URL,
   CHAIN_ID,
-  CHAIN_NAME
+  CHAIN_NAME,
+  devMode
 } from '../config';
 
 const StyledTag = styled(Text)`
@@ -90,15 +99,13 @@ const StyledCopy = styled(Text)`
   font-size: 12px;
 `;
 
-export const Voucher = ({ voucherId }) => {
+export const Voucher = ({ voucher }) => {
   const context = useContext(AppContext);
   const { triggerToast } = useWarnings();
+  const [isOpen, setOpen] = useState(false);
 
-  const [fetched, setFetched] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loadingText, setLoadingText] = useState('');
-
-  const [voucher, setVoucher] = useState({});
 
   const storeData = async (voucher) => {
     try {
@@ -151,6 +158,7 @@ export const Voucher = ({ voucherId }) => {
           const { status } = await tx.wait();
           if (status === 1) {
             await storeData(voucher);
+            setOpen(true);
           } else {
             triggerToast('Transaction failed.');
           }
@@ -163,18 +171,6 @@ export const Voucher = ({ voucherId }) => {
       triggerToast(`Please switch to ${CHAIN_NAME[CHAIN_ID]} `);
     }
   };
-
-  const handleFetch = async () => {
-    const { data } = await fetchVoucher(Number(voucherId));
-    setVoucher(data.data.voucher);
-    setFetched(true);
-  };
-
-  useEffect(() => {
-    if (voucherId) {
-      handleFetch();
-    }
-  }, [voucherId]);
 
   const copyToClipboard = (value) => {
     const tempInput = document.createElement('input');
@@ -189,31 +185,12 @@ export const Voucher = ({ voucherId }) => {
   return (
     <Flex
       px={{ base: '1rem', lg: '4rem' }}
+      py={{ base: '1rem', lg: '4rem' }}
       justifyContent='center'
       alignItems='center'
       minH='70vh'
     >
-      {!fetched && (
-        <Flex direction='column' alignItems='center' my='auto'>
-          <ChakraImage src='/assets/loader.svg' alt='loading' w='200px' />
-        </Flex>
-      )}
-
-      {fetched && !voucher && (
-        <Flex direction='column' alignItems='center' my='auto'>
-          <ChakraImage
-            src={illustrations.notFound}
-            alt='not found'
-            w='200px'
-            mb='1rem'
-          />
-          <StyledTag fontSize={{ base: '1rem', lg: '18px' }}>
-            Voucher not found!
-          </StyledTag>
-        </Flex>
-      )}
-
-      {fetched && voucher && (
+      {voucher && (
         <SimpleGrid
           columns={{ base: 1, md: 1, lg: 2 }}
           maxW='60rem'
@@ -223,13 +200,13 @@ export const Voucher = ({ voucherId }) => {
             {(voucher.contentType === 'image' ||
               voucher.contentType === 'audio') && (
               <ChakraImage
-                src={uriToHttp(voucher.metadata.image)}
-                crossOrigin='anonymous'
-                alt='minted nft'
-                fallbackSrc={`${POIGNART_BUCKET_BASE_URL}/${voucher.metadata.image.replace(
+                src={`${POIGNART_BUCKET_BASE_URL}/${voucher.metadata.image.replace(
                   'ipfs://',
                   ''
                 )}`}
+                crossOrigin='anonymous'
+                alt='minted nft'
+                fallback={<Skeleton h='250px' w='100%' />}
                 objectFit={
                   voucher.contentType === 'audio' ? 'cover' : 'contain'
                 }
@@ -327,6 +304,7 @@ export const Voucher = ({ voucherId }) => {
             >
               Copy voucher link <CopyIcon boxSize={4} />
             </StyledCopy>
+
             <Flex direction='column'>
               <StyledDescription>
                 {voucher.metadata.description.substring(0, 250)}
@@ -349,6 +327,65 @@ export const Voucher = ({ voucherId }) => {
             </Flex>
           </Flex>
         </SimpleGrid>
+      )}
+
+      {voucher && (
+        <Modal isOpen={isOpen} onClose={() => setOpen(false)}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader fontFamily={theme.fonts.spaceMono}>
+              Thank you!
+            </ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <Text fontFamily={theme.fonts.spaceMono} mb='1rem'>
+                Spread the word about your contribution!
+              </Text>
+              <Textarea fontFamily={theme.fonts.spaceMono} isReadOnly>
+                {`I just minted art for ${utils.formatEther(
+                  voucher.minPrice
+                )} on @PoignARTnft 100% of proceeds are donated to Ukraine. 🇺🇦 #Unchain_Ukraine #StandWithUkraine ${
+                  devMode
+                    ? 'https://rinkeby.poign.art/voucher/' + voucher.tokenID
+                    : 'https://poign.art/voucher/' + voucher.tokenID
+                }`}
+              </Textarea>
+            </ModalBody>
+
+            <ModalFooter>
+              <Button
+                w='100%'
+                leftIcon={<TwitterIcon />}
+                fontFamily={theme.fonts.spaceMono}
+                colorScheme='twitter'
+                variant='solid'
+                textDecoration='none'
+                onClick={() => {
+                  var start_text = 'https://twitter.com/intent/tweet?text=';
+                  var generated_tweet = encodeURIComponent(
+                    `I just minted art for ${utils.formatEther(
+                      voucher.minPrice
+                    )} on @PoignARTnft 100% of proceeds are donated to Ukraine. 🇺🇦 #Unchain_Ukraine #StandWithUkraine`
+                  );
+                  var generated_url =
+                    '&url=' +
+                    encodeURIComponent(
+                      devMode
+                        ? 'https://rinkeby.poign.art.io/voucher/' +
+                            voucher.tokenID
+                        : 'https://poign.art.io/voucher/' + voucher.tokenID
+                    );
+                  window.open(
+                    start_text + generated_tweet + generated_url,
+                    '_blank'
+                  );
+                }}
+              >
+                Tweet
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
       )}
     </Flex>
   );

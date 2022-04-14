@@ -16,13 +16,13 @@ import { logos } from '../utils/constants';
 const StyledFooterHeaderText = styled(Text)`
   font-family: ${theme.fonts.spaceGrotesk};
   font-weight: bold;
-  color: ${theme.colors.brand.black};
+  color: ${theme.colors.brand.unchainBgGreen};
   font-size: 1.2rem;
 `;
 
 const StyledLink = styled(ChakraLink)`
   font-family: ${theme.fonts.spaceGrotesk};
-  color: ${theme.colors.brand.black};
+  color: ${theme.colors.brand.white};
 `;
 
 export const Footer = () => {
@@ -34,6 +34,7 @@ export const Footer = () => {
       justifyContent='space-between'
       px={{ base: '2rem', lg: '5rem' }}
       py='4rem'
+      bg={theme.colors.brand.unchainBgBlack}
     >
       <Link href='/' passHref>
         <Image
@@ -42,6 +43,7 @@ export const Footer = () => {
           mt={{ base: '2rem' }}
           cursor='pointer'
           w='125px'
+          filter='invert(100%)'
         />
       </Link>
 
@@ -56,7 +58,7 @@ export const Footer = () => {
           <Link href='/submit' passHref>
             <Text
               fontFamily={theme.fonts.spaceGrotesk}
-              color={theme.colors.brand.black}
+              color={theme.colors.brand.white}
               cursor='pointer'
               _hover={{ textDecoration: 'underline' }}
             >
@@ -81,11 +83,21 @@ export const Footer = () => {
           <Link href='/explore' passHref>
             <Text
               fontFamily={theme.fonts.spaceGrotesk}
-              color={theme.colors.brand.black}
+              color={theme.colors.brand.white}
               cursor='pointer'
               _hover={{ textDecoration: 'underline' }}
             >
               Explore artworks
+            </Text>
+          </Link>
+          <Link href='/#section-four' passHref>
+            <Text
+              fontFamily={theme.fonts.spaceGrotesk}
+              color={theme.colors.brand.white}
+              cursor='pointer'
+              _hover={{ textDecoration: 'underline' }}
+            >
+              FAQs
             </Text>
           </Link>
         </VStack>
@@ -120,6 +132,20 @@ export const Footer = () => {
               </span>
               <ChakraLink href='https://medium.com/@poignart' isExternal>
                 Medium
+              </ChakraLink>
+            </HStack>
+          </StyledLink>
+
+          <StyledLink>
+            <HStack>
+              <span style={{ width: '15px', marginRight: '5px' }}>
+                <i className='fa-brands fa-instagram-square'></i>
+              </span>
+              <ChakraLink
+                href='https://www.instagram.com/poignartnft/'
+                isExternal
+              >
+                Instagram
               </ChakraLink>
             </HStack>
           </StyledLink>
