@@ -548,14 +548,13 @@ export const ArtworkForm = () => {
               <AlertDialogHeader
                 fontSize='25px'
                 fontWeight='bold'
-                fontFamily={theme.fonts.spaceGrotesk}
-                color={theme.colors.brand.yellow}
+                fontFamily={theme.fonts.spaceMono}
               >
-                {`Voucher Signed for ${artName}!`}
+                Thank you!
               </AlertDialogHeader>
 
               <AlertDialogBody fontFamily={theme.fonts.spaceMono}>
-                <ChakraImage
+                {/* <ChakraImage
                   crossOrigin='anonymous'
                   src={uriToHttp(imageUri)}
                   alt='minted nft'
@@ -566,7 +565,7 @@ export const ArtworkForm = () => {
                   height='auto'
                   width='100%'
                   mb='2rem'
-                />
+                /> */}
 
                 {artDesc}
                 <Text
