@@ -42,7 +42,7 @@ export const SectionFive = () => {
       alignItems='center'
       justifyContent='center'
       px={{ base: '2rem', lg: '8rem' }}
-      py={{ base: '2rem', lg: '6rem' }}
+      py={{ base: '2rem', lg: '4rem' }}
       bg={theme.colors.brand.unchainBgBlack}
     >
       <StyledHeading>Who is on your team?</StyledHeading>
@@ -65,7 +65,7 @@ export const SectionFive = () => {
             key={index}
             direction='column'
             justifyContent='center'
-            alignItems='left'
+            alignItems='center'
           >
             <ChakraImage
               src={info.image}
@@ -77,10 +77,18 @@ export const SectionFive = () => {
             />
 
             <HStack color={theme.colors.brand.yellow} mt='1rem'>
-              <span style={{ width: '15px', marginRight: '1px' }}>
-                <i className='fab fa-twitter'></i>
-              </span>
-              <ChakraLink href={info.twitter} isExternal>
+              {info.linkType === 'twitter' && (
+                <span style={{ width: '15px', marginRight: '1px' }}>
+                  <i className='fab fa-twitter'></i>
+                </span>
+              )}
+
+              {info.linkType === 'linkedin' && (
+                <span style={{ width: '15px', marginRight: '1px' }}>
+                  <i className='fa-brands fa-linkedin'></i>
+                </span>
+              )}
+              <ChakraLink href={info.link} isExternal>
                 {info.name}
               </ChakraLink>
             </HStack>

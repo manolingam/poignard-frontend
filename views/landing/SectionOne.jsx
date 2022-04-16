@@ -98,7 +98,14 @@ export const SectionOne = ({ unchainIncome }) => {
         </Flex>
       </GridItem>
       <GridItem>
-        <Image src={logos.poignartMono} alt='machine art' w='300px' h='auto' />
+        <Image
+          src={logos.poignartMono}
+          alt='machine art'
+          w='300px'
+          h='auto'
+          mr={{ base: 'auto' }}
+          ml={{ base: 'auto' }}
+        />
       </GridItem>
     </Grid>
   );

@@ -39,16 +39,6 @@ import {
   devMode
 } from '../config';
 
-const StyledTag = styled(Text)`
-  max-width: 75%;
-  font-family: ${theme.fonts.spaceMono};
-  color: ${theme.colors.brand.darkCharcoal};
-  text-align: center;
-  text-transform: uppercase;
-  font-weight: bold;
-  margin: auto;
-`;
-
 const StyledButton = styled(Button)`
   height: 50px;
   font-family: ${theme.fonts.spaceGrotesk};

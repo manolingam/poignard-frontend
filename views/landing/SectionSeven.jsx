@@ -31,7 +31,7 @@ export const SectionSeven = () => {
     <Flex
       direction='column'
       px={{ base: '2rem', lg: '8rem' }}
-      py={{ base: '2rem', lg: '6rem' }}
+      py={{ base: '2rem', lg: '4rem' }}
     >
       <StyledHeading>Supported by</StyledHeading>
       <SimpleGrid minChildWidth='50px' gridGap={20}>

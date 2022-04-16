@@ -1,4 +1,12 @@
-import { Flex, VStack, Heading, Text, SimpleGrid, Box } from '@chakra-ui/react';
+import {
+  Flex,
+  VStack,
+  Heading,
+  Text,
+  SimpleGrid,
+  Box,
+  Image as ChakraImage
+} from '@chakra-ui/react';
 import styled from '@emotion/styled';
 
 import { theme } from '../../themes/theme';
@@ -21,18 +29,17 @@ export const SectionSix = () => {
     <Flex
       direction='column'
       px={{ base: '2rem', lg: '8rem' }}
-      py={{ base: '2rem', lg: '6rem' }}
+      py={{ base: '2rem', lg: '4rem' }}
       bg={theme.colors.brand.unchainBgGreen}
     >
-      <SimpleGrid columns={{ base: 1, md: 1, lg: 2 }} gridGap={20}>
-        <Box
-          minH='250px'
-          w='100%'
-          bgImage={illustrations.unchain}
-          bgSize='contain'
-          bgRepeat='no-repeat'
-          bgPosition='center'
-          mx='auto'
+      <SimpleGrid
+        columns={{ base: 1, md: 1, lg: 2 }}
+        gridGap={10}
+        placeItems='center'
+      >
+        <ChakraImage
+          src={illustrations.unchain}
+          w={{ lg: '300px', base: '250px' }}
         />
 
         <VStack spacing={5} justifyContent='center'>

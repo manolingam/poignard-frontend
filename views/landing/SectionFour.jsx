@@ -49,7 +49,7 @@ export const SectionFour = ({ unchainIncome }) => {
       alignItems='center'
       justifyContent='center'
       px={{ base: '2rem', lg: '8rem' }}
-      py={{ base: '2rem', lg: '6rem' }}
+      py={{ base: '2rem', lg: '4rem' }}
     >
       <VStack spacing={5} justifyContent='center'>
         <StyledHeading>Frequently Asked Questions</StyledHeading>

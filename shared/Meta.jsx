@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import Script from 'next/script';
 
-import { illustrations } from '../utils/constants';
+import { logos } from '../utils/constants';
 
 export const Meta = ({ title, description, image, url }) => {
   return (
@@ -25,10 +25,7 @@ export const Meta = ({ title, description, image, url }) => {
               : 'A platform for artists to create NFTs in support of Ukraine: all proceeds go to Unchain Fund.'
           }
         />
-        <meta
-          property='og:image'
-          content={image || illustrations.bannerPeace}
-        />
+        <meta property='og:image' content={image || logos.poignartMono} />
         {url && <meta property='og:url' content={url} />}
         <meta name='twitter:card' content='summary_large_image' />
         <meta
@@ -43,10 +40,7 @@ export const Meta = ({ title, description, image, url }) => {
               : 'A platform for artists to create NFTs in support of Ukraine: all proceeds go to Unchain Fund.'
           }
         />
-        <meta
-          name='twitter:image'
-          content={image || illustrations.bannerPeace}
-        />
+        <meta name='twitter:image' content={image || logos.poignartMono} />
         <meta property='og:type' content='website' />
         <link rel='icon' href='/favicon.ico' />
         <link

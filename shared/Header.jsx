@@ -54,9 +54,15 @@ export const Header = ({ windowWidth }) => {
           justifyContent='center'
           cursor='pointer'
         >
-          <Image src={logos.poignartMono} alt='logo' w='100px' />
-          {windowWidth > 700 && (
-            <Image src={logos.poignartFull} alt='logo' w='125px' />
+          <Image src={logos.poignartMono} alt='logo' w='75px' />
+          {windowWidth > 450 && (
+            <Text
+              fontFamily={theme.fonts.spaceGrotesk}
+              fontWeight='bold'
+              fontSize='25px'
+            >
+              PoignART
+            </Text>
           )}
         </Flex>
       </Link>
