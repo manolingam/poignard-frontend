@@ -3,7 +3,6 @@ import {
   Heading,
   SimpleGrid,
   Text,
-  HStack,
   Link as ChakraLink,
   Image as ChakraImage
 } from '@chakra-ui/react';
@@ -76,23 +75,31 @@ export const SectionFive = () => {
               filter='grayscale(50%)'
             />
 
-            <HStack color={theme.colors.brand.yellow} mt='1rem'>
+            <Text mt='1rem' color={theme.colors.brand.yellow}>
+              {info.name}
+            </Text>
+            <StyledText>{info.role}</StyledText>
+            <ChakraLink
+              href={info.link}
+              isExternal
+              color={theme.colors.brand.yellow}
+              fontSize='15px'
+              w='15px'
+              h='15px'
+              mt='.5rem'
+            >
               {info.linkType === 'twitter' && (
-                <span style={{ width: '15px', marginRight: '1px' }}>
+                <span style={{ marginRight: '1px' }}>
                   <i className='fab fa-twitter'></i>
                 </span>
               )}
 
               {info.linkType === 'linkedin' && (
-                <span style={{ width: '15px', marginRight: '1px' }}>
+                <span style={{ marginRight: '1px' }}>
                   <i className='fa-brands fa-linkedin'></i>
                 </span>
               )}
-              <ChakraLink href={info.link} isExternal>
-                {info.name}
-              </ChakraLink>
-            </HStack>
-            <StyledText>{info.role}</StyledText>
+            </ChakraLink>
           </Flex>
         ))}
       </SimpleGrid>
