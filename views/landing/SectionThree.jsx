@@ -41,7 +41,7 @@ export const SectionThree = () => {
       alignItems='center'
       justifyContent='center'
       px={{ base: '2rem', lg: '8rem' }}
-      py={{ base: '2rem', lg: '4rem' }}
+      py={{ base: '2rem', lg: '2rem' }}
     >
       <VStack spacing={5} justifyContent='center'>
         <StyledHeading>
