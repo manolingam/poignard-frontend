@@ -49,6 +49,7 @@ export const SectionOne = ({ unchainIncome }) => {
     <Grid
       templateColumns={{ lg: 'repeat(3, 1fr)', base: 'repeat(1, 1fr)' }}
       gridGap={20}
+      placeItems='center'
       px={{ base: '2rem', lg: '8rem' }}
       py={{ base: '2rem', lg: '4rem' }}
     >
@@ -98,14 +99,7 @@ export const SectionOne = ({ unchainIncome }) => {
         </Flex>
       </GridItem>
       <GridItem>
-        <Image
-          src={logos.poignartMono}
-          alt='machine art'
-          w='300px'
-          h='auto'
-          mr={{ base: 'auto' }}
-          ml={{ base: 'auto' }}
-        />
+        <Image src={logos.poignartMono} alt='machine art' w='300px' h='auto' />
       </GridItem>
     </Grid>
   );

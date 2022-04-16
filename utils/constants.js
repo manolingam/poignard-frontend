@@ -37,7 +37,7 @@ export const logos = {
   giveth:
     'https://res.cloudinary.com/saimano/image/upload/v1647682322/PoignArt/logos/giveth_hxmcc1.png',
   everstake:
-    'https://res.cloudinary.com/saimano/image/upload/v1649939051/PoignArt/logos/everstake_q2tcoi.png',
+    'https://res.cloudinary.com/saimano/image/upload/v1650098011/PoignArt/logos/everstake_dwnwed.png',
   poignartMono:
     'https://res.cloudinary.com/saimano/image/upload/v1649767642/PoignArt/logos/logo_torch_ztjpnc.png',
   poignartFull:
