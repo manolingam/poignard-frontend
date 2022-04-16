@@ -34,7 +34,7 @@ export const SectionSeven = () => {
       py={{ base: '2rem', lg: '4rem' }}
     >
       <StyledHeading>Supported by</StyledHeading>
-      <SimpleGrid minChildWidth='50px' gridGap={20}>
+      <SimpleGrid minChildWidth='50px' gridGap={10}>
         {partners.map((partner, index) => (
           <Link key={index} href={partner.website} isExternal mx='auto'>
             <ChakraImage

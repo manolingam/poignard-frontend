@@ -43,6 +43,7 @@ export const Footer = () => {
           fontSize='25px'
           color={theme.colors.brand.white}
           cursor='pointer'
+          mt={{ base: '2rem', lg: '0' }}
         >
           PoignART
         </Text>

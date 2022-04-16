@@ -31,7 +31,7 @@ export const logos = {
   unchain:
     'https://res.cloudinary.com/saimano/image/upload/v1647680578/PoignArt/logos/unchain_o0nr3z.png',
   nfdao:
-    'https://res.cloudinary.com/saimano/image/upload/v1647680494/PoignArt/logos/nfdao_ukumlh.png',
+    'https://res.cloudinary.com/saimano/image/upload/v1650099269/PoignArt/logos/nfdao_ft6amf.png',
   gitcoin:
     'https://res.cloudinary.com/saimano/image/upload/v1647680494/PoignArt/logos/gitcoin_g210rt.png',
   giveth:
