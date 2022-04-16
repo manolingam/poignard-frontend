@@ -48,8 +48,8 @@ export const featuredImages = [
   'https://poignart.ams3.cdn.digitaloceanspaces.com/QmRBuMxzAGMukppTNyZdg2Zcn1pUG4FGkV8fBQBuyP9poR',
   'https://poignart.ams3.cdn.digitaloceanspaces.com/Qme4PpJpGzwXLzGTEBigpHU1vJLeEGN5LykzwMDZ7TZhpK',
   'https://poignart.ams3.cdn.digitaloceanspaces.com/QmPJsbdRwxayu94GB2wHKkiWvkZm9rXJzxwrbr7U9TMvqu',
+  'https://poignart.ams3.cdn.digitaloceanspaces.com/QmdBXeatDwuaPb7fEABxu2wX9Zahizm7nKkqRfEVXgfLLx',
   'https://poignart.ams3.cdn.digitaloceanspaces.com/QmewLTLA4nuB2q9hS45ZXNVqSL63NnQKm4jbioBwvpgSN6',
-  'https://poignart.ams3.cdn.digitaloceanspaces.com/QmYwPmsPvP35mpM33tYkvnNtAQFKmYGZMPbR2btuaty1Yw',
   'https://poignart.ams3.cdn.digitaloceanspaces.com/QmYFjSkFzXRd4FGC2JQDdogYDVFKsngLBE6x5V721D2sy3'
 ];
 
@@ -60,7 +60,7 @@ export const teamInfo = [
       'https://res.cloudinary.com/saimano/image/upload/v1649953303/PoignArt/team/inna_fyqled.jpg',
     link: 'https://twitter.com/CyberF0x_',
     linkType: 'twitter',
-    role: 'Project Lead'
+    role: 'Operations'
   },
   {
     name: 'Dahveed',

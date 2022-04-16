@@ -3,8 +3,8 @@ import {
   VStack,
   Heading,
   Text,
-  SimpleGrid,
-  Box,
+  GridItem,
+  Grid,
   Image as ChakraImage
 } from '@chakra-ui/react';
 import styled from '@emotion/styled';
@@ -32,30 +32,33 @@ export const SectionSix = () => {
       py={{ base: '2rem', lg: '4rem' }}
       bg={theme.colors.brand.unchainBgGreen}
     >
-      <SimpleGrid
-        columns={{ base: 1, md: 1, lg: 2 }}
+      <Grid
+        templateColumns={{ lg: 'repeat(3, 1fr)', base: 'repeat(1, 1fr)' }}
         gridGap={10}
         placeItems='center'
       >
-        <ChakraImage
-          src={illustrations.unchain}
-          w={{ lg: '300px', base: '250px' }}
-        />
-
-        <VStack spacing={5} justifyContent='center'>
-          <StyledHeading>
-            Unchain is already transferring funds to the people on the ground in
-            Ukraine who need it most.
-          </StyledHeading>
-          <StyledTextTwo fontSize={{ base: '1rem', lg: '20px' }}>
-            {`Helping Kharkiv & Sumy refugees in Poltava schools with diapers, food,
+        <GridItem>
+          <ChakraImage
+            src={illustrations.unchain}
+            w={{ lg: '300px', base: '250px' }}
+          />
+        </GridItem>
+        <GridItem colSpan={{ lg: 2 }}>
+          <VStack spacing={5} justifyContent='center'>
+            <StyledHeading>
+              Unchain is already transferring funds to the people on the ground
+              in Ukraine who need it most.
+            </StyledHeading>
+            <StyledTextTwo fontSize={{ base: '1rem', lg: '20px' }}>
+              {`Helping Kharkiv & Sumy refugees in Poltava schools with diapers, food,
           baby food, flashlights, and more. Providing medicine via Ukraine's
           veteran's fund. Organizing laundry for refugees in Uzhgorod.
           PoignART's contributions will get more urgent needs met quicker and in
           more cities.`}
-          </StyledTextTwo>
-        </VStack>
-      </SimpleGrid>
+            </StyledTextTwo>
+          </VStack>
+        </GridItem>
+      </Grid>
     </Flex>
   );
 };
