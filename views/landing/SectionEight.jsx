@@ -38,7 +38,7 @@ export const SectionEight = () => {
         textAlign='center'
         mt='0.5rem'
       >
-        Support us by using our social media banner!
+        Support us by using our social media banner & logo!
       </Text>
       <Flex direction={{ base: 'column', lg: 'row' }} mt='1rem'>
         <Button
