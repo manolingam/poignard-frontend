@@ -70,7 +70,16 @@ export const SectionTwo = () => {
           media (photos, illustrations, drawings, poems, etc.) in high quality
           and let us do the rest. We will use the entirety of our social network
           and resources to get your art seen, so that it pierces human hearts
-          like the poignard dagger that inspired our team.
+          like the poignard dagger that inspired our team. Minting an NFT costs
+          money but we use{' '}
+          <ChakraLink
+            textDecoration='underline'
+            href='https://nftschool.dev/tutorial/lazy-minting/'
+            isExternal
+          >
+            “lazy minting”
+          </ChakraLink>{' '}
+          which makes this free for you.
         </StyledBodyText>
         <br />
         <StyledText maxW='960px' px='2rem'>
@@ -93,15 +102,7 @@ export const SectionTwo = () => {
             wallet
           </ChakraLink>{' '}
           to proceed. <br />
-          3. Upload your artwork. Minting an NFT costs money but we use{' '}
-          <ChakraLink
-            textDecoration='underline'
-            href='https://nftschool.dev/tutorial/lazy-minting/'
-            isExternal
-          >
-            “lazy minting”
-          </ChakraLink>{' '}
-          which makes this free for you. <br />
+          3. Upload your artwork. <br />
           4. Set the sale price. <br />
           5. See your creative work become humanitarian aid!
         </StyledText>

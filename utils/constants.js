@@ -16,7 +16,7 @@ export const explainerQA = [
 
 export const illustrations = {
   bannerPeace:
-    'https://res.cloudinary.com/saimano/image/upload/v1649772699/PoignArt/illustrations/banner_peace_tddvst.jpg',
+    'https://res.cloudinary.com/saimano/image/upload/v1647679999/PoignArt/illustrations/Untitled_Artwork_3_sdiw5k.png',
   poignartEth:
     'https://res.cloudinary.com/saimano/image/upload/v1647959760/PoignArt/illustrations/poignart_eth_jtaq6o.png',
   connectWallet:
