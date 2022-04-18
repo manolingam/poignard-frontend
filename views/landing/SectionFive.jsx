@@ -104,7 +104,7 @@ export const SectionFive = () => {
                   w='15px'
                   h='15px'
                 >
-                  <span style={{ marginLeft: '5px' }}>
+                  <span>
                     <i className='fa-brands fa-linkedin'></i>
                   </span>
                 </ChakraLink>
