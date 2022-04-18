@@ -21,22 +21,20 @@ export const SectionEight = () => {
     <Flex
       direction='column'
       px={{ base: '2rem', lg: '8rem' }}
-      py={{ base: '2rem', lg: '4rem' }}
-      bg='#0057b7'
+      py={{ base: '2rem', lg: '2rem' }}
       alignItems='center'
     >
-      <Heading
+      {/* <Heading
         fontFamily={theme.fonts.spaceGrotesk}
         color={theme.colors.brand.yellow}
       >
         Make Art! Stop War!
-      </Heading>
+      </Heading> */}
       <Text
         fontFamily={theme.fonts.spaceGrotesk}
-        color={theme.colors.brand.white}
+        color={theme.colors.brand.black}
         fontSize='20px'
         textAlign='center'
-        mt='0.5rem'
       >
         Support us by using our social media banner & logo!
       </Text>
@@ -49,6 +47,9 @@ export const SectionEight = () => {
           }
           mr={{ base: '0', lg: '1rem' }}
           mb={{ base: '1rem', lg: '0' }}
+          _hover={{
+            opacity: '0.8'
+          }}
         >
           Download Banner
         </Button>
