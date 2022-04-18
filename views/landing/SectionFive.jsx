@@ -2,6 +2,7 @@ import {
   Flex,
   Heading,
   SimpleGrid,
+  HStack,
   Text,
   Link as ChakraLink,
   Image as ChakraImage
@@ -79,27 +80,36 @@ export const SectionFive = () => {
               {info.name}
             </Text>
             <StyledText>{info.role}</StyledText>
-            <ChakraLink
-              href={info.link}
-              isExternal
-              color={theme.colors.brand.yellow}
-              fontSize='15px'
-              w='15px'
-              h='15px'
-              mt='.5rem'
-            >
-              {info.linkType === 'twitter' && (
-                <span style={{ marginRight: '1px' }}>
-                  <i className='fab fa-twitter'></i>
-                </span>
+            <HStack mt='.5rem'>
+              {info.socials.twitter && (
+                <ChakraLink
+                  href={info.socials.twitter}
+                  isExternal
+                  color={theme.colors.brand.yellow}
+                  fontSize='15px'
+                  w='15px'
+                  h='15px'
+                >
+                  <span>
+                    <i className='fab fa-twitter'></i>
+                  </span>
+                </ChakraLink>
               )}
-
-              {info.linkType === 'linkedin' && (
-                <span style={{ marginRight: '1px' }}>
-                  <i className='fa-brands fa-linkedin'></i>
-                </span>
+              {info.socials.linkedin && (
+                <ChakraLink
+                  href={info.socials.linkedin}
+                  isExternal
+                  color={theme.colors.brand.yellow}
+                  fontSize='15px'
+                  w='15px'
+                  h='15px'
+                >
+                  <span style={{ marginLeft: '5px' }}>
+                    <i className='fa-brands fa-linkedin'></i>
+                  </span>
+                </ChakraLink>
               )}
-            </ChakraLink>
+            </HStack>
           </Flex>
         ))}
       </SimpleGrid>

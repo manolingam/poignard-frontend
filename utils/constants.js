@@ -58,40 +58,46 @@ export const teamInfo = [
     name: 'Inna',
     image:
       'https://res.cloudinary.com/saimano/image/upload/v1649953303/PoignArt/team/inna_fyqled.jpg',
-    link: 'https://twitter.com/CyberF0x_',
-    linkType: 'twitter',
+    socials: {
+      twitter: 'https://twitter.com/CyberF0x_',
+      linkedin: 'https://www.linkedin.com/in/inna-kosianets-70512a58'
+    },
     role: 'Operations'
   },
   {
     name: 'Dahveed',
     image:
       'https://res.cloudinary.com/saimano/image/upload/v1649827316/PoignArt/team/dahveed_ael04y.jpg',
-    link: 'https://twitter.com/DavidKieve',
-    linkType: 'twitter',
+    socials: {
+      twitter: 'https://twitter.com/DavidKieve'
+    },
     role: 'Content Creator'
   },
   {
     name: 'Seroga',
     image:
       'https://res.cloudinary.com/saimano/image/upload/v1649776522/PoignArt/team/seroga_yrd3rn.png',
-    link: 'https://twitter.com/seroga1988',
-    linkType: 'twitter',
+    socials: {
+      twitter: 'https://twitter.com/seroga1988'
+    },
     role: 'Content Creator'
   },
   {
     name: 'Kyle',
     image:
       'https://res.cloudinary.com/saimano/image/upload/v1649776522/PoignArt/team/kyle_ybxvxi.jpg',
-    link: 'https://twitter.com/KyleSt4rgarden',
-    linkType: 'twitter',
+    socials: {
+      twitter: 'https://twitter.com/KyleSt4rgarden'
+    },
     role: 'Solidity Dev'
   },
   {
     name: 'Saimano',
     image:
       'https://res.cloudinary.com/saimano/image/upload/v1649828383/PoignArt/team/saimano_wmamyk.jpg',
-    link: 'https://twitter.com/saimano1996',
-    linkType: 'twitter',
+    socials: {
+      twitter: 'https://twitter.com/saimano1996'
+    },
     role: 'FrontEnd Dev'
   },
 
@@ -99,40 +105,45 @@ export const teamInfo = [
     name: 'Dan',
     image:
       'https://res.cloudinary.com/saimano/image/upload/v1649776521/PoignArt/team/dan_m0gec9.jpg',
-    link: 'https://twitter.com/dan13ram',
-    linkType: 'twitter',
+    socials: {
+      twitter: 'https://twitter.com/dan13ram'
+    },
     role: 'BackEnd Dev'
   },
   {
     name: 'Chad',
     image:
       'https://res.cloudinary.com/saimano/image/upload/v1649827868/PoignArt/team/chad_hlvo32.png',
-    link: 'https://twitter.com/CybertoothK',
-    linkType: 'twitter',
+    socials: {
+      twitter: 'https://twitter.com/CybertoothK'
+    },
     role: 'Artist'
   },
   {
     name: 'Maryna',
     image:
       'https://res.cloudinary.com/saimano/image/upload/v1649827316/PoignArt/team/maryna_daxhsc.jpg',
-    link: 'http://twitter.com/marynaeth',
-    linkType: 'twitter',
+    socials: {
+      twitter: 'http://twitter.com/marynaeth'
+    },
     role: 'Artist'
   },
   {
     name: 'Kyle aka Bestape',
     image:
       'https://res.cloudinary.com/saimano/image/upload/v1649827315/PoignArt/team/bestape_az8a2t.jpg',
-    link: 'https://twitter.com/bestape',
-    linkType: 'twitter',
+    socials: {
+      twitter: 'https://twitter.com/bestape'
+    },
     role: 'Artist'
   },
   {
     name: 'Luke',
     image:
       'https://res.cloudinary.com/saimano/image/upload/v1649827316/PoignArt/team/luke_t9ch1m.jpg',
-    link: 'https://www.linkedin.com/mwlite/me',
-    linkType: 'linkedin',
+    socials: {
+      linkedin: 'https://www.linkedin.com/mwlite/me'
+    },
     role: 'Marketer'
   }
 ];

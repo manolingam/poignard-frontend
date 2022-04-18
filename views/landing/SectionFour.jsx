@@ -57,6 +57,30 @@ export const SectionFour = ({ unchainIncome }) => {
         <Accordion defaultIndex={[0]}>
           <StyledAccordianItem>
             <AccordionButton>
+              <StyledAccordianBox>Where will the money go?</StyledAccordianBox>
+              <AccordionIcon />
+            </AccordionButton>
+            <StyledAccordianPanel>
+              100% of proceeds go to{' '}
+              <ChakraLink
+                textDecoration='underline'
+                href='https://unchain.fund/'
+                isExternal
+                color={theme.colors.brand.unchainFontGreen}
+              >
+                Unchain Fund
+              </ChakraLink>
+              , which has a list of approved non-government organizations (NGO)
+              in Ukraine doing real-time frontline work. It is impossible for
+              the PoignART team to touch any money, therefore, impossible for us
+              to take a middleman’s cut. Every time an NFT is resold, 2.5% of
+              the sale goes to Unchain Fund, which means that artwork from
+              PoignART is a gift that keeps on giving!
+            </StyledAccordianPanel>
+          </StyledAccordianItem>
+
+          <StyledAccordianItem>
+            <AccordionButton>
               <StyledAccordianBox>
                 How can my organization partner with you?
               </StyledAccordianBox>
@@ -88,30 +112,6 @@ export const SectionFour = ({ unchainIncome }) => {
 
           <StyledAccordianItem>
             <AccordionButton>
-              <StyledAccordianBox>Where will the money go?</StyledAccordianBox>
-              <AccordionIcon />
-            </AccordionButton>
-            <StyledAccordianPanel>
-              100% of proceeds go to{' '}
-              <ChakraLink
-                textDecoration='underline'
-                href='https://unchain.fund/'
-                isExternal
-                color={theme.colors.brand.unchainFontGreen}
-              >
-                Unchain Fund
-              </ChakraLink>
-              , which has a list of approved non-government organizations (NGO)
-              in Ukraine doing real-time frontline work. It is impossible for
-              the PoignART team to touch any money, therefore, impossible for us
-              to take a middleman’s cut. Every time an NFT is resold, 2.5% of
-              the sale goes to Unchain Fund, which means that artwork from
-              PoignART is a gift that keeps on giving!
-            </StyledAccordianPanel>
-          </StyledAccordianItem>
-
-          <StyledAccordianItem>
-            <AccordionButton>
               <StyledAccordianBox>What is Unchain Fund?</StyledAccordianBox>
               <AccordionIcon />
             </AccordionButton>
@@ -119,7 +119,7 @@ export const SectionFour = ({ unchainIncome }) => {
               Unchain is a charity project created by blockchain activists.
               Their goal is to break the chain of war, raising funds for
               humanitarian aid in Ukraine. Since the launch, they raised over{' '}
-              {unchainIncome} till date. Donations to Unchain go to migrant
+              {unchainIncome} so far. Donations to Unchain go to migrant
               support, food, psychological support, communication, protective
               equipment, medicine, and direct aid - not weapons. Check them out
               on{' '}
