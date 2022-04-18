@@ -34,13 +34,12 @@ const StyledPrimaryButton = styled(Button)`
 const StyledBodyText = styled(Text)`
   font-family: ${theme.fonts.spaceMono};
   color: ${theme.colors.brand.blackCharcoal};
-  text-align: justify;
+  font-size: 20px;
 `;
 
 const StyledHeading = styled(Heading)`
   font-family: ${theme.fonts.spaceGrotesk};
   color: ${theme.colors.brand.black};
-  text-align: center;
   font-size: 35px;
   margin-bottom: 1rem;
 `;
@@ -59,23 +58,32 @@ export const SectionTwo = () => {
       alignItems='center'
       justifyContent='center'
       px={{ base: '2rem', lg: '8rem' }}
-      py={{ base: '2rem', lg: '6rem' }}
+      py={{ base: '2rem', lg: '4rem' }}
     >
       <VStack spacing={5} justifyContent='center'>
         <StyledHeading>
           Art has always made the world a better place. Artists of the world, we
           call upon you!
         </StyledHeading>
-        <StyledBodyText fontSize='20px' maxW='960px' px='2rem'>
+        <StyledBodyText>
           Today, your work will save lives and move hearts. Upload original
           media (photos, illustrations, drawings, poems, etc.) in high quality
           and let us do the rest. We will use the entirety of our social network
           and resources to get your art seen, so that it pierces human hearts
-          like the poignard dagger that inspired our team.
+          like the poignard dagger that inspired our team. Minting an NFT costs
+          money but we use{' '}
+          <ChakraLink
+            textDecoration='underline'
+            href='https://nftschool.dev/tutorial/lazy-minting/'
+            isExternal
+          >
+            “lazy minting”
+          </ChakraLink>{' '}
+          which makes this free for you.
         </StyledBodyText>
         <br />
         <StyledText maxW='960px' px='2rem'>
-          1. Get approved here{' '}
+          1. Get approved{' '}
           <ChakraLink
             textDecoration='underline'
             href='https://docs.google.com/forms/d/e/1FAIpQLSff5aorK4Yjrfa4ws50byFxHxzQKt1Czv1F5iYE3IPxY7iaQQ/viewform'
@@ -94,15 +102,7 @@ export const SectionTwo = () => {
             wallet
           </ChakraLink>{' '}
           to proceed. <br />
-          3. Upload your artwork. Minting an NFT costs money but we use{' '}
-          <ChakraLink
-            textDecoration='underline'
-            href='https://nftschool.dev/tutorial/lazy-minting/'
-            isExternal
-          >
-            “lazy minting”
-          </ChakraLink>{' '}
-          which makes this free for you. <br />
+          3. Upload your artwork. <br />
           4. Set the sale price. <br />
           5. See your creative work become humanitarian aid!
         </StyledText>
@@ -121,7 +121,7 @@ export const SectionTwo = () => {
         w='100%'
         columns={{ base: 1, lg: 3 }}
         gridGap={{ base: 5, lg: 20 }}
-        mt='8rem'
+        mt='4rem'
         placeItems='center'
       >
         {featuredImages.map((image, index) => (

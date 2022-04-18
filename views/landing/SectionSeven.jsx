@@ -31,10 +31,10 @@ export const SectionSeven = () => {
     <Flex
       direction='column'
       px={{ base: '2rem', lg: '8rem' }}
-      py={{ base: '2rem', lg: '6rem' }}
+      py={{ base: '2rem', lg: '4rem' }}
     >
       <StyledHeading>Supported by</StyledHeading>
-      <SimpleGrid minChildWidth='50px' gridGap={20}>
+      <SimpleGrid minChildWidth='50px' gridGap={10}>
         {partners.map((partner, index) => (
           <Link key={index} href={partner.website} isExternal mx='auto'>
             <ChakraImage
@@ -45,17 +45,6 @@ export const SectionSeven = () => {
           </Link>
         ))}
       </SimpleGrid>
-
-      {/* <VStack
-        spacing={5}
-        justifyContent='center'
-        mt={{ base: '2rem', lg: '6rem' }}
-      >
-        <StyledHeading>
-          Support us by using our social media banner!
-        </StyledHeading>
-        <Image src={illustrations.bannerPeace} alt='featured art' />
-      </VStack> */}
     </Flex>
   );
 };

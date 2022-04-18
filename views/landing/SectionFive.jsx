@@ -2,8 +2,8 @@ import {
   Flex,
   Heading,
   SimpleGrid,
-  Text,
   HStack,
+  Text,
   Link as ChakraLink,
   Image as ChakraImage
 } from '@chakra-ui/react';
@@ -42,7 +42,7 @@ export const SectionFive = () => {
       alignItems='center'
       justifyContent='center'
       px={{ base: '2rem', lg: '8rem' }}
-      py={{ base: '2rem', lg: '6rem' }}
+      py={{ base: '2rem', lg: '4rem' }}
       bg={theme.colors.brand.unchainBgBlack}
     >
       <StyledHeading>Who is on your team?</StyledHeading>
@@ -65,7 +65,7 @@ export const SectionFive = () => {
             key={index}
             direction='column'
             justifyContent='center'
-            alignItems='left'
+            alignItems='center'
           >
             <ChakraImage
               src={info.image}
@@ -76,15 +76,40 @@ export const SectionFive = () => {
               filter='grayscale(50%)'
             />
 
-            <HStack color={theme.colors.brand.yellow} mt='1rem'>
-              <span style={{ width: '15px', marginRight: '1px' }}>
-                <i className='fab fa-twitter'></i>
-              </span>
-              <ChakraLink href={info.twitter} isExternal>
-                {info.name}
-              </ChakraLink>
-            </HStack>
+            <Text mt='1rem' color={theme.colors.brand.yellow}>
+              {info.name}
+            </Text>
             <StyledText>{info.role}</StyledText>
+            <HStack mt='.5rem'>
+              {info.socials.twitter && (
+                <ChakraLink
+                  href={info.socials.twitter}
+                  isExternal
+                  color={theme.colors.brand.yellow}
+                  fontSize='15px'
+                  w='15px'
+                  h='15px'
+                >
+                  <span>
+                    <i className='fab fa-twitter'></i>
+                  </span>
+                </ChakraLink>
+              )}
+              {info.socials.linkedin && (
+                <ChakraLink
+                  href={info.socials.linkedin}
+                  isExternal
+                  color={theme.colors.brand.yellow}
+                  fontSize='15px'
+                  w='15px'
+                  h='15px'
+                >
+                  <span style={{ marginLeft: '5px' }}>
+                    <i className='fa-brands fa-linkedin'></i>
+                  </span>
+                </ChakraLink>
+              )}
+            </HStack>
           </Flex>
         ))}
       </SimpleGrid>

@@ -554,7 +554,7 @@ export const ArtworkForm = () => {
               </AlertDialogHeader>
 
               <AlertDialogBody fontFamily={theme.fonts.spaceMono}>
-                {/* <ChakraImage
+                <ChakraImage
                   crossOrigin='anonymous'
                   src={uriToHttp(imageUri)}
                   alt='minted nft'
@@ -562,10 +562,11 @@ export const ArtworkForm = () => {
                     'ipfs://',
                     ''
                   )}`}
-                  height='auto'
                   width='100%'
+                  height='170px'
+                  objectFit='contain'
                   mb='2rem'
-                /> */}
+                />
 
                 {artDesc}
                 <Text

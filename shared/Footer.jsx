@@ -37,14 +37,16 @@ export const Footer = () => {
       bg={theme.colors.brand.unchainBgBlack}
     >
       <Link href='/' passHref>
-        <Image
-          src={logos.poignartFull}
-          alt='logo'
-          mt={{ base: '2rem' }}
+        <Text
+          fontFamily={theme.fonts.spaceGrotesk}
+          fontWeight='bold'
+          fontSize='25px'
+          color={theme.colors.brand.white}
           cursor='pointer'
-          w='125px'
-          filter='invert(100%)'
-        />
+          mt={{ base: '2rem', lg: '0' }}
+        >
+          PoignART
+        </Text>
       </Link>
 
       <SimpleGrid

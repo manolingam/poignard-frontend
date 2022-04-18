@@ -49,8 +49,9 @@ export const SectionOne = ({ unchainIncome }) => {
     <Grid
       templateColumns={{ lg: 'repeat(3, 1fr)', base: 'repeat(1, 1fr)' }}
       gridGap={20}
+      placeItems='center'
       px={{ base: '2rem', lg: '8rem' }}
-      py={{ base: '2rem', lg: '4rem' }}
+      py={{ base: '2rem', lg: '2rem' }}
     >
       <GridItem colSpan={{ lg: 2 }}>
         <Flex direction='column' alignItems='start' justifyContent='center'>

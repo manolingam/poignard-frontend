@@ -21,13 +21,11 @@ const StyledBodyText = styled(Text)`
   font-family: ${theme.fonts.spaceMono};
   line-height: 1.8;
   color: ${theme.colors.brand.darkCharcoal};
-  text-align: justify;
 `;
 
 const StyledTag = styled(Text)`
   font-family: ${theme.fonts.spaceMono};
   color: ${theme.colors.brand.darkCharcoal};
-  text-align: justify;
   text-transform: uppercase;
   font-weight: bold;
   margin: auto;

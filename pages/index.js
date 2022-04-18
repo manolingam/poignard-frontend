@@ -16,6 +16,7 @@ import { SectionFour } from '../views/landing/SectionFour';
 import { SectionFive } from '../views/landing/SectionFive';
 import { SectionSix } from '../views/landing/SectionSix';
 import { SectionSeven } from '../views/landing/SectionSeven';
+import { SectionEight } from '../views/landing/SectionEight';
 
 import { UNCHAIN_INCOME_API } from '../config';
 
@@ -67,6 +68,7 @@ export default function Home({ unchainIncome }) {
       <SectionFive />
       <SectionSix />
       <SectionSeven />
+      <SectionEight />
       <Footer />
     </Flex>
   );
