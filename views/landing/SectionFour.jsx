@@ -73,9 +73,9 @@ export const SectionFour = ({ unchainIncome }) => {
               , which has a list of approved non-government organizations (NGO)
               in Ukraine doing real-time frontline work. It is impossible for
               the PoignART team to touch any money, therefore, impossible for us
-              to take a middleman’s cut. Every time an NFT is resold, 2.5% of
-              the sale goes to Unchain Fund, which means that artwork from
-              PoignART is a gift that keeps on giving!
+              to take a middleman’s cut. Every time an NFT is resold, 5% of the
+              sale goes to Unchain Fund, which means that artwork from PoignART
+              is a gift that keeps on giving!
             </StyledAccordianPanel>
           </StyledAccordianItem>
 

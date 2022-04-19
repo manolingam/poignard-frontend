@@ -56,7 +56,7 @@ export const SectionThree = () => {
         <br />
         <StyledBodyText>
           If you wish, you can resell the NFT for yourself. Every time an NFT is
-          resold, 2.5% of the sale goes to Unchain Fund. Each work of art is a
+          resold, 5% of the sale goes to Unchain Fund. Each work of art is a
           gift that keeps on giving!{' '}
         </StyledBodyText>
         <br />
