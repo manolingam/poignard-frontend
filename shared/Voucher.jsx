@@ -28,6 +28,7 @@ import { CopyIcon } from '../icons/CopyIcon';
 import { TwitterIcon } from '../icons/TwitterIcon';
 import { getTokenURI, redeem } from '../utils/web3';
 import { redeemVoucher } from '../utils/requests';
+import { uriToHttp } from '../utils/helpers';
 import { theme } from '../themes/theme';
 
 import {
@@ -190,10 +191,7 @@ export const Voucher = ({ voucher }) => {
             {(voucher.contentType === 'image' ||
               voucher.contentType === 'audio') && (
               <ChakraImage
-                src={`${POIGNART_BUCKET_BASE_URL}/${voucher.metadata.image.replace(
-                  'ipfs://',
-                  ''
-                )}`}
+                src={uriToHttp(voucher.metadata.image)}
                 crossOrigin='anonymous'
                 alt='minted nft'
                 fallback={<Skeleton h='250px' w='100%' />}

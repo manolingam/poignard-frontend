@@ -14,7 +14,8 @@ import Link from 'next/link';
 import styled from '@emotion/styled';
 
 import { theme } from '../../themes/theme';
-import { VOUCHERS_PER_PAGE, POIGNART_BUCKET_BASE_URL } from '../../config';
+import { VOUCHERS_PER_PAGE } from '../../config';
+import { uriToHttp } from '../../utils/helpers';
 
 const StyledTag = styled(Text)`
   max-width: 75%;
@@ -105,10 +106,7 @@ export const InfiniteGrid = ({ allVouchers, onlyMintable, contentType }) => {
                 >
                   <ChakraImage
                     crossOrigin='anonymous'
-                    src={`${POIGNART_BUCKET_BASE_URL}/${voucher.metadata.image.replace(
-                      'ipfs://',
-                      ''
-                    )}`}
+                    src={uriToHttp(voucher.metadata.image)}
                     fallback={<Skeleton h='250px' w='250px' />}
                     alt='minted nft'
                     width='250px'
