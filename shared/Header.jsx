@@ -56,7 +56,13 @@ export const Header = ({ windowWidth }) => {
           justifyContent='center'
           cursor='pointer'
         >
-          <Image src={logoTorch} alt='logo' width='75px' height='75px' />
+          <Image
+            src={logoTorch}
+            alt='logo'
+            width='75px'
+            height='75px'
+            priority
+          />
           {windowWidth > 450 && (
             <Text
               fontFamily={theme.fonts.spaceGrotesk}

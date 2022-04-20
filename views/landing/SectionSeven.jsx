@@ -43,6 +43,7 @@ export const SectionSeven = () => {
               alt='partner logo'
               width='300px'
               height='300px'
+              placeholder='blur'
             />
           </Link>
         ))}

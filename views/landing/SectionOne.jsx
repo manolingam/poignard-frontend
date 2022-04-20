@@ -100,7 +100,13 @@ export const SectionOne = ({ unchainIncome }) => {
         </Flex>
       </GridItem>
       <GridItem>
-        <Image src={logoTorch} alt='machine art' w='300px' h='auto' />
+        <Image
+          src={logoTorch}
+          alt='poignart torch'
+          placeholder='blur'
+          w='300px'
+          h='auto'
+        />
       </GridItem>
     </Grid>
   );

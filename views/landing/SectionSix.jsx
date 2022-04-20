@@ -45,6 +45,7 @@ export const SectionSix = () => {
               src={unchainBanner}
               alt='unchain banner'
               layout='responsive'
+              placeholder='blur'
             />
           </Box>
         </GridItem>
