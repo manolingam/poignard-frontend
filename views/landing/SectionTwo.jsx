@@ -10,6 +10,7 @@ import {
   Link as ChakraLink
 } from '@chakra-ui/react';
 import Link from 'next/link';
+import Image from 'next/image';
 import styled from '@emotion/styled';
 
 import { theme } from '../../themes/theme';
@@ -125,7 +126,7 @@ export const SectionTwo = () => {
         placeItems='center'
       >
         {featuredImages.map((image, index) => (
-          <ChakraImage
+          <Image
             key={index}
             src={image}
             fallback={<Skeleton h='250px' w='250px' />}
@@ -133,7 +134,6 @@ export const SectionTwo = () => {
             height='250px'
             objectFit='cover'
             alt='featured art'
-            loading='lazy'
           />
         ))}
       </SimpleGrid>
