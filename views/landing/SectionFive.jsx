@@ -105,7 +105,6 @@ export const SectionFive = () => {
                 height='150px'
                 objectFit='cover'
                 alt='featured art'
-                priority
               />
             </Box>
             <Text mt='1rem' color={theme.colors.brand.yellow}>
