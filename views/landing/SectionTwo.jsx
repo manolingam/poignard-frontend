@@ -14,7 +14,15 @@ import Image from 'next/image';
 import styled from '@emotion/styled';
 
 import { theme } from '../../themes/theme';
-import { featuredImages } from '../../utils/constants';
+
+import warship from '../../public/assets/featured/warship.png';
+import frame from '../../public/assets/featured/frame.png';
+import newukraine from '../../public/assets/featured/newukraine.png';
+import cyberfox from '../../public/assets/featured/cyberfox.png';
+import farmers from '../../public/assets/featured/farmers.jpg';
+import blade from '../../public/assets/featured/blade.jpg';
+
+const featuredImages = [warship, frame, newukraine, cyberfox, farmers, blade];
 
 const StyledPrimaryButton = styled(Button)`
   height: 50px;
@@ -129,11 +137,12 @@ export const SectionTwo = () => {
           <Image
             key={index}
             src={image}
-            fallback={<Skeleton h='250px' w='250px' />}
+            placeholder='blur'
             width='250px'
             height='250px'
             objectFit='cover'
             alt='featured art'
+            priority
           />
         ))}
       </SimpleGrid>

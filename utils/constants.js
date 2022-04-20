@@ -3,17 +3,6 @@ export const navItems = [
   { name: 'Explore', href: '/explore' }
 ];
 
-export const explainerQA = [
-  {
-    q: 'Why not list elsewhere?',
-    a: 'PoignART focuses the artistic support for Ukraine into a single platform with a trusted donation mechanism'
-  },
-  {
-    q: 'Where will the money go?',
-    a: '100% of proceeds go to Unchain.fund approved NGOs in Ukraine that are doing immediate and impactful work on the ground today.'
-  }
-];
-
 export const illustrations = {
   bannerPeace:
     'https://res.cloudinary.com/saimano/image/upload/v1647679999/PoignArt/illustrations/Untitled_Artwork_3_sdiw5k.png',
@@ -43,15 +32,6 @@ export const logos = {
   poignartFull:
     'https://res.cloudinary.com/saimano/image/upload/v1647679937/PoignArt/logos/logo__text_clbfx7.png'
 };
-
-export const featuredImages = [
-  'https://poignart.ams3.cdn.digitaloceanspaces.com/QmRBuMxzAGMukppTNyZdg2Zcn1pUG4FGkV8fBQBuyP9poR',
-  'https://poignart.ams3.cdn.digitaloceanspaces.com/Qme4PpJpGzwXLzGTEBigpHU1vJLeEGN5LykzwMDZ7TZhpK',
-  'https://poignart.ams3.cdn.digitaloceanspaces.com/QmPJsbdRwxayu94GB2wHKkiWvkZm9rXJzxwrbr7U9TMvqu',
-  'https://poignart.ams3.cdn.digitaloceanspaces.com/QmdBXeatDwuaPb7fEABxu2wX9Zahizm7nKkqRfEVXgfLLx',
-  'https://poignart.ams3.cdn.digitaloceanspaces.com/QmewLTLA4nuB2q9hS45ZXNVqSL63NnQKm4jbioBwvpgSN6',
-  'https://poignart.ams3.cdn.digitaloceanspaces.com/QmYFjSkFzXRd4FGC2JQDdogYDVFKsngLBE6x5V721D2sy3'
-];
 
 export const teamInfo = [
   {
