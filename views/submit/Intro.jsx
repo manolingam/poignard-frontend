@@ -1,5 +1,11 @@
 import { useContext, useState } from 'react';
-import { Flex, Text, Heading, Button } from '@chakra-ui/react';
+import {
+  Flex,
+  Text,
+  Heading,
+  Button,
+  Link as ChakraLink
+} from '@chakra-ui/react';
 import styled from '@emotion/styled';
 
 import { theme } from '../../themes/theme';
@@ -109,7 +115,16 @@ export const Intro = () => {
 
       <StyledBodyText fontSize={{ base: '1rem', lg: '18px' }}>
         Upload original media (photos, pictures, drawings etc.) in high quality
-        and let PoignART platform do the rest!
+        and let PoignART platform do the rest! By submitting your art you agree
+        to license it as{' '}
+        <ChakraLink
+          href='https://creativecommons.org/licenses/by-nc/4.0/'
+          isExternal
+          textDecoration='underline'
+        >
+          CC BY-NC 4.0
+        </ChakraLink>
+        .
       </StyledBodyText>
       <br />
 

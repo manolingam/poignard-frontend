@@ -5,13 +5,38 @@ import {
   HStack,
   Text,
   Link as ChakraLink,
-  Image as ChakraImage
+  Box
 } from '@chakra-ui/react';
+import Image from 'next/image';
 import styled from '@emotion/styled';
+
+import inna from '../../public/assets/team/inna.jpg';
+import dahveed from '../../public/assets/team/dahveed.jpg';
+import seroga from '../../public/assets/team/seroga.png';
+import kyle from '../../public/assets/team/kyle.jpg';
+import saimano from '../../public/assets/team/saimano.jpg';
+import dan from '../../public/assets/team/dan.jpg';
+import chad from '../../public/assets/team/chad.png';
+import maryna from '../../public/assets/team/maryna.jpg';
+import bestape from '../../public/assets/team/bestape.jpg';
+import luke from '../../public/assets/team/luke.jpg';
 
 import { theme } from '../../themes/theme';
 
 import { teamInfo } from '../../utils/constants';
+
+const teamPics = {
+  Inna: inna,
+  Dahveed: dahveed,
+  Seroga: seroga,
+  Kyle: kyle,
+  Saimano: saimano,
+  Dan: dan,
+  Chad: chad,
+  Maryna: maryna,
+  'Kyle aka Bestape': bestape,
+  Luke: luke
+};
 
 const StyledHeading = styled(Heading)`
   font-family: ${theme.fonts.spaceGrotesk};
@@ -67,15 +92,22 @@ export const SectionFive = () => {
             justifyContent='center'
             alignItems='center'
           >
-            <ChakraImage
-              src={info.image}
-              h='150px'
-              w='150px'
+            <Box
               borderRadius='50%'
-              objectFit='cover'
-              filter='grayscale(50%)'
-            />
-
+              width='150px'
+              height='150px'
+              overflow='hidden'
+            >
+              <Image
+                src={teamPics[info.name]}
+                placeholder='blur'
+                width='150px'
+                height='150px'
+                objectFit='cover'
+                alt='featured art'
+                priority
+              />
+            </Box>
             <Text mt='1rem' color={theme.colors.brand.yellow}>
               {info.name}
             </Text>

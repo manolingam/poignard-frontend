@@ -3,17 +3,6 @@ export const navItems = [
   { name: 'Explore', href: '/explore' }
 ];
 
-export const explainerQA = [
-  {
-    q: 'Why not list elsewhere?',
-    a: 'PoignART focuses the artistic support for Ukraine into a single platform with a trusted donation mechanism'
-  },
-  {
-    q: 'Where will the money go?',
-    a: '100% of proceeds go to Unchain.fund approved NGOs in Ukraine that are doing immediate and impactful work on the ground today.'
-  }
-];
-
 export const illustrations = {
   bannerPeace:
     'https://res.cloudinary.com/saimano/image/upload/v1647679999/PoignArt/illustrations/Untitled_Artwork_3_sdiw5k.png',
@@ -44,20 +33,9 @@ export const logos = {
     'https://res.cloudinary.com/saimano/image/upload/v1647679937/PoignArt/logos/logo__text_clbfx7.png'
 };
 
-export const featuredImages = [
-  'https://poignart.ams3.cdn.digitaloceanspaces.com/QmRBuMxzAGMukppTNyZdg2Zcn1pUG4FGkV8fBQBuyP9poR',
-  'https://poignart.ams3.cdn.digitaloceanspaces.com/Qme4PpJpGzwXLzGTEBigpHU1vJLeEGN5LykzwMDZ7TZhpK',
-  'https://poignart.ams3.cdn.digitaloceanspaces.com/QmPJsbdRwxayu94GB2wHKkiWvkZm9rXJzxwrbr7U9TMvqu',
-  'https://poignart.ams3.cdn.digitaloceanspaces.com/QmdBXeatDwuaPb7fEABxu2wX9Zahizm7nKkqRfEVXgfLLx',
-  'https://poignart.ams3.cdn.digitaloceanspaces.com/QmewLTLA4nuB2q9hS45ZXNVqSL63NnQKm4jbioBwvpgSN6',
-  'https://poignart.ams3.cdn.digitaloceanspaces.com/QmYFjSkFzXRd4FGC2JQDdogYDVFKsngLBE6x5V721D2sy3'
-];
-
 export const teamInfo = [
   {
     name: 'Inna',
-    image:
-      'https://res.cloudinary.com/saimano/image/upload/v1649953303/PoignArt/team/inna_fyqled.jpg',
     socials: {
       twitter: 'https://twitter.com/CyberF0x_',
       linkedin: 'https://www.linkedin.com/in/inna-kosianets-70512a58'
@@ -66,8 +44,6 @@ export const teamInfo = [
   },
   {
     name: 'Dahveed',
-    image:
-      'https://res.cloudinary.com/saimano/image/upload/v1649827316/PoignArt/team/dahveed_ael04y.jpg',
     socials: {
       twitter: 'https://twitter.com/DavidKieve'
     },
@@ -75,8 +51,6 @@ export const teamInfo = [
   },
   {
     name: 'Seroga',
-    image:
-      'https://res.cloudinary.com/saimano/image/upload/v1649776522/PoignArt/team/seroga_yrd3rn.png',
     socials: {
       twitter: 'https://twitter.com/seroga1988'
     },
@@ -84,8 +58,6 @@ export const teamInfo = [
   },
   {
     name: 'Kyle',
-    image:
-      'https://res.cloudinary.com/saimano/image/upload/v1649776522/PoignArt/team/kyle_ybxvxi.jpg',
     socials: {
       twitter: 'https://twitter.com/KyleSt4rgarden'
     },
@@ -93,8 +65,6 @@ export const teamInfo = [
   },
   {
     name: 'Saimano',
-    image:
-      'https://res.cloudinary.com/saimano/image/upload/v1649828383/PoignArt/team/saimano_wmamyk.jpg',
     socials: {
       twitter: 'https://twitter.com/saimano1996'
     },
@@ -103,8 +73,6 @@ export const teamInfo = [
 
   {
     name: 'Dan',
-    image:
-      'https://res.cloudinary.com/saimano/image/upload/v1649776521/PoignArt/team/dan_m0gec9.jpg',
     socials: {
       twitter: 'https://twitter.com/dan13ram'
     },
@@ -112,8 +80,6 @@ export const teamInfo = [
   },
   {
     name: 'Chad',
-    image:
-      'https://res.cloudinary.com/saimano/image/upload/v1649827868/PoignArt/team/chad_hlvo32.png',
     socials: {
       twitter: 'https://twitter.com/CybertoothK'
     },
@@ -121,8 +87,6 @@ export const teamInfo = [
   },
   {
     name: 'Maryna',
-    image:
-      'https://res.cloudinary.com/saimano/image/upload/v1649827316/PoignArt/team/maryna_daxhsc.jpg',
     socials: {
       twitter: 'http://twitter.com/marynaeth'
     },
@@ -130,8 +94,6 @@ export const teamInfo = [
   },
   {
     name: 'Kyle aka Bestape',
-    image:
-      'https://res.cloudinary.com/saimano/image/upload/v1649827315/PoignArt/team/bestape_az8a2t.jpg',
     socials: {
       twitter: 'https://twitter.com/bestape'
     },
@@ -139,8 +101,6 @@ export const teamInfo = [
   },
   {
     name: 'Luke',
-    image:
-      'https://res.cloudinary.com/saimano/image/upload/v1649827316/PoignArt/team/luke_t9ch1m.jpg',
     socials: {
       linkedin: 'https://www.linkedin.com/mwlite/me'
     },
