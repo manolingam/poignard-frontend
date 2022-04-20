@@ -1,10 +1,12 @@
 import { Flex } from '@chakra-ui/react';
-import { Text, Image as ChakraImage, Button } from '@chakra-ui/react';
+import { Text, Button } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 import Link from 'next/link';
+import Image from 'next/image';
 
 import { theme } from '../themes/theme';
-import { logos } from '../utils/constants';
+
+import logoTorch from '../public/assets/logos/logo_torch.webp';
 
 const StyledButton = styled(Button)`
   height: 50px;
@@ -30,7 +32,7 @@ export const Page404 = () => {
       alignItems='center'
       justifyContent='center'
     >
-      <ChakraImage src={logos.poignartMono} alt='404' h='250px' w='250px' />
+      <Image src={logoTorch} alt='404' h='250px' w='250px' />
       <Text
         fontWeight='bold'
         fontSize='24px'

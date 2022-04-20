@@ -6,31 +6,13 @@ export const navItems = [
 export const illustrations = {
   bannerPeace:
     'https://res.cloudinary.com/saimano/image/upload/v1647679999/PoignArt/illustrations/Untitled_Artwork_3_sdiw5k.png',
-  poignartEth:
-    'https://res.cloudinary.com/saimano/image/upload/v1647959760/PoignArt/illustrations/poignart_eth_jtaq6o.png',
-  connectWallet:
-    'https://res.cloudinary.com/saimano/image/upload/v1647679891/PoignArt/illustrations/connect_illustration_r2qbxn.svg',
   notFound:
-    'https://res.cloudinary.com/saimano/image/upload/v1647679868/PoignArt/illustrations/not_found_illustration_jddjsl.svg',
-  unchain:
-    'https://res.cloudinary.com/saimano/image/upload/v1650077320/PoignArt/logos/unchain_banner_b6kt56.png'
+    'https://res.cloudinary.com/saimano/image/upload/v1647679868/PoignArt/illustrations/not_found_illustration_jddjsl.svg'
 };
 
 export const logos = {
-  unchain:
-    'https://res.cloudinary.com/saimano/image/upload/v1647680578/PoignArt/logos/unchain_o0nr3z.png',
-  nfdao:
-    'https://res.cloudinary.com/saimano/image/upload/v1650099269/PoignArt/logos/nfdao_ft6amf.png',
-  gitcoin:
-    'https://res.cloudinary.com/saimano/image/upload/v1647680494/PoignArt/logos/gitcoin_g210rt.png',
-  giveth:
-    'https://res.cloudinary.com/saimano/image/upload/v1647682322/PoignArt/logos/giveth_hxmcc1.png',
-  everstake:
-    'https://res.cloudinary.com/saimano/image/upload/v1650098011/PoignArt/logos/everstake_dwnwed.png',
   poignartMono:
-    'https://res.cloudinary.com/saimano/image/upload/v1649767642/PoignArt/logos/logo_torch_ztjpnc.png',
-  poignartFull:
-    'https://res.cloudinary.com/saimano/image/upload/v1647679937/PoignArt/logos/logo__text_clbfx7.png'
+    'https://res.cloudinary.com/saimano/image/upload/v1649767642/PoignArt/logos/logo_torch_ztjpnc.png'
 };
 
 export const teamInfo = [

@@ -1,11 +1,6 @@
-import {
-  Flex,
-  SimpleGrid,
-  Heading,
-  Image as ChakraImage,
-  Link
-} from '@chakra-ui/react';
+import { Flex, SimpleGrid, Heading, Link } from '@chakra-ui/react';
 import styled from '@emotion/styled';
+import Image from 'next/image';
 
 import { theme } from '../../themes/theme';
 import { logos } from '../../utils/constants';
@@ -18,12 +13,18 @@ const StyledHeading = styled(Heading)`
   margin-bottom: 2rem;
 `;
 
+import unchain from '../../public/assets/logos/unchain.webp';
+import nfdao from '../../public/assets/logos/nfdao.webp';
+import giveth from '../../public/assets/logos/giveth.webp';
+import gitcoin from '../../public/assets/logos/gitcoin.webp';
+import everstake from '../../public/assets/logos/everstake.webp';
+
 const partners = [
-  { name: 'unchain', website: 'https://unchain.fund/' },
-  { name: 'nfdao', website: 'https://nfdao.io/' },
-  { name: 'giveth', website: 'https://giveth.io/' },
-  { name: 'gitcoin', website: 'https://gitcoin.co/' },
-  { name: 'everstake', website: 'https://everstake.one/' }
+  { name: 'unchain', website: 'https://unchain.fund/', image: unchain },
+  { name: 'nfdao', website: 'https://nfdao.io/', image: nfdao },
+  { name: 'giveth', website: 'https://giveth.io/', image: giveth },
+  { name: 'gitcoin', website: 'https://gitcoin.co/', image: gitcoin },
+  { name: 'everstake', website: 'https://everstake.one/', image: everstake }
 ];
 
 export const SectionSeven = () => {
@@ -37,10 +38,12 @@ export const SectionSeven = () => {
       <SimpleGrid minChildWidth='50px' gridGap={10}>
         {partners.map((partner, index) => (
           <Link key={index} href={partner.website} isExternal mx='auto'>
-            <ChakraImage
-              src={logos[partner.name]}
+            <Image
+              src={partner.image}
               alt='partner logo'
-              w={{ base: '300px' }}
+              width='300px'
+              height='300px'
+              placeholder='blur'
             />
           </Link>
         ))}
