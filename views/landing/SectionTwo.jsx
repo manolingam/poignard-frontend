@@ -140,7 +140,6 @@ export const SectionTwo = () => {
             height='250px'
             objectFit='cover'
             alt='featured art'
-            priority
           />
         ))}
       </SimpleGrid>
