@@ -2,7 +2,6 @@ import {
   Button,
   Flex,
   Text,
-  Image,
   Popover,
   PopoverTrigger,
   PopoverContent,
@@ -10,14 +9,17 @@ import {
 } from '@chakra-ui/react';
 import { useContext } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import styled from '@emotion/styled';
 
 import { AppContext } from '../context/AppContext';
-import { logos, navItems } from '../utils/constants';
+import { navItems } from '../utils/constants';
 import { getAccountString } from '../utils/helpers';
 import { useWallet } from '../hooks/useWallet';
 
 import { theme } from '../themes/theme';
+
+import logoTorch from '../public/assets/logos/logo_torch.webp';
 
 const StyledConnectButton = styled(Button)`
   min-width: 160px;
@@ -54,7 +56,7 @@ export const Header = ({ windowWidth }) => {
           justifyContent='center'
           cursor='pointer'
         >
-          <Image src={logos.poignartMono} alt='logo' w='75px' />
+          <Image src={logoTorch} alt='logo' width='75px' height='75px' />
           {windowWidth > 450 && (
             <Text
               fontFamily={theme.fonts.spaceGrotesk}

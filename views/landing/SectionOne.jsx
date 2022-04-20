@@ -3,16 +3,17 @@ import {
   GridItem,
   Flex,
   Text,
-  Image,
   Heading,
   Button,
   Link as ChakraLink
 } from '@chakra-ui/react';
 import Link from 'next/link';
+import Image from 'next/image';
 import styled from '@emotion/styled';
 
 import { theme } from '../../themes/theme';
-import { logos } from '../../utils/constants';
+
+import logoTorch from '../../public/assets/logos/logo_torch.webp';
 
 const StyledButton = styled(Button)`
   height: 50px;
@@ -99,7 +100,7 @@ export const SectionOne = ({ unchainIncome }) => {
         </Flex>
       </GridItem>
       <GridItem>
-        <Image src={logos.poignartMono} alt='machine art' w='300px' h='auto' />
+        <Image src={logoTorch} alt='machine art' w='300px' h='auto' />
       </GridItem>
     </Grid>
   );

@@ -10,16 +10,16 @@ import {
 import Image from 'next/image';
 import styled from '@emotion/styled';
 
-import inna from '../../public/assets/team/inna.jpg';
-import dahveed from '../../public/assets/team/dahveed.jpg';
-import seroga from '../../public/assets/team/seroga.png';
-import kyle from '../../public/assets/team/kyle.jpg';
-import saimano from '../../public/assets/team/saimano.jpg';
-import dan from '../../public/assets/team/dan.jpg';
-import chad from '../../public/assets/team/chad.png';
-import maryna from '../../public/assets/team/maryna.jpg';
-import bestape from '../../public/assets/team/bestape.jpg';
-import luke from '../../public/assets/team/luke.jpg';
+import inna from '../../public/assets/team/inna.webp';
+import dahveed from '../../public/assets/team/dahveed.webp';
+import seroga from '../../public/assets/team/seroga.webp';
+import kyle from '../../public/assets/team/kyle.webp';
+import saimano from '../../public/assets/team/saimano.webp';
+import dan from '../../public/assets/team/dan.webp';
+import chad from '../../public/assets/team/chad.webp';
+import maryna from '../../public/assets/team/maryna.webp';
+import bestape from '../../public/assets/team/bestape.webp';
+import luke from '../../public/assets/team/luke.webp';
 
 import { theme } from '../../themes/theme';
 

@@ -5,8 +5,6 @@ import {
   Button,
   Text,
   SimpleGrid,
-  Skeleton,
-  Image as ChakraImage,
   Link as ChakraLink
 } from '@chakra-ui/react';
 import Link from 'next/link';
@@ -15,12 +13,12 @@ import styled from '@emotion/styled';
 
 import { theme } from '../../themes/theme';
 
-import warship from '../../public/assets/featured/warship.png';
-import frame from '../../public/assets/featured/frame.png';
-import newukraine from '../../public/assets/featured/newukraine.png';
-import cyberfox from '../../public/assets/featured/cyberfox.png';
-import farmers from '../../public/assets/featured/farmers.jpg';
-import blade from '../../public/assets/featured/blade.jpg';
+import warship from '../../public/assets/featured/warship.webp';
+import frame from '../../public/assets/featured/frame.webp';
+import newukraine from '../../public/assets/featured/newukraine.webp';
+import cyberfox from '../../public/assets/featured/cyberfox.webp';
+import farmers from '../../public/assets/featured/farmers.webp';
+import blade from '../../public/assets/featured/blade.webp';
 
 const featuredImages = [warship, frame, newukraine, cyberfox, farmers, blade];
 

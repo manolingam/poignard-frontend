@@ -11,7 +11,6 @@ import styled from '@emotion/styled';
 import Link from 'next/link';
 
 import { theme } from '../themes/theme';
-import { logos } from '../utils/constants';
 
 const StyledFooterHeaderText = styled(Text)`
   font-family: ${theme.fonts.spaceGrotesk};

@@ -5,12 +5,14 @@ import {
   Text,
   GridItem,
   Grid,
-  Image as ChakraImage
+  Box
 } from '@chakra-ui/react';
 import styled from '@emotion/styled';
+import Image from 'next/image';
 
 import { theme } from '../../themes/theme';
-import { illustrations } from '../../utils/constants';
+
+import unchainBanner from '../../public/assets/logos/unchain_banner.webp';
 
 const StyledHeading = styled(Heading)`
   font-family: ${theme.fonts.spaceGrotesk};
@@ -38,10 +40,13 @@ export const SectionSix = () => {
         placeItems='center'
       >
         <GridItem>
-          <ChakraImage
-            src={illustrations.unchain}
-            w={{ lg: '300px', base: '250px' }}
-          />
+          <Box w={{ lg: '300px', base: '250px' }}>
+            <Image
+              src={unchainBanner}
+              alt='unchain banner'
+              layout='responsive'
+            />
+          </Box>
         </GridItem>
         <GridItem colSpan={{ lg: 2 }}>
           <VStack spacing={5} justifyContent='center'>
