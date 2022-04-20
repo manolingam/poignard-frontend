@@ -154,7 +154,6 @@ export const ArtworkForm = () => {
             trait_type: 'Artist Address',
             value: context.signerAddress
           },
-          ,
           {
             trait_type: 'License',
             value: 'CC BY-NC 4.0'
