@@ -1,7 +1,7 @@
 import { Flex, Heading, Button, Text } from '@chakra-ui/react';
 
 import { theme } from '../../themes/theme';
-import { logos, illustrations } from '../../utils/constants';
+import { logos, illustrations, assetsLink } from '../../utils/constants';
 
 export const SectionEight = () => {
   const downloadImage = async (imageSrc, name) => {
@@ -24,12 +24,6 @@ export const SectionEight = () => {
       py={{ base: '2rem', lg: '2rem' }}
       alignItems='center'
     >
-      {/* <Heading
-        fontFamily={theme.fonts.spaceGrotesk}
-        color={theme.colors.brand.yellow}
-      >
-        Make Art! Stop War!
-      </Heading> */}
       <Text
         fontFamily={theme.fonts.spaceGrotesk}
         color={theme.colors.brand.black}
@@ -47,9 +41,6 @@ export const SectionEight = () => {
           }
           mr={{ base: '0', lg: '1rem' }}
           mb={{ base: '1rem', lg: '0' }}
-          _hover={{
-            opacity: '0.8'
-          }}
         >
           Download Banner
         </Button>
@@ -57,8 +48,17 @@ export const SectionEight = () => {
           fontFamily={theme.fonts.spaceMono}
           textTransform='uppercase'
           onClick={() => downloadImage(logos.poignartMono, 'poignart logo')}
+          mr={{ base: '0', lg: '1rem' }}
+          mb={{ base: '1rem', lg: '0' }}
         >
           Download Logo
+        </Button>
+        <Button
+          fontFamily={theme.fonts.spaceMono}
+          textTransform='uppercase'
+          onClick={() => window.open(assetsLink, '_blank')}
+        >
+          More Assets
         </Button>
       </Flex>
     </Flex>

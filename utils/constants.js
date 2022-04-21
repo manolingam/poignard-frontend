@@ -89,3 +89,6 @@ export const teamInfo = [
     role: 'Marketer'
   }
 ];
+
+export const assetsLink =
+  'https://drive.google.com/drive/folders/1SWO7rzQ7u5c5BqInZZVjYyVPno3rIgz1?usp=sharing';
