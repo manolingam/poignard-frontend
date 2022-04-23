@@ -24,7 +24,6 @@ const StyledTag = styled(Text)`
   text-align: center;
   text-transform: uppercase;
   font-weight: bold;
-  margin: auto;
 `;
 
 const StyledTokenId = styled(Text)`
@@ -154,7 +153,7 @@ export const InfiniteGrid = ({ allVouchers, onlyMintable, contentType }) => {
       )}
 
       {currentVouchers.length === 0 && (
-        <StyledTag fontSize={{ base: '1rem', lg: '18px' }} py='4rem'>
+        <StyledTag fontSize={{ base: '1rem', lg: '18px' }} py='4rem' m='auto'>
           No vouchers found for this filter.
         </StyledTag>
       )}
@@ -173,6 +172,12 @@ export const InfiniteGrid = ({ allVouchers, onlyMintable, contentType }) => {
           Next
         </StyledButton>
       </Flex>
+
+      {totalPages > 0 && (
+        <StyledTag mt='2rem'>
+          Page {currentPage} of {totalPages}
+        </StyledTag>
+      )}
     </Flex>
   );
 };
