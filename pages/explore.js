@@ -31,6 +31,7 @@ export const getServerSideProps = async () => {
     }
   });
   mintedVouchers = mintedVouchers.data.data.vouchers;
+  mintedVouchers = mintedVouchers.sort((a, b) => b.createdAt - a.createdAt);
 
   let unmintedVouchers = await axios.post(
     `${API_ENDPOINT}/graphql`,
@@ -42,6 +43,7 @@ export const getServerSideProps = async () => {
     }
   );
   unmintedVouchers = unmintedVouchers.data.data.vouchers;
+  mintedVouchers = unmintedVouchers.sort((a, b) => b.createdAt - a.createdAt);
 
   return {
     props: {
