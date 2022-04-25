@@ -27,7 +27,7 @@ import { AppContext } from '../context/AppContext';
 import { CopyIcon } from '../icons/CopyIcon';
 import { TwitterIcon } from '../icons/TwitterIcon';
 import { getTokenURI, redeem } from '../utils/web3';
-import { redeemVoucher } from '../utils/requests';
+import { redeemVoucher, makeATweet } from '../utils/requests';
 import { uriToHttp } from '../utils/helpers';
 import { theme } from '../themes/theme';
 
@@ -266,12 +266,13 @@ export const Voucher = ({ voucher }) => {
                   bg={theme.colors.brand.black}
                   isLoading={loading}
                   loadingText={loadingText}
-                  onClick={() => {
-                    if (context.signature) {
-                      handleRedeem(voucher);
-                    } else {
-                      triggerToast('Connect wallet to redeem.');
-                    }
+                  onClick={async () => {
+                    // if (context.signature) {
+                    //   handleRedeem(voucher);
+                    // } else {
+                    //   triggerToast('Connect wallet to redeem.');
+                    // }
+                    await makeATweet('A sample tweet!');
                   }}
                 >
                   {`Mint for ${utils.formatEther(voucher.minPrice)} ETH`}

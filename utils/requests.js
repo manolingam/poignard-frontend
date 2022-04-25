@@ -51,3 +51,8 @@ export const fetchArtist = async (ethAddress) => {
   });
   return result;
 };
+
+export const makeATweet = async (message) => {
+  const result = await axios.post('/api/twitter/tweet', { message });
+  return result;
+};
