@@ -266,7 +266,7 @@ export const Voucher = ({ voucher }) => {
                   bg={theme.colors.brand.black}
                   isLoading={loading}
                   loadingText={loadingText}
-                  onClick={() => {
+                  onClick={async () => {
                     if (context.signature) {
                       handleRedeem(voucher);
                     } else {

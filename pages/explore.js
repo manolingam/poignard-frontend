@@ -43,7 +43,7 @@ export const getServerSideProps = async () => {
     }
   );
   unmintedVouchers = unmintedVouchers.data.data.vouchers;
-  mintedVouchers = unmintedVouchers.sort((a, b) => b.createdAt - a.createdAt);
+  unmintedVouchers = unmintedVouchers.sort((a, b) => b.createdAt - a.createdAt);
 
   return {
     props: {
