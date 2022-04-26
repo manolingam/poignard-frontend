@@ -106,7 +106,7 @@ export const SectionFour = ({ unchainIncome }) => {
               2. running an incentive campaign with your community to raise
               awareness. <br />
               3. hosting an exhibit to promote artists and artwork on PoignART.
-              which makes this free for you. <br />
+              <br />
             </StyledAccordianPanel>
           </StyledAccordianItem>
 
@@ -183,7 +183,7 @@ export const SectionFour = ({ unchainIncome }) => {
                 href='https://discord.gg/qjPvUCakn3'
                 isExternal
               >
-                discord
+                Discord
               </ChakraLink>
               .
             </StyledAccordianPanel>
