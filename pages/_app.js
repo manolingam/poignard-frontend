@@ -16,7 +16,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <AppContextProvider>
       <ChakraProvider theme={theme}>
-        <Flex overflowX='hidden' background='white'>
+        <Flex overflowX='hidden' background='white' maxW='100rem' mx='auto'>
           <Component {...pageProps} />
         </Flex>
       </ChakraProvider>
