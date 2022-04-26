@@ -14,7 +14,7 @@ import Link from 'next/link';
 import styled from '@emotion/styled';
 
 import { theme } from '../../themes/theme';
-import { VOUCHERS_PER_PAGE } from '../../config';
+import { VOUCHERS_PER_PAGE, POIGNART_BUCKET_BASE_URL } from '../../config';
 import { uriToHttp } from '../../utils/helpers';
 
 const StyledTag = styled(Text)`
@@ -84,11 +84,11 @@ export const InfiniteGrid = ({ allVouchers, onlyMintable, contentType }) => {
   }, [contentType]);
 
   return (
-    <Flex direction='column' alignItems='center'>
+    <Flex direction='column' alignItems='center' minH='45rem'>
       {currentVouchers.length !== 0 && (
         <SimpleGrid
           columns={{ lg: 3, md: 2, base: 1 }}
-          gridGap={{ base: 5, lg: 10 }}
+          gridGap={{ base: 5, lg: 5 }}
         >
           {currentVouchers.map((voucher, index) => {
             return (
@@ -105,7 +105,10 @@ export const InfiniteGrid = ({ allVouchers, onlyMintable, contentType }) => {
                 >
                   <ChakraImage
                     crossOrigin='anonymous'
-                    src={uriToHttp(voucher.metadata.image)}
+                    src={`${POIGNART_BUCKET_BASE_URL}/${voucher.metadata.image.replace(
+                      'ipfs://',
+                      ''
+                    )}`}
                     fallback={<Skeleton h='250px' w='250px' />}
                     alt='minted nft'
                     width='250px'
@@ -153,25 +156,28 @@ export const InfiniteGrid = ({ allVouchers, onlyMintable, contentType }) => {
       )}
 
       {currentVouchers.length === 0 && (
-        <StyledTag fontSize={{ base: '1rem', lg: '18px' }} py='4rem' m='auto'>
+        <StyledTag fontSize={{ base: '1rem', lg: '18px' }} m='auto'>
           No vouchers found for this filter.
         </StyledTag>
       )}
-      <Flex direction='row'>
-        <StyledButton
-          mr='1rem'
-          disabled={currentPage - 1 == 0}
-          onClick={() => setCurrentPage((currentPage) => currentPage - 1)}
-        >
-          Prev
-        </StyledButton>
-        <StyledButton
-          disabled={currentPage + 1 > totalPages}
-          onClick={() => setCurrentPage((currentPage) => currentPage + 1)}
-        >
-          Next
-        </StyledButton>
-      </Flex>
+
+      {totalPages > 0 && (
+        <Flex direction='row' mt='auto'>
+          <StyledButton
+            mr='1rem'
+            disabled={currentPage - 1 == 0}
+            onClick={() => setCurrentPage((currentPage) => currentPage - 1)}
+          >
+            Prev
+          </StyledButton>
+          <StyledButton
+            disabled={currentPage + 1 > totalPages}
+            onClick={() => setCurrentPage((currentPage) => currentPage + 1)}
+          >
+            Next
+          </StyledButton>
+        </Flex>
+      )}
 
       {totalPages > 0 && (
         <StyledTag mt='2rem'>
