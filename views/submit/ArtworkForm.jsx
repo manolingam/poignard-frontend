@@ -589,8 +589,8 @@ export const ArtworkForm = () => {
                 <Textarea fontFamily={theme.fonts.spaceMono} isReadOnly>
                   {`I just donated new art for Ukraine on @PoignARTnft Buy this piece for ${artPrice} ETH — 100% of proceeds will be donated to Ukraine! 🇺🇦 #Unchain_Ukraine #StandWithUkraine ${
                     devMode
-                      ? 'https://rinkeby.poign.art.io/voucher/' + signedTokenId
-                      : 'https://poign.art.io/voucher/' + signedTokenId
+                      ? 'https://rinkeby.poign.art/voucher/' + signedTokenId
+                      : 'https://poign.art/voucher/' + signedTokenId
                   }`}
                 </Textarea>
               </AlertDialogBody>
