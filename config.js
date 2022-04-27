@@ -60,6 +60,8 @@ export const IN_APP_VOUCHERS_LIMIT =
 export const MAX_FILE_SIZE_MB = process.env.NEXT_PUBLIC_MAX_FILE_SIZE_MB;
 export const VOUCHERS_PER_PAGE = process.env.NEXT_PUBLIC_IMAGES_PER_RENDER;
 
+export const GA_ID = devMode ? '' : process.env.NEXT_PUBLIC_GA_ID;
+
 export const META_DATA_CREATED_BY = 'PoignART';
 export const SIGNING_DOMAIN_NAME = 'PoignartVoucher';
 export const SIGNING_DOMAIN_VERSION = '1';
