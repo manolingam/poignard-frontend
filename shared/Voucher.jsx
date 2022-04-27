@@ -359,9 +359,8 @@ export const Voucher = ({ voucher }) => {
                     '&url=' +
                     encodeURIComponent(
                       devMode
-                        ? 'https://rinkeby.poign.art.io/voucher/' +
-                            voucher.tokenID
-                        : 'https://poign.art.io/voucher/' + voucher.tokenID
+                        ? 'https://rinkeby.poign.art/voucher/' + voucher.tokenID
+                        : 'https://poign.art/voucher/' + voucher.tokenID
                     );
                   window.open(
                     start_text + generated_tweet + generated_url,
