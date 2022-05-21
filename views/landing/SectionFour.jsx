@@ -16,15 +16,14 @@ import styled from '@emotion/styled';
 import { theme } from '../../themes/theme';
 
 const StyledHeading = styled(Heading)`
-  font-family: ${theme.fonts.spaceGrotesk};
   color: ${theme.colors.brand.black};
+  font-family: ${theme.fonts.spaceGrotesk};
   text-align: center;
   font-size: 35px;
   margin-bottom: 1rem;
 `;
 
 const StyledAccordianItem = styled(AccordionItem)`
-  font-family: ${theme.fonts.spaceGrotesk};
   font-size: 18px;
 `;
 
@@ -37,7 +36,7 @@ const StyledAccordianBox = styled(Box)`
 
 const StyledAccordianPanel = styled(AccordionPanel)`
   color: ${theme.colors.brand.spanishGrey};
-  font-family: ${theme.fonts.spaceMono};
+
   padding-bottom: 4;
 `;
 
@@ -50,6 +49,7 @@ export const SectionFour = ({ unchainIncome }) => {
       justifyContent='center'
       px={{ base: '2rem', lg: '8rem' }}
       py={{ base: '2rem', lg: '2rem' }}
+      bg={theme.colors.brand.white}
     >
       <VStack spacing={5} justifyContent='center'>
         <StyledHeading>Frequently Asked Questions</StyledHeading>

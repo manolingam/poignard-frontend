@@ -7,11 +7,11 @@ import { theme } from '../../themes/theme';
 const StyledPrimaryButton = styled(Button)`
   height: 50px;
   width: auto;
-  font-family: ${theme.fonts.spaceGrotesk};
+
   text-transform: uppercase;
   border-radius: 3px;
-  color: ${theme.colors.brand.black};
-  background: ${theme.colors.brand.yellow};
+  color: ${theme.colors.brand.white};
+  background: ${theme.colors.brand.blue};
   box-decoration-break: clone;
   padding-left: 24px;
   padding-right: 24px;
@@ -21,14 +21,13 @@ const StyledPrimaryButton = styled(Button)`
 `;
 
 const StyledBodyText = styled(Text)`
-  font-family: ${theme.fonts.spaceMono};
   color: ${theme.colors.brand.blackCharcoal};
   font-size: 20px;
 `;
 
 const StyledHeading = styled(Heading)`
-  font-family: ${theme.fonts.spaceGrotesk};
   color: ${theme.colors.brand.black};
+  font-family: ${theme.fonts.spaceGrotesk};
   font-size: 35px;
   margin-bottom: 1rem;
 `;

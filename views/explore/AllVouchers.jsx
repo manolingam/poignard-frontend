@@ -3,12 +3,15 @@ import { useState, useEffect, useContext } from 'react';
 import {
   Flex,
   Switch,
-  FormControl,
-  FormLabel,
-  Image as ChakraImage
+  Heading,
+  HStack,
+  Tabs,
+  TabList,
+  Tab,
+  Tooltip,
+  Box
 } from '@chakra-ui/react';
-
-import RadioBox from '../../shared/RadioBox';
+import styled from '@emotion/styled';
 
 import { InfiniteGrid } from './InfiniteGrid';
 
@@ -16,10 +19,20 @@ import { AppContext } from '../../context/AppContext';
 
 import { theme } from '../../themes/theme';
 
+const StyledHeading = styled(Heading)`
+  color: ${theme.colors.brand.black};
+  font-family: ${theme.fonts.spaceGrotesk};
+  text-align: center;
+  font-size: 35px;
+  margin-bottom: 4rem;
+`;
+
 export const AllVouchers = ({ mintedVouchers, unmintedVouchers }) => {
   const context = useContext(AppContext);
+  const tabsAndType = ['All', 'Image', 'Video', 'Audio'];
 
-  const [contentType, setContentType] = useState('All');
+  const [tabIndex, setTabIndex] = useState(0);
+  const [contentType, setContentType] = useState(tabsAndType[tabIndex]);
   const [onlyMintable, setOnlyMintable] = useState(true);
 
   useEffect(() => {
@@ -34,7 +47,7 @@ export const AllVouchers = ({ mintedVouchers, unmintedVouchers }) => {
       alignItems='center'
       justifyContent='center'
       px={{ base: '1rem', lg: '4rem' }}
-      py={{ base: '1rem', lg: '2rem' }}
+      py={{ base: '2rem', lg: '4rem' }}
       mb='1rem'
     >
       {/* Wallet connect & is fetching vouchers */}
@@ -44,34 +57,92 @@ export const AllVouchers = ({ mintedVouchers, unmintedVouchers }) => {
         </Flex>
       )} */}
 
-      <Flex direction='column' w='100%' alignItems='center'>
+      <Flex
+        direction='column'
+        w='100%'
+        alignItems='center'
+        justifyContent='center'
+      >
+        <StyledHeading>Explore Artworks</StyledHeading>
+
         <Flex
           w='100%'
           direction={{ base: 'column', lg: 'row' }}
-          alignItems={{ base: 'flex-start', lg: 'center' }}
+          alignItems='center'
           justifyContent='space-between'
           mb='2rem'
         >
-          <FormControl
-            display='flex'
-            direction='row'
-            fontFamily={theme.fonts.spaceMono}
-            color={theme.colors.brand.darkCharcoal}
+          <Tabs
+            align='center'
+            isLazy
+            defaultIndex={0}
+            variant='unstyled'
+            outline='none'
+            onChange={(index) => {
+              setTabIndex(index);
+              setContentType(tabsAndType[index]);
+            }}
           >
-            <FormLabel fontWeight='bold'>Show mintable only</FormLabel>
+            <TabList>
+              <Tab
+                _selected={{
+                  color: theme.colors.brand.white,
+                  bg: theme.colors.brand.blue
+                }}
+                _focus={{
+                  outline: '0 !important'
+                }}
+              >
+                All
+              </Tab>
+              <Tab
+                _selected={{
+                  color: theme.colors.brand.white,
+                  bg: theme.colors.brand.blue
+                }}
+                _focus={{
+                  outline: '0 !important'
+                }}
+              >
+                Images
+              </Tab>
+              <Tab
+                _selected={{
+                  color: theme.colors.brand.white,
+                  bg: theme.colors.brand.blue
+                }}
+                _focus={{
+                  outline: '0 !important'
+                }}
+              >
+                Videos
+              </Tab>
+              <Tab
+                _selected={{
+                  color: theme.colors.brand.white,
+                  bg: theme.colors.brand.blue
+                }}
+                _focus={{
+                  outline: '0 !important'
+                }}
+              >
+                Audios
+              </Tab>
+            </TabList>
+          </Tabs>
+
+          <HStack>
+            <Box>
+              <Tooltip label='toggle minted vouchers'>
+                <i className='fa-solid fa-circle-info'></i>
+              </Tooltip>
+            </Box>
+
             <Switch
               defaultChecked={onlyMintable}
               onChange={() => setOnlyMintable((prevState) => !prevState)}
             />
-          </FormControl>
-          <RadioBox
-            stack='horizontal'
-            options={['All', 'Image', 'Video', 'Audio']}
-            updateRadio={setContentType}
-            name='content_type'
-            defaultValue={contentType}
-            value={contentType}
-          />
+          </HStack>
         </Flex>
 
         {unmintedVouchers.length != 0 && onlyMintable && (

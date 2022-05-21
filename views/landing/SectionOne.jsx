@@ -17,31 +17,22 @@ import logoTorch from '../../public/assets/logos/logo_torch.webp';
 
 const StyledButton = styled(Button)`
   height: 50px;
-  width: 100%;
-  font-family: ${theme.fonts.spaceGrotesk};
   text-transform: uppercase;
-  border: 2px solid ${theme.colors.brand.black};
   border-radius: 3px;
-  color: ${theme.colors.brand.black};
-  background: white;
   box-decoration-break: clone;
   padding-left: 24px;
   padding-right: 24px;
-  &:hover {
-    opacity: 0.6;
-  }
 `;
 
 const StyledHeading = styled(Heading)`
-  font-family: ${theme.fonts.spaceGrotesk};
   color: ${theme.colors.brand.black};
+  font-family: ${theme.fonts.spaceGrotesk};
   margin-bottom: 2rem;
-  font-size: 35px;
+  font-size: 45px;
 `;
 
 const StyledText = styled(Text)`
-  font-family: ${theme.fonts.spaceMono};
-  color: ${theme.colors.brand.darkCharcoal};
+  color: ${theme.colors.brand.graniteGrey};
   font-size: 20px;
 `;
 
@@ -52,7 +43,7 @@ export const SectionOne = ({ unchainIncome }) => {
       gridGap={20}
       placeItems='center'
       px={{ base: '2rem', lg: '8rem' }}
-      py={{ base: '2rem', lg: '2rem' }}
+      py={{ base: '2rem', lg: '6rem' }}
     >
       <GridItem colSpan={{ lg: 2 }}>
         <Flex direction='column' alignItems='start' justifyContent='center'>
@@ -84,22 +75,37 @@ export const SectionOne = ({ unchainIncome }) => {
                 minW={{ base: 'auto' }}
                 fontSize={{ base: '16px', lg: '18px' }}
                 mr='1rem'
+                background={theme.colors.brand.blue}
+                color={theme.colors.brand.white}
+                _hover={{
+                  opacity: 0.7
+                }}
               >
-                Explore Art
+                Explore
               </StyledButton>
             </Link>
             <Link href='#section-two' passHref>
               <StyledButton
                 minW={{ base: 'auto' }}
                 fontSize={{ base: '16px', lg: '18px' }}
+                color={theme.colors.brand.white}
+                bg={theme.colors.brand.yellow}
+                _hover={{
+                  opacity: 0.7
+                }}
               >
-                Donate Art
+                Create
               </StyledButton>
             </Link>
           </Flex>
         </Flex>
       </GridItem>
-      <GridItem>
+      <GridItem
+        borderRadius='10px'
+        boxShadow='inset 7px 7px 16px #c2c2c2,
+             inset -7px -7px 16px #ffffff'
+        backgroundColor='#EEEEEE'
+      >
         <Image
           src={logoTorch}
           alt='poignart torch'

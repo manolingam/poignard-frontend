@@ -28,7 +28,7 @@ const StyledInput = styled(Input)`
 
 const StyledButton = styled(Button)`
   height: 50px;
-  font-family: ${theme.fonts.spaceGrotesk};
+
   text-transform: uppercase;
   border: 2px solid ${theme.colors.brand.black};
   border-radius: 3px;
@@ -98,7 +98,6 @@ export const ArtistForm = () => {
         <FormControl
           isRequired
           isInvalid={artistName === '' && buttonClick ? true : false}
-          fontFamily={theme.fonts.spaceMono}
           color={theme.colors.brand.darkCharcoal}
           mb={10}
         >
@@ -112,7 +111,6 @@ export const ArtistForm = () => {
 
         <FormControl
           isInvalid={context.artist_email === '' && buttonClick ? true : false}
-          fontFamily={theme.fonts.spaceMono}
           color={theme.colors.brand.darkCharcoal}
         >
           <FormLabel>Got a website?</FormLabel>
@@ -128,7 +126,6 @@ export const ArtistForm = () => {
         mb={10}
         isRequired
         isInvalid={artistBio === '' && buttonClick ? true : false}
-        fontFamily={theme.fonts.spaceMono}
         color={theme.colors.brand.darkCharcoal}
       >
         <FormLabel>Tell us about yourself</FormLabel>
@@ -147,7 +144,6 @@ export const ArtistForm = () => {
         <FormControl
           isRequired
           isInvalid={artistDiscord === '' && buttonClick ? true : false}
-          fontFamily={theme.fonts.spaceMono}
           color={theme.colors.brand.darkCharcoal}
           mb={10}
         >
@@ -158,10 +154,7 @@ export const ArtistForm = () => {
             value={artistDiscord}
           />
         </FormControl>
-        <FormControl
-          fontFamily={theme.fonts.spaceMono}
-          color={theme.colors.brand.darkCharcoal}
-        >
+        <FormControl color={theme.colors.brand.darkCharcoal}>
           <FormLabel>Your Instagram?</FormLabel>
           <StyledInput
             placeholder="Optional, but we'll use it to show your work"
@@ -176,11 +169,7 @@ export const ArtistForm = () => {
         direction={{ base: 'column', lg: 'row' }}
         spacing={{ base: 0, lg: 5 }}
       >
-        <FormControl
-          fontFamily={theme.fonts.spaceMono}
-          color={theme.colors.brand.darkCharcoal}
-          mb={10}
-        >
+        <FormControl color={theme.colors.brand.darkCharcoal} mb={10}>
           <FormLabel>Got a Telegram?</FormLabel>
           <StyledInput
             placeholder='Optional as well..'
@@ -188,10 +177,7 @@ export const ArtistForm = () => {
             value={artistTelegram}
           />
         </FormControl>
-        <FormControl
-          fontFamily={theme.fonts.spaceMono}
-          color={theme.colors.brand.darkCharcoal}
-        >
+        <FormControl color={theme.colors.brand.darkCharcoal}>
           <FormLabel>What about Twitter?</FormLabel>
           <StyledInput
             placeholder="Optional, but we'll use it to show your work"

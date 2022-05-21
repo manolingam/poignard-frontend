@@ -39,15 +39,14 @@ const teamPics = {
 };
 
 const StyledHeading = styled(Heading)`
-  font-family: ${theme.fonts.spaceGrotesk};
   color: ${theme.colors.brand.unchainFontGreen};
+  font-family: ${theme.fonts.spaceGrotesk};
   text-align: center;
   font-size: 35px;
   margin-bottom: 1rem;
 `;
 
 const StyledBodyText = styled(Text)`
-  font-family: ${theme.fonts.spaceMono};
   color: ${theme.colors.brand.white};
   text-align: center;
   font-size: 20px;
@@ -55,7 +54,6 @@ const StyledBodyText = styled(Text)`
 `;
 
 const StyledText = styled(Text)`
-  font-family: ${theme.fonts.spaceMono};
   color: ${theme.colors.brand.white};
   font-size: 14px;
 `;

@@ -13,14 +13,12 @@ import Link from 'next/link';
 import { theme } from '../themes/theme';
 
 const StyledFooterHeaderText = styled(Text)`
-  font-family: ${theme.fonts.spaceGrotesk};
   font-weight: bold;
   color: ${theme.colors.brand.unchainBgGreen};
   font-size: 1.2rem;
 `;
 
 const StyledLink = styled(ChakraLink)`
-  font-family: ${theme.fonts.spaceGrotesk};
   color: ${theme.colors.brand.white};
 `;
 
@@ -37,7 +35,6 @@ export const Footer = () => {
     >
       <Link href='/' passHref>
         <Text
-          fontFamily={theme.fonts.spaceGrotesk}
           fontWeight='bold'
           fontSize='25px'
           color={theme.colors.brand.white}
@@ -58,7 +55,6 @@ export const Footer = () => {
           <StyledFooterHeaderText>For Artists</StyledFooterHeaderText>
           <Link href='/submit' passHref>
             <Text
-              fontFamily={theme.fonts.spaceGrotesk}
               color={theme.colors.brand.white}
               cursor='pointer'
               _hover={{ textDecoration: 'underline' }}
@@ -83,7 +79,6 @@ export const Footer = () => {
           </StyledLink>
           <Link href='/explore' passHref>
             <Text
-              fontFamily={theme.fonts.spaceGrotesk}
               color={theme.colors.brand.white}
               cursor='pointer'
               _hover={{ textDecoration: 'underline' }}
@@ -93,7 +88,6 @@ export const Footer = () => {
           </Link>
           <Link href='/#section-four' passHref>
             <Text
-              fontFamily={theme.fonts.spaceGrotesk}
               color={theme.colors.brand.white}
               cursor='pointer'
               _hover={{ textDecoration: 'underline' }}

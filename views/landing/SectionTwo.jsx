@@ -25,34 +25,29 @@ const featuredImages = [warship, frame, newukraine, cyberfox, farmers, blade];
 const StyledPrimaryButton = styled(Button)`
   height: 50px;
   width: auto;
-  font-family: ${theme.fonts.spaceGrotesk};
+
   text-transform: uppercase;
   border-radius: 3px;
-  color: ${theme.colors.brand.black};
+  color: ${theme.colors.brand.white};
   background: ${theme.colors.brand.yellow};
   box-decoration-break: clone;
   padding-left: 24px;
   padding-right: 24px;
-  &:hover {
-    opacity: 0.6;
-  }
 `;
 
 const StyledBodyText = styled(Text)`
-  font-family: ${theme.fonts.spaceMono};
-  color: ${theme.colors.brand.blackCharcoal};
+  color: ${theme.colors.brand.graniteGrey};
   font-size: 20px;
 `;
 
 const StyledHeading = styled(Heading)`
-  font-family: ${theme.fonts.spaceGrotesk};
   color: ${theme.colors.brand.black};
+  font-family: ${theme.fonts.spaceGrotesk};
   font-size: 35px;
   margin-bottom: 1rem;
 `;
 
 const StyledText = styled(Text)`
-  font-family: ${theme.fonts.spaceMono};
   color: ${theme.colors.brand.spanishGrey};
   font-size: 20px;
 `;
@@ -66,6 +61,7 @@ export const SectionTwo = () => {
       justifyContent='center'
       px={{ base: '2rem', lg: '8rem' }}
       py={{ base: '2rem', lg: '4rem' }}
+      bg={theme.colors.brand.white}
     >
       <VStack spacing={5} justifyContent='center'>
         <StyledHeading>
@@ -118,8 +114,11 @@ export const SectionTwo = () => {
           <StyledPrimaryButton
             mr='1rem'
             fontSize={{ base: '16px', lg: '18px' }}
+            _hover={{
+              opacity: 0.7
+            }}
           >
-            Donate Art
+            Create Art
           </StyledPrimaryButton>
         </Link>
       </VStack>
@@ -136,8 +135,8 @@ export const SectionTwo = () => {
             key={index}
             src={image}
             placeholder='blur'
-            width='250px'
-            height='250px'
+            width='200px'
+            height='200px'
             objectFit='cover'
             alt='featured art'
           />
