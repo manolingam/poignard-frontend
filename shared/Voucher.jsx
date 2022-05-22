@@ -174,7 +174,6 @@ export const Voucher = ({ voucher }) => {
     <Flex
       px={{ base: '1rem', lg: '4rem' }}
       py={{ base: '1rem', lg: '4rem' }}
-      pt={{ base: '8rem', lg: '8rem' }}
       justifyContent='center'
       alignItems='center'
       minH='70vh'
