@@ -256,7 +256,7 @@ export const ArtistInfo = ({
         isCentered
       >
         <AlertDialogOverlay>
-          <AlertDialogContent>
+          <AlertDialogContent fontFamily={theme.fonts.spaceGrotesk}>
             <AlertDialogHeader
               fontSize='25px'
               fontWeight='bold'
@@ -285,8 +285,13 @@ export const ArtistInfo = ({
               <Button
                 w='100%'
                 mb='1rem'
-                bg={theme.colors.brand.yellow}
+                bg={theme.colors.brand.black}
+                color={theme.colors.brand.white}
                 fontWeight='bold'
+                textTransform='uppercase'
+                _hover={{
+                  opacity: 0.8
+                }}
                 isLoading={loading}
                 onClick={handleWhitelist}
               >
