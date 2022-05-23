@@ -19,11 +19,11 @@ import { uriToHttp } from '../../utils/helpers';
 
 const StyledButton = styled(Button)`
   height: 50px;
-
   text-transform: uppercase;
-  border: 2px solid ${theme.colors.brand.black};
   border-radius: 3px;
   box-decoration-break: clone;
+  color: ${theme.colors.brand.white};
+  background-color: ${theme.colors.brand.black};
   padding-left: 24px;
   padding-right: 24px;
   margin-top: 1rem;
@@ -51,7 +51,7 @@ export const InfiniteGrid = ({ allVouchers, totalPages }) => {
   return (
     <Flex direction='column' alignItems='center'>
       <SimpleGrid
-        columns={{ lg: 3, md: 2, base: 1 }}
+        columns={{ lg: 4, md: 2, base: 1 }}
         gridGap={{ base: 5, lg: 10 }}
         w='100%'
       >
@@ -74,7 +74,7 @@ export const InfiniteGrid = ({ allVouchers, totalPages }) => {
                   animation: 'shadowFadeIn .4s'
                 }}
                 mb='2rem'
-                p='10px'
+                pb='10px'
                 borderRadius='5px'
                 overflow='hidden'
               >
@@ -92,11 +92,9 @@ export const InfiniteGrid = ({ allVouchers, totalPages }) => {
                 />
 
                 <Flex
-                  bg={theme.colors.brand.blue}
-                  color={theme.colors.brand.white}
+                  color={theme.colors.brand.blue}
                   alignItems='center'
                   justifyContent='space-between'
-                  mt='5px'
                 >
                   <Box p='7px' h='35px' w='35px'>
                     {voucher.contentType === 'audio' && (
@@ -135,12 +133,18 @@ export const InfiniteGrid = ({ allVouchers, totalPages }) => {
           mr='1rem'
           disabled={currentPage - 1 == 0}
           onClick={() => setCurrentPage((currentPage) => currentPage - 1)}
+          _hover={{
+            opacity: currentPage - 1 == 0 ? 0.5 : 0.8
+          }}
         >
           Prev
         </StyledButton>
         <StyledButton
           disabled={currentPage + 1 > totalPages}
           onClick={() => setCurrentPage((currentPage) => currentPage + 1)}
+          _hover={{
+            opacity: currentPage + 1 > totalPages ? 0.5 : 0.8
+          }}
         >
           Next
         </StyledButton>

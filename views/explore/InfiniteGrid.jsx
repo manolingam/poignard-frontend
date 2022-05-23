@@ -5,7 +5,8 @@ import {
   Box,
   Text,
   Flex,
-  Heading,
+  NumberInput,
+  NumberInputField,
   Button,
   Image as ChakraImage,
   Skeleton
@@ -29,9 +30,10 @@ const StyledTag = styled(Text)`
 const StyledButton = styled(Button)`
   height: 50px;
   text-transform: uppercase;
-  border: 2px solid ${theme.colors.brand.black};
   border-radius: 3px;
   box-decoration-break: clone;
+  color: ${theme.colors.brand.white};
+  background-color: ${theme.colors.brand.black};
   padding-left: 24px;
   padding-right: 24px;
   margin-top: 1rem;
@@ -100,7 +102,7 @@ export const InfiniteGrid = ({ allVouchers, onlyMintable, contentType }) => {
                     animation: 'shadowFadeIn .4s'
                   }}
                   mb='2rem'
-                  p='10px'
+                  pb='10px'
                   borderRadius='5px'
                   overflow='hidden'
                 >
@@ -117,8 +119,7 @@ export const InfiniteGrid = ({ allVouchers, onlyMintable, contentType }) => {
                     objectFit='cover'
                   />
                   <Flex
-                    bg={theme.colors.brand.blue}
-                    color={theme.colors.brand.white}
+                    color={theme.colors.brand.blue}
                     alignItems='center'
                     justifyContent='space-between'
                     mt='5px'
@@ -140,14 +141,13 @@ export const InfiniteGrid = ({ allVouchers, onlyMintable, contentType }) => {
                         </span>
                       )}
                     </Box>
-                    <Text p='5px 10px'>
+                    <Text p='5px 10px' fontWeight='bold'>
                       {onlyMintable
                         ? `${utils.formatEther(voucher.minPrice)} ETH`
                         : 'Sold'}
                     </Text>
                   </Flex>
                   <Flex direction='column' alignItems='center' mt='1rem'>
-                    {' '}
                     <Text fontWeight='bold'>{voucher.metadata.name}</Text>
                     <Text>By {voucher.createdBy.name}</Text>
                   </Flex>
@@ -170,12 +170,38 @@ export const InfiniteGrid = ({ allVouchers, onlyMintable, contentType }) => {
             mr='1rem'
             disabled={currentPage - 1 == 0}
             onClick={() => setCurrentPage((currentPage) => currentPage - 1)}
+            _hover={{
+              opacity: currentPage - 1 == 0 ? 0.5 : 0.8
+            }}
           >
             Prev
           </StyledButton>
+          <NumberInput
+            w='150px'
+            mt='1rem'
+            max={totalPages}
+            onChange={(e) => {
+              console.log(e);
+              if (Number(e) > 0 && Number(e) <= totalPages) {
+                setCurrentPage(Number(e));
+              }
+            }}
+          >
+            <NumberInputField
+              h='100%'
+              border='2px solid black'
+              borderColor='black'
+              borderRadius='3px'
+              placeholder='Go to page'
+            />
+          </NumberInput>
           <StyledButton
+            ml='1rem'
             disabled={currentPage + 1 > totalPages}
             onClick={() => setCurrentPage((currentPage) => currentPage + 1)}
+            _hover={{
+              opacity: currentPage + 1 > totalPages ? 0.5 : 0.8
+            }}
           >
             Next
           </StyledButton>
