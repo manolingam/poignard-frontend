@@ -94,7 +94,7 @@ export const SectionOne = ({ unchainIncome }) => {
                   opacity: 0.7
                 }}
               >
-                Create
+                Donate
               </StyledButton>
             </Link>
           </Flex>

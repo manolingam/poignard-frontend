@@ -48,3 +48,8 @@ html {
     transform: scale(0.98);
   }
 }
+
+.carousel .carousel-item {
+  height: 250px;
+  width: 250px;
+}

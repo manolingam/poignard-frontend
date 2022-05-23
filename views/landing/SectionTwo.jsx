@@ -4,23 +4,28 @@ import {
   Heading,
   Button,
   Text,
-  SimpleGrid,
-  Link as ChakraLink
+  Link as ChakraLink,
+  Image as ChakraImage,
+  Box
 } from '@chakra-ui/react';
+import { useEffect } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import styled from '@emotion/styled';
 
 import { theme } from '../../themes/theme';
 
-import warship from '../../public/assets/featured/warship.webp';
-import frame from '../../public/assets/featured/frame.webp';
-import newukraine from '../../public/assets/featured/newukraine.webp';
-import cyberfox from '../../public/assets/featured/cyberfox.webp';
-import farmers from '../../public/assets/featured/farmers.webp';
-import blade from '../../public/assets/featured/blade.webp';
+if (typeof window !== 'undefined') {
+  const M = require('materialize-css');
+}
 
-const featuredImages = [warship, frame, newukraine, cyberfox, farmers, blade];
+// import warship from '../../public/assets/featured/warship.webp';
+// import frame from '../../public/assets/featured/frame.webp';
+// import newukraine from '../../public/assets/featured/newukraine.webp';
+// import cyberfox from '../../public/assets/featured/cyberfox.webp';
+// import farmers from '../../public/assets/featured/farmers.webp';
+// import blade from '../../public/assets/featured/blade.webp';
+
+// const featuredImages = [warship, frame, newukraine, cyberfox, farmers, blade];
 
 const StyledPrimaryButton = styled(Button)`
   height: 50px;
@@ -53,6 +58,15 @@ const StyledText = styled(Text)`
 `;
 
 export const SectionTwo = () => {
+  useEffect(() => {
+    M.AutoInit();
+    document.addEventListener('DOMContentLoaded', function () {
+      var elems = document.querySelectorAll('.carousel');
+      M.Carousel.init(elems, {
+        fullWidth: true
+      });
+    });
+  }, []);
   return (
     <Flex
       id='section-two'
@@ -60,7 +74,7 @@ export const SectionTwo = () => {
       alignItems='center'
       justifyContent='center'
       px={{ base: '2rem', lg: '8rem' }}
-      py={{ base: '2rem', lg: '4rem' }}
+      pt={{ base: '2rem', lg: '4rem' }}
       bg={theme.colors.brand.white}
     >
       <VStack spacing={5} justifyContent='center'>
@@ -118,30 +132,73 @@ export const SectionTwo = () => {
               opacity: 0.7
             }}
           >
-            Create Art
+            Donate Art
           </StyledPrimaryButton>
         </Link>
       </VStack>
 
-      <SimpleGrid
-        w='100%'
-        columns={{ base: 1, lg: 3 }}
-        gridGap={{ base: 5, lg: 20 }}
-        mt='4rem'
-        placeItems='center'
-      >
-        {featuredImages.map((image, index) => (
-          <Image
-            key={index}
-            src={image}
-            placeholder='blur'
-            width='200px'
-            height='200px'
-            objectFit='cover'
+      <Flex className='carousel' carousel-slider mt='3rem' mb='3rem' h='350px'>
+        <Box
+          className='carousel-item'
+          href='#one!'
+          boxShadow='-6px -6px 9px #e0e0e0,
+                  6px 6px 9px #fcfcfc'
+          cursor='pointer'
+        >
+          <ChakraImage src='/assets/featured/warship.webp' alt='featured art' />
+        </Box>
+        <Box
+          className='carousel-item'
+          href='#two!'
+          boxShadow='-6px -6px 9px #e0e0e0,
+                  6px 6px 9px #fcfcfc'
+          cursor='pointer'
+        >
+          <ChakraImage src='/assets/featured/frame.webp' alt='featured art' />
+        </Box>
+        <Box
+          className='carousel-item'
+          href='#three!'
+          boxShadow='-6px -6px 9px #e0e0e0,
+                  6px 6px 9px #fcfcfc'
+          cursor='pointer'
+        >
+          <ChakraImage
+            src='/assets/featured/newukraine.webp'
             alt='featured art'
           />
-        ))}
-      </SimpleGrid>
+        </Box>
+        <Box
+          className='carousel-item'
+          href='#four!'
+          boxShadow='-6px -6px 9px #e0e0e0,
+                  6px 6px 9px #fcfcfc'
+          cursor='pointer'
+        >
+          <ChakraImage
+            src='/assets/featured/cyberfox.webp'
+            alt='featured art'
+          />
+        </Box>
+        <Box
+          className='carousel-item'
+          href='#five!'
+          boxShadow='-6px -6px 9px #e0e0e0,
+                  6px 6px 9px #fcfcfc'
+          cursor='pointer'
+        >
+          <ChakraImage src='/assets/featured/farmers.webp' alt='featured art' />
+        </Box>
+        <Box
+          className='carousel-item'
+          href='#six!'
+          boxShadow='-6px -6px 9px #e0e0e0,
+                  6px 6px 9px #fcfcfc'
+          cursor='pointer'
+        >
+          <ChakraImage src='/assets/featured/blade.webp' alt='featured art' />
+        </Box>
+      </Flex>
     </Flex>
   );
 };
