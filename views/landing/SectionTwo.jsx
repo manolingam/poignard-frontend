@@ -14,10 +14,6 @@ import styled from '@emotion/styled';
 
 import { theme } from '../../themes/theme';
 
-if (typeof window !== 'undefined') {
-  const M = require('materialize-css');
-}
-
 // import warship from '../../public/assets/featured/warship.webp';
 // import frame from '../../public/assets/featured/frame.webp';
 // import newukraine from '../../public/assets/featured/newukraine.webp';
@@ -59,12 +55,11 @@ const StyledText = styled(Text)`
 
 export const SectionTwo = () => {
   useEffect(() => {
+    const M = require('materialize-css');
     M.AutoInit();
     document.addEventListener('DOMContentLoaded', function () {
       var elems = document.querySelectorAll('.carousel');
-      M.Carousel.init(elems, {
-        fullWidth: true
-      });
+      M.Carousel.init(elems, {});
     });
   }, []);
   return (
@@ -137,7 +132,7 @@ export const SectionTwo = () => {
         </Link>
       </VStack>
 
-      <Flex className='carousel' carousel-slider mt='3rem' mb='3rem' h='350px'>
+      <Flex className='carousel' mt='3rem' mb='3rem' h='350px'>
         <Box
           className='carousel-item'
           href='#one!'
