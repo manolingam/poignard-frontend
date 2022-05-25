@@ -134,7 +134,9 @@ export const AllVouchers = ({ mintedVouchers, unmintedVouchers }) => {
           <HStack>
             <Box>
               <Tooltip label='toggle minted vouchers'>
-                <i className='fa-solid fa-circle-info'></i>
+                <span style={{ width: '15px', marginRight: '5px' }}>
+                  <i className='fa-solid fa-circle-info'></i>
+                </span>
               </Tooltip>
             </Box>
 

@@ -14,8 +14,7 @@ import {
   ModalCloseButton,
   ModalBody,
   ModalFooter,
-  Textarea,
-  Box
+  Textarea
 } from '@chakra-ui/react';
 import { useContext, useState } from 'react';
 import Link from 'next/link';
@@ -188,20 +187,17 @@ export const Voucher = ({ voucher }) => {
             {(voucher.contentType === 'image' ||
               voucher.contentType === 'audio') && (
               <Flex
-                minH='350px'
-                minW='350px'
                 alignItems='center'
                 justifyContent='center'
                 borderRadius='10px'
-                boxShadow='inset -6px -6px 9px #e0e0e0, inset 6px 6px 9px #fcfcfc'
               >
                 <ChakraImage
                   src={`${POIGNART_BUCKET_BASE_URL}/${voucher.metadata.image.replace(
                     'ipfs://',
                     ''
                   )}`}
-                  h='90%'
-                  w='90%'
+                  maxH='450px'
+                  borderRadius='10px'
                   crossOrigin='anonymous'
                   alt='minted nft'
                   fallback={<Skeleton h='250px' w='100%' />}
@@ -251,6 +247,41 @@ export const Voucher = ({ voucher }) => {
                 />
               </audio>
             )}
+          </Flex>
+          <Flex direction='column'>
+            <StyledHeading>
+              {voucher.metadata.name.substring(0, 25)}
+            </StyledHeading>
+            <StyledCopy
+              onClick={() => copyToClipboard(window.location.href)}
+              cursor='pointer'
+              _hover={{
+                color: theme.colors.brand.black
+              }}
+            >
+              Copy voucher link <CopyIcon boxSize={4} />
+            </StyledCopy>
+
+            <Flex direction='column'>
+              <StyledDescription>
+                {voucher.metadata.description.substring(0, 250)}
+                {voucher.metadata.description.length > 250 && ' ..'}
+              </StyledDescription>
+
+              <Link href={`/artist/${voucher.createdBy.ethAddress}`} passHref>
+                <StyledCreator>{`Created by ${voucher.createdBy.name}`}</StyledCreator>
+              </Link>
+              <Flex direction='column'>
+                {voucher.minted && (
+                  <StyledMisc>
+                    {`Sold for ${utils.formatEther(voucher.minPrice)} ETH`}{' '}
+                  </StyledMisc>
+                )}
+                <StyledMisc>{`${new Date(
+                  Number(voucher.createdAt)
+                ).toDateString()}`}</StyledMisc>
+              </Flex>
+            </Flex>
             <Flex mt='1rem'>
               <Link href='/explore' passHref>
                 <StyledButton
@@ -305,41 +336,6 @@ export const Voucher = ({ voucher }) => {
                   {`Mint for ${utils.formatEther(voucher.minPrice)} ETH`}
                 </StyledButton>
               )}
-            </Flex>
-          </Flex>
-          <Flex direction='column'>
-            <StyledHeading>
-              {voucher.metadata.name.substring(0, 25)}
-            </StyledHeading>
-            <StyledCopy
-              onClick={() => copyToClipboard(window.location.href)}
-              cursor='pointer'
-              _hover={{
-                color: theme.colors.brand.black
-              }}
-            >
-              Copy voucher link <CopyIcon boxSize={4} />
-            </StyledCopy>
-
-            <Flex direction='column'>
-              <StyledDescription>
-                {voucher.metadata.description.substring(0, 250)}
-                {voucher.metadata.description.length > 250 && ' ..'}
-              </StyledDescription>
-
-              <Link href={`/artist/${voucher.createdBy.ethAddress}`} passHref>
-                <StyledCreator>{`Created by ${voucher.createdBy.name}`}</StyledCreator>
-              </Link>
-              <Flex direction='column'>
-                {voucher.minted && (
-                  <StyledMisc>
-                    {`Sold for ${utils.formatEther(voucher.minPrice)} ETH`}{' '}
-                  </StyledMisc>
-                )}
-                <StyledMisc>{`${new Date(
-                  Number(voucher.createdAt)
-                ).toDateString()}`}</StyledMisc>
-              </Flex>
             </Flex>
           </Flex>
         </SimpleGrid>
