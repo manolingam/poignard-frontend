@@ -20,26 +20,26 @@ import { SectionEight } from '../views/landing/SectionEight';
 
 import { UNCHAIN_INCOME_API } from '../config';
 
-export const getServerSideProps = async () => {
-  const { data } = await axios.get(UNCHAIN_INCOME_API);
+// export const getServerSideProps = async () => {
+//   const { data } = await axios.get(UNCHAIN_INCOME_API);
 
-  let totalIncome = 0;
+//   let totalIncome = 0;
 
-  data.wallets.walletUSD.map((wallet) => {
-    totalIncome += wallet.usd;
-  });
+//   data.wallets.walletUSD.map((wallet) => {
+//     totalIncome += wallet.usd;
+//   });
 
-  return {
-    props: {
-      unchainIncome: totalIncome
-        .toLocaleString('en-US', {
-          style: 'currency',
-          currency: 'USD'
-        })
-        .split('.')[0]
-    }
-  };
-};
+//   return {
+//     props: {
+//       unchainIncome: totalIncome
+//         .toLocaleString('en-US', {
+//           style: 'currency',
+//           currency: 'USD'
+//         })
+//         .split('.')[0]
+//     }
+//   };
+// };
 
 export default function Home({ unchainIncome }) {
   const [windowWidth, setWindowWidth] = useState('');

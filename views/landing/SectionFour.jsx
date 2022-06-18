@@ -119,10 +119,9 @@ export const SectionFour = ({ unchainIncome }) => {
               Unchain is a charity project created by blockchain activists.
               Their goal is to break the chain of war, raising funds for
               humanitarian aid in Ukraine. Since the launch, they raised over{' '}
-              {unchainIncome} so far. Donations to Unchain go to migrant
-              support, food, psychological support, communication, protective
-              equipment, medicine, and direct aid - not weapons. Check them out
-              on{' '}
+              $9,526,870 so far. Donations to Unchain go to migrant support,
+              food, psychological support, communication, protective equipment,
+              medicine, and direct aid - not weapons. Check them out on{' '}
               <ChakraLink
                 textDecoration='underline'
                 href='https://cointelegraph.com/news/ukraine-has-received-37m-in-tracked-crypto-donations-so-far'

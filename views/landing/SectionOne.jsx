@@ -71,7 +71,7 @@ export const SectionOne = ({ unchainIncome }) => {
             >
               Unchain.fund
             </ChakraLink>
-            . Over {unchainIncome} has been raised to date.
+            . Over $9,526,870 has been raised to date.
           </StyledText>
           <Flex
             w='100%'
