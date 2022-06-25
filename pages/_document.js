@@ -6,21 +6,14 @@ class MyDocument extends Document {
       <Html>
         <Head>
           <link rel='preconnect' href='https://fonts.googleapis.com' />
+          <link rel='preconnect' href='https://fonts.googleapis.com' />
           <link
             rel='preconnect'
             href='https://fonts.gstatic.com'
-            crossOrigin='true'
+            crossOrigin='anonymous'
           />
           <link
-            href='https://fonts.googleapis.com/css2?family=Poppins&display=swap'
-            rel='stylesheet'
-          />
-          <link
-            href='https://fonts.googleapis.com/css2?family=Space+Grotesk&display=swap'
-            rel='stylesheet'
-          />
-          <link
-            href='https://fonts.googleapis.com/css2?family=Space+Mono&display=swap'
+            href='https://fonts.googleapis.com/css2?family=Space+Grotesk&family=Space+Mono&display=swap'
             rel='stylesheet'
           />
 
@@ -35,7 +28,7 @@ class MyDocument extends Document {
             href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css'
             integrity='sha512-10/jx2EXwxxWqCLX/hHth/vu2KY3jCF70dCQB8TSgNjbCVAC/8vai53GfMDrO2Emgwccf2pJqxct9ehpzG+MTw=='
             crossOrigin='anonymous'
-            referrerpolicy='no-referrer'
+            referrerPolicy='no-referrer'
           />
 
           <link
@@ -49,7 +42,7 @@ class MyDocument extends Document {
             href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css'
             integrity='sha512-10/jx2EXwxxWqCLX/hHth/vu2KY3jCF70dCQB8TSgNjbCVAC/8vai53GfMDrO2Emgwccf2pJqxct9ehpzG+MTw=='
             crossOrigin='anonymous'
-            referrerpolicy='no-referrer'
+            referrerPolicy='no-referrer'
           />
         </Head>
         <body>

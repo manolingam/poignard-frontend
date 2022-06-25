@@ -65,7 +65,7 @@ const StyledInput = styled(Input)`
 
 const StyledButton = styled(Button)`
   height: 50px;
-  font-family: ${theme.fonts.spaceGrotesk};
+
   text-transform: uppercase;
   border: 2px solid ${theme.colors.brand.black};
   border-radius: 3px;
@@ -371,7 +371,6 @@ export const ArtworkForm = () => {
         <FormControl
           isRequired
           isInvalid={artName === '' && buttonClick ? true : false}
-          fontFamily={theme.fonts.spaceMono}
           color={theme.colors.brand.darkCharcoal}
           mb={10}
         >
@@ -391,7 +390,6 @@ export const ArtworkForm = () => {
         <FormControl
           isRequired
           isInvalid={artPrice === '' && buttonClick ? true : false}
-          fontFamily={theme.fonts.spaceMono}
           color={theme.colors.brand.darkCharcoal}
         >
           <FormLabel>Set a mint price?</FormLabel>
@@ -416,7 +414,6 @@ export const ArtworkForm = () => {
         mb={10}
         isRequired
         isInvalid={artDesc === '' && buttonClick ? true : false}
-        fontFamily={theme.fonts.spaceMono}
         color={theme.colors.brand.darkCharcoal}
       >
         <FormLabel>Explain about the artwork</FormLabel>
@@ -432,12 +429,7 @@ export const ArtworkForm = () => {
         </FormHelperText>
       </FormControl>
 
-      <FormControl
-        mb={10}
-        isRequired
-        fontFamily={theme.fonts.spaceMono}
-        color={theme.colors.brand.darkCharcoal}
-      >
+      <FormControl mb={10} isRequired color={theme.colors.brand.darkCharcoal}>
         <FormLabel>Content type</FormLabel>
         <RadioBox
           stack='horizontal'
@@ -459,12 +451,7 @@ export const ArtworkForm = () => {
         h='250px'
         w='100%'
       >
-        <FormControl
-          mb={10}
-          isRequired
-          fontFamily={theme.fonts.spaceMono}
-          color={theme.colors.brand.darkCharcoal}
-        >
+        <FormControl mb={10} isRequired color={theme.colors.brand.darkCharcoal}>
           <FormLabel>
             {contentType !== 'Image' ? 'Cover or thumbnail image' : contentType}
           </FormLabel>
@@ -496,12 +483,7 @@ export const ArtworkForm = () => {
       </Flex>
 
       {(contentType === 'Audio' || contentType === 'Video') && (
-        <FormControl
-          mb={10}
-          isRequired
-          fontFamily={theme.fonts.spaceMono}
-          color={theme.colors.brand.darkCharcoal}
-        >
+        <FormControl mb={10} isRequired color={theme.colors.brand.darkCharcoal}>
           <FormLabel>{`${contentType}`}</FormLabel>
           <input
             id='anim-file-input'
@@ -553,15 +535,11 @@ export const ArtworkForm = () => {
         >
           <AlertDialogOverlay>
             <AlertDialogContent>
-              <AlertDialogHeader
-                fontSize='25px'
-                fontWeight='bold'
-                fontFamily={theme.fonts.spaceMono}
-              >
+              <AlertDialogHeader fontSize='25px' fontWeight='bold'>
                 Thank you!
               </AlertDialogHeader>
 
-              <AlertDialogBody fontFamily={theme.fonts.spaceMono}>
+              <AlertDialogBody>
                 <ChakraImage
                   crossOrigin='anonymous'
                   src={uriToHttp(imageUri)}
@@ -581,12 +559,9 @@ export const ArtworkForm = () => {
                   mt='.5rem'
                   color={theme.colors.brand.chineseSilver}
                   fontWeight='bold'
-                  fontFamily={theme.fonts.spaceGrotesk}
                 >{`Listing for ${artPrice} ETH`}</Text>
-                <Text fontFamily={theme.fonts.spaceMono} mb='1rem'>
-                  Spread the word about your contribution!
-                </Text>
-                <Textarea fontFamily={theme.fonts.spaceMono} isReadOnly>
+                <Text mb='1rem'>Spread the word about your contribution!</Text>
+                <Textarea isReadOnly>
                   {`I just donated new art for Ukraine on @PoignARTnft Buy this piece for ${artPrice} ETH — 100% of proceeds will be donated to Ukraine! 🇺🇦 #Unchain_Ukraine #StandWithUkraine ${
                     devMode
                       ? 'https://rinkeby.poign.art/voucher/' + signedTokenId
@@ -599,7 +574,6 @@ export const ArtworkForm = () => {
                 <Button
                   w='100%'
                   leftIcon={<TwitterIcon />}
-                  fontFamily={theme.fonts.spaceMono}
                   colorScheme='twitter'
                   variant='solid'
                   textDecoration='none'

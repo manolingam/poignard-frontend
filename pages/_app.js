@@ -32,7 +32,13 @@ function MyApp({ Component, pageProps }) {
           gtag('config', '${GA_ID}');
         `}
         </Script>
-        <Flex overflowX='hidden' background='white' maxW='100rem' mx='auto'>
+        <Flex
+          overflowX='hidden'
+          background='white'
+          maxW='100rem'
+          mx='auto'
+          fontFamily={theme.fonts.spaceMono}
+        >
           <Component {...pageProps} />
         </Flex>
       </ChakraProvider>

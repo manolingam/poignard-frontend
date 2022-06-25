@@ -8,6 +8,8 @@ import { Header } from '../shared/Header';
 import { Footer } from '../shared/Footer';
 import { AllVouchers } from '../views/explore/AllVouchers';
 
+import { theme } from '../themes/theme';
+
 import { JWT_SECRET, API_ENDPOINT } from '../config';
 
 export const getServerSideProps = async () => {

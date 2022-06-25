@@ -10,6 +10,8 @@ import { Footer } from '../../shared/Footer';
 import { Voucher } from '../../shared/Voucher';
 import { Page404 } from '../../shared/404';
 
+import { theme } from '../../themes/theme';
+
 import {
   JWT_SECRET,
   API_ENDPOINT,

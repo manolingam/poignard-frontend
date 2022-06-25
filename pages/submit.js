@@ -19,8 +19,8 @@ import { ArtworkForm } from '../views/submit/ArtworkForm';
 import { theme } from '../themes/theme';
 
 const StyledSecondaryHeading = styled(Heading)`
-  font-family: ${theme.fonts.spaceGrotesk};
   letter-spacing: 1.2px;
+  font-family: ${theme.fonts.spaceGrotesk};
   color: ${theme.colors.brand.darkCharcoal};
 `;
 
@@ -55,7 +55,7 @@ const Submit = () => {
         justifyContent='space-between'
         alignItems='center'
         px={{ base: '1rem', lg: '4rem' }}
-        mb='1rem'
+        py='2rem'
       >
         {context.stage > 0 && context.stage < 3 && (
           <Flex direction='row' alignItems='center' mr='auto' mb='2rem'>
@@ -67,7 +67,6 @@ const Submit = () => {
             >
               <CircularProgressLabel
                 color={theme.colors.brand.darkCharcoal}
-                fontFamily={theme.fonts.spaceMono}
                 fontSize={{ base: '20px', lg: '26px' }}
               >
                 {context.stage}

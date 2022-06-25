@@ -16,21 +16,20 @@ import { CHAIN_ID, CHAIN_NAME } from '../../config';
 import useWarnings from '../../hooks/useWarnings';
 
 const StyledPrimaryHeading = styled(Heading)`
-  font-family: ${theme.fonts.spaceGrotesk};
   letter-spacing: 1.2px;
   line-height: 1.5;
   color: ${theme.colors.brand.black};
+  font-family: ${theme.fonts.spaceGrotesk};
 `;
 
 const StyledBodyText = styled(Text)`
   max-width: 720px;
-  font-family: ${theme.fonts.spaceMono};
+
   line-height: 1.8;
   color: ${theme.colors.brand.darkCharcoal};
 `;
 
 const StyledTag = styled(Text)`
-  font-family: ${theme.fonts.spaceMono};
   color: ${theme.colors.brand.darkCharcoal};
   text-transform: uppercase;
   font-weight: bold;
@@ -40,7 +39,6 @@ const StyledTag = styled(Text)`
 const StyledButton = styled(Button)`
   height: 50px;
   width: 100%;
-  font-family: ${theme.fonts.spaceGrotesk};
   text-transform: uppercase;
   border: 2px solid ${theme.colors.brand.black};
   border-radius: 3px;

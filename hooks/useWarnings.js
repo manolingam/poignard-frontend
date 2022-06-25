@@ -14,7 +14,6 @@ const useWarnings = () => {
           color={theme.colors.brand.white}
           p={3}
           bg={theme.colors.brand.black}
-          fontFamily={theme.fonts.spaceGrotesk}
           textAlign='center'
         >
           {message}

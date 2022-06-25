@@ -1,4 +1,4 @@
-import { Flex, Heading, Button, Text } from '@chakra-ui/react';
+import { Flex, Button, Text } from '@chakra-ui/react';
 
 import { theme } from '../../themes/theme';
 import { logos, illustrations, assetsLink } from '../../utils/constants';
@@ -24,17 +24,11 @@ export const SectionEight = () => {
       py={{ base: '2rem', lg: '2rem' }}
       alignItems='center'
     >
-      <Text
-        fontFamily={theme.fonts.spaceGrotesk}
-        color={theme.colors.brand.black}
-        fontSize='20px'
-        textAlign='center'
-      >
+      <Text color={theme.colors.brand.black} fontSize='20px' textAlign='center'>
         Support us by using our social media banner & logo!
       </Text>
       <Flex direction={{ base: 'column', lg: 'row' }} mt='1rem'>
         <Button
-          fontFamily={theme.fonts.spaceMono}
           textTransform='uppercase'
           onClick={() =>
             downloadImage(illustrations.bannerPeace, 'peace banner')
@@ -45,7 +39,6 @@ export const SectionEight = () => {
           Download Banner
         </Button>
         <Button
-          fontFamily={theme.fonts.spaceMono}
           textTransform='uppercase'
           onClick={() => downloadImage(logos.poignartMono, 'poignart logo')}
           mr={{ base: '0', lg: '1rem' }}
@@ -54,7 +47,6 @@ export const SectionEight = () => {
           Download Logo
         </Button>
         <Button
-          fontFamily={theme.fonts.spaceMono}
           textTransform='uppercase'
           onClick={() => window.open(assetsLink, '_blank')}
         >
