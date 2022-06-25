@@ -16,7 +16,8 @@ const colors = {
     darkCharcoal: '#333333',
     black: '#000000',
     white: '#FFFFFF',
-    yellow: '#ffd700',
+    blue: '#004691',
+    yellow: '#ebc600',
     yellowLight: '#fff8d1',
     unchainFontGreen: '#7fc23c',
     unchainBgGreen: '#b7f66a',
@@ -25,7 +26,6 @@ const colors = {
 };
 
 const fonts = {
-  poppins: "'Poppins', sans-serif",
   spaceGrotesk: "'Space Grotesk', sans-serif",
   spaceMono: "'Space Mono', monospace"
 };

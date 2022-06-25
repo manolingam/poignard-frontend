@@ -29,3 +29,27 @@ html {
 .web3modal-modal-card {
   font-family: 'Poppins', sans-serif;
 }
+
+@keyframes shadowFadeOut {
+  0% {
+    transform: scale(0.98);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes shadowFadeIn {
+  0% {
+    box-shadow: none;
+  }
+  100% {
+    box-shadow: inset -6px -6px 9px #e0e0e0, inset 6px 6px 9px #fcfcfc;
+    transform: scale(0.98);
+  }
+}
+
+.carousel .carousel-item {
+  height: 250px;
+  width: 250px;
+}

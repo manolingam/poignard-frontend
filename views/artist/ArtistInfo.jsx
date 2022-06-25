@@ -32,7 +32,6 @@ import { Profile } from '../edit/Profile';
 const StyledButton = styled(Button)`
   height: 25px;
   width: 100%;
-  font-family: ${theme.fonts.spaceGrotesk};
   text-transform: uppercase;
   border: 2px solid ${theme.colors.brand.black};
   border-radius: 3px;
@@ -53,7 +52,7 @@ const StyledInput = styled(Input)`
 
 const StyledCopy = styled(Text)`
   color: ${theme.colors.brand.black};
-  font-family: ${theme.fonts.spaceGrotesk};
+
   margin-bottom: 0.5rem;
   font-size: 12px;
 `;
@@ -145,8 +144,8 @@ export const ArtistInfo = ({
         >
           <Flex direction='row'>
             <Heading
-              fontFamily={theme.fonts.spaceGrotesk}
-              color='rgb(32, 129, 226)'
+              color={theme.colors.brand.black}
+              font-family={theme.fonts.spaceGrotesk}
             >
               {artist.name}{' '}
             </Heading>
@@ -158,7 +157,6 @@ export const ArtistInfo = ({
           </Flex>
 
           <Text
-            fontFamily={theme.fonts.spaceMono}
             color={theme.colors.brand.graniteGrey}
             maxW='60rem'
             textAlign='center'
@@ -173,7 +171,7 @@ export const ArtistInfo = ({
                 href={`https://twitter.com/${artist.twitterHandle}`}
                 isExternal
               >
-                <Box h='15px' w='15px' cursor='pointer'>
+                <Box h='15px' w='15px' cursor='pointer' color='#00acee'>
                   <span>
                     <i className='fa-brands fa-twitter'></i>
                   </span>
@@ -185,7 +183,7 @@ export const ArtistInfo = ({
                 href={`https://www.instagram.com/${artist.instagramHandle}`}
                 isExternal
               >
-                <Box h='15px' w='15px' cursor='pointer'>
+                <Box h='15px' w='15px' cursor='pointer' color='#8a3ab9'>
                   <span>
                     <i className='fa-brands fa-instagram'></i>
                   </span>
@@ -197,7 +195,7 @@ export const ArtistInfo = ({
                 href={` https://t.me/${artist.telegramHandle}`}
                 isExternal
               >
-                <Box h='15px' w='15px' cursor='pointer'>
+                <Box h='15px' w='15px' cursor='pointer' color='#229ED9'>
                   <span>
                     <i className='fa-brands fa-telegram'></i>
                   </span>
@@ -258,22 +256,17 @@ export const ArtistInfo = ({
         isCentered
       >
         <AlertDialogOverlay>
-          <AlertDialogContent>
+          <AlertDialogContent fontFamily={theme.fonts.spaceGrotesk}>
             <AlertDialogHeader
               fontSize='25px'
               fontWeight='bold'
-              fontFamily={theme.fonts.spaceGrotesk}
               color={theme.colors.brand.black}
             >
               Whitelist Address
             </AlertDialogHeader>
 
-            <AlertDialogBody fontFamily={theme.fonts.spaceMono}>
-              <FormControl
-                isRequired
-                fontFamily={theme.fonts.spaceMono}
-                color={theme.colors.brand.darkCharcoal}
-              >
+            <AlertDialogBody>
+              <FormControl isRequired color={theme.colors.brand.darkCharcoal}>
                 <FormLabel>New Artist Address</FormLabel>
                 <StyledInput
                   placeholder='An eth address to whitelist'
@@ -292,9 +285,13 @@ export const ArtistInfo = ({
               <Button
                 w='100%'
                 mb='1rem'
-                bg={theme.colors.brand.yellow}
+                bg={theme.colors.brand.black}
+                color={theme.colors.brand.white}
                 fontWeight='bold'
-                fontFamily={theme.fonts.spaceGrotesk}
+                textTransform='uppercase'
+                _hover={{
+                  opacity: 0.8
+                }}
                 isLoading={loading}
                 onClick={handleWhitelist}
               >

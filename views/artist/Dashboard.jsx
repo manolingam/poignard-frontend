@@ -17,7 +17,6 @@ import { illustrations } from '../../utils/constants';
 
 const StyledTag = styled(Text)`
   max-width: 75%;
-  font-family: ${theme.fonts.spaceMono};
   color: ${theme.colors.brand.darkCharcoal};
   text-align: center;
   text-transform: uppercase;
@@ -85,7 +84,7 @@ export const Dashboard = ({ artistAddress }) => {
       direction='column'
       alignItems='center'
       px={{ base: '1rem', lg: '4rem' }}
-      mb='1rem'
+      py='2rem'
     >
       {fetched && artist && (
         <ArtistInfo

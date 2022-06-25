@@ -11,7 +11,7 @@ import logoTorch from '../public/assets/logos/logo_torch.webp';
 const StyledButton = styled(Button)`
   height: 50px;
   width: 100%;
-  font-family: ${theme.fonts.spaceGrotesk};
+
   text-transform: uppercase;
   border: 2px solid ${theme.colors.brand.black};
   border-radius: 3px;
@@ -33,11 +33,7 @@ export const Page404 = () => {
       justifyContent='center'
     >
       <Image src={logoTorch} alt='404' h='250px' w='250px' />
-      <Text
-        fontWeight='bold'
-        fontSize='24px'
-        fontFamily={theme.fonts.spaceGrotesk}
-      >
+      <Text fontWeight='bold' fontSize='24px' fontFamily={theme.fonts.poppins}>
         Page not found
       </Text>
       <Flex direction={{ lg: 'row', base: 'column' }} mt='2rem'>

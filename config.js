@@ -58,7 +58,7 @@ export const UNCHAIN_INCOME_API = process.env.UNCHAIN_INCOME_API;
 export const IN_APP_VOUCHERS_LIMIT =
   process.env.NEXT_PUBLIC_INAPP_VOUCHERS_LIMIT;
 export const MAX_FILE_SIZE_MB = process.env.NEXT_PUBLIC_MAX_FILE_SIZE_MB;
-export const VOUCHERS_PER_PAGE = process.env.NEXT_PUBLIC_IMAGES_PER_RENDER;
+export const VOUCHERS_PER_PAGE = 8;
 
 export const GA_ID = devMode ? '' : process.env.NEXT_PUBLIC_GA_ID;
 

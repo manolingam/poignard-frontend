@@ -15,14 +15,13 @@ import { theme } from '../../themes/theme';
 import unchainBanner from '../../public/assets/logos/unchain_banner.webp';
 
 const StyledHeading = styled(Heading)`
-  font-family: ${theme.fonts.spaceGrotesk};
   color: ${theme.colors.brand.black};
+  font-family: ${theme.fonts.spaceGrotesk};
   font-size: 35px;
   margin-bottom: 1rem;
 `;
 
 const StyledTextTwo = styled(Text)`
-  font-family: ${theme.fonts.spaceMono};
   color: ${theme.colors.brand.blackCharcoal};
 `;
 

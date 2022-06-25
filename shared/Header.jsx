@@ -22,15 +22,12 @@ import { theme } from '../themes/theme';
 import logoTorch from '../public/assets/logos/logo_torch.webp';
 
 const StyledConnectButton = styled(Button)`
-  min-width: 160px;
-  height: 50px;
-  font-family: ${theme.fonts.spaceGrotesk};
+  height: auto;
   text-transform: uppercase;
-  color: ${theme.colors.brand.black};
+  color: ${theme.colors.brand.graniteGrey};
   border-radius: 2px;
-  background-color: ${theme.colors.brand.yellow};
-  padding-left: 24px;
-  padding-right: 24px;
+  padding: 10px 16px;
+  border-radius: 10px;
   &:hover {
     opacity: 0.7;
   }
@@ -42,12 +39,16 @@ export const Header = ({ windowWidth }) => {
 
   return (
     <Flex
+      w='100%'
+      maxW='100rem'
       direction='row'
       alignItems='center'
       justifyContent='space-between'
       px={{ base: '2rem', lg: '5rem' }}
-      py={{ base: '1rem', lg: '2rem' }}
-      w='100%'
+      py={{ base: '1rem', lg: '.5rem' }}
+      bg={theme.colors.brand.white}
+      zIndex={1}
+      boxShadow='0px 2px 10px rgba(0, 70, 145, 0.2)'
     >
       <Link href='/' passHref>
         <Flex
@@ -59,17 +60,18 @@ export const Header = ({ windowWidth }) => {
           <Image
             src={logoTorch}
             alt='logo'
-            width='75px'
-            height='75px'
+            width='50px'
+            height='50px'
             priority
           />
           {windowWidth > 450 && (
             <Text
-              fontFamily={theme.fonts.spaceGrotesk}
+              color={theme.colors.brand.black}
               fontWeight='bold'
-              fontSize='25px'
+              fontSize='20px'
+              ml='5px'
             >
-              PoignART
+              PoignArt
             </Text>
           )}
         </Flex>
@@ -88,8 +90,7 @@ export const Header = ({ windowWidth }) => {
             return (
               <Link href={`/${item.name.toLowerCase()}`} passHref key={index}>
                 <Text
-                  fontFamily={theme.fonts.spaceGrotesk}
-                  color={theme.colors.brand.black}
+                  color={theme.colors.brand.graniteGrey}
                   fontWeight='bold'
                   mr='4rem'
                   cursor='pointer'
@@ -104,8 +105,7 @@ export const Header = ({ windowWidth }) => {
         {windowWidth > 850 && window.location.pathname === '/submit' && (
           <Link href='/explore' passHref>
             <Text
-              fontFamily={theme.fonts.spaceGrotesk}
-              color={theme.colors.brand.black}
+              color={theme.colors.brand.graniteGrey}
               fontWeight='bold'
               mr='4rem'
               cursor='pointer'
@@ -119,8 +119,7 @@ export const Header = ({ windowWidth }) => {
         {windowWidth > 850 && window.location.pathname === '/explore' && (
           <Link href='/submit' passHref>
             <Text
-              fontFamily={theme.fonts.spaceGrotesk}
-              color={theme.colors.brand.black}
+              color={theme.colors.brand.graniteGrey}
               fontWeight='bold'
               mr='4rem'
               cursor='pointer'
@@ -134,14 +133,13 @@ export const Header = ({ windowWidth }) => {
         {windowWidth > 850 && (
           <Link href='/#section-four' passHref>
             <Text
-              fontFamily={theme.fonts.spaceGrotesk}
-              color={theme.colors.brand.black}
+              color={theme.colors.brand.graniteGrey}
               fontWeight='bold'
               mr='4rem'
               cursor='pointer'
               _hover={{ textDecoration: 'underline' }}
             >
-              FAQ
+              Faq
             </Text>
           </Link>
         )}
@@ -165,14 +163,10 @@ export const Header = ({ windowWidth }) => {
               <PopoverTrigger>
                 <Button
                   fontWeight='normal'
-                  bg={theme.colors.brand.yellow}
+                  bg={theme.colors.brand.brightGrey}
                   p={{ base: 0, md: 3 }}
                 >
-                  <Text
-                    px={2}
-                    fontFamily={theme.fonts.spaceGrotesk}
-                    color={theme.colors.brand.black}
-                  >
+                  <Text px={2} color={theme.colors.brand.black}>
                     {getAccountString(context.signerAddress)}
                   </Text>
                 </Button>
@@ -183,15 +177,12 @@ export const Header = ({ windowWidth }) => {
                     disconnect();
                     window.location.reload();
                   }}
-                  fontFamily={theme.fonts.spaceGrotesk}
                 >
                   Disconnect
                 </Button>
                 {context.db_artist && (
                   <Link href={`/artist/${context.signerAddress}`} passHref>
-                    <Button fontFamily={theme.fonts.spaceGrotesk}>
-                      Profile
-                    </Button>
+                    <Button>Profile</Button>
                   </Link>
                 )}
               </PopoverContent>

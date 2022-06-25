@@ -53,18 +53,13 @@ export default function Home({ unchainIncome }) {
   }, []);
 
   return (
-    <Flex
-      minH='100vh'
-      w='100%'
-      direction='column'
-      fontFamily={theme.fonts.poppins}
-    >
+    <Flex minH='100vh' w='100%' direction='column'>
       <Meta />
       <Header windowWidth={windowWidth} />
-      <SectionOne unchainIncome={unchainIncome} />
+      <SectionOne />
       <SectionTwo />
       <SectionThree />
-      <SectionFour unchainIncome={unchainIncome} />
+      <SectionFour />
       <SectionFive />
       <SectionSix />
       <SectionSeven />

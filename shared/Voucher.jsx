@@ -42,9 +42,7 @@ import {
 
 const StyledButton = styled(Button)`
   height: 50px;
-  font-family: ${theme.fonts.spaceGrotesk};
   text-transform: uppercase;
-  border: 2px solid ${theme.colors.brand.black};
   border-radius: 3px;
   box-decoration-break: clone;
   padding-left: 24px;
@@ -62,12 +60,10 @@ const StyledHeading = styled(Heading)`
 const StyledDescription = styled(Text)`
   margin-top: 2rem;
   color: ${theme.colors.brand.black};
-  font-family: ${theme.fonts.spaceGrotesk};
 `;
 
 const StyledCreator = styled(Text)`
   color: rgb(32, 129, 226);
-  font-family: ${theme.fonts.spaceGrotesk};
   cursor: pointer;
   text-decoration: underline;
   margin-top: 0.5rem;
@@ -78,14 +74,14 @@ const StyledCreator = styled(Text)`
 
 const StyledMisc = styled(Text)`
   color: ${theme.colors.brand.spanishGrey};
-  font-family: ${theme.fonts.spaceMono};
+
   margin-top: 0.5rem;
   font-size: 12px;
 `;
 
 const StyledCopy = styled(Text)`
   color: ${theme.colors.brand.black};
-  font-family: ${theme.fonts.spaceGrotesk};
+
   margin-top: 0.5rem;
   font-size: 12px;
 `;
@@ -190,15 +186,26 @@ export const Voucher = ({ voucher }) => {
           <Flex direction='column' position='relative'>
             {(voucher.contentType === 'image' ||
               voucher.contentType === 'audio') && (
-              <ChakraImage
-                src={uriToHttp(voucher.metadata.image)}
-                crossOrigin='anonymous'
-                alt='minted nft'
-                fallback={<Skeleton h='250px' w='100%' />}
-                objectFit={
-                  voucher.contentType === 'audio' ? 'cover' : 'contain'
-                }
-              />
+              <Flex
+                alignItems='center'
+                justifyContent='center'
+                borderRadius='10px'
+              >
+                <ChakraImage
+                  src={`${POIGNART_BUCKET_BASE_URL}/${voucher.metadata.image.replace(
+                    'ipfs://',
+                    ''
+                  )}`}
+                  maxH='450px'
+                  borderRadius='10px'
+                  crossOrigin='anonymous'
+                  alt='minted nft'
+                  fallback={<Skeleton h='250px' w='100%' />}
+                  objectFit={
+                    voucher.contentType === 'audio' ? 'cover' : 'contain'
+                  }
+                />
+              </Flex>
             )}
 
             {voucher.contentType === 'video' && (
@@ -240,44 +247,6 @@ export const Voucher = ({ voucher }) => {
                 />
               </audio>
             )}
-            <Flex mt='1rem'>
-              <Link href='/explore' passHref>
-                <StyledButton width='30%' mr='1rem' disabled={loading}>
-                  Explore
-                </StyledButton>
-              </Link>
-              {(voucher.minted || context.redeemEvent) && (
-                <StyledButton
-                  w='100%'
-                  onClick={() =>
-                    window.open(
-                      `${OPENSEA_BASE_URL}/assets/${POIGNARD_CONTRACT_ADDRESS}/${voucher.tokenID}`,
-                      '_blank'
-                    )
-                  }
-                >
-                  View on opensea
-                </StyledButton>
-              )}
-              {!voucher.minted && !context.redeemEvent && (
-                <StyledButton
-                  w='100%'
-                  color={theme.colors.brand.white}
-                  bg={theme.colors.brand.black}
-                  isLoading={loading}
-                  loadingText={loadingText}
-                  onClick={async () => {
-                    if (context.signature) {
-                      handleRedeem(voucher);
-                    } else {
-                      triggerToast('Connect wallet to redeem.');
-                    }
-                  }}
-                >
-                  {`Mint for ${utils.formatEther(voucher.minPrice)} ETH`}
-                </StyledButton>
-              )}
-            </Flex>
           </Flex>
           <Flex direction='column'>
             <StyledHeading>
@@ -313,6 +282,61 @@ export const Voucher = ({ voucher }) => {
                 ).toDateString()}`}</StyledMisc>
               </Flex>
             </Flex>
+            <Flex mt='1rem'>
+              <Link href='/explore' passHref>
+                <StyledButton
+                  width='30%'
+                  mr='1rem'
+                  disabled={loading}
+                  background={theme.colors.brand.blue}
+                  color={theme.colors.brand.white}
+                  _hover={{
+                    opacity: 0.7
+                  }}
+                >
+                  Explore
+                </StyledButton>
+              </Link>
+              {(voucher.minted || context.redeemEvent) && (
+                <StyledButton
+                  w='100%'
+                  color='#2081e2 '
+                  border='1px solid #2081e2'
+                  onClick={() =>
+                    window.open(
+                      `${OPENSEA_BASE_URL}/assets/${POIGNARD_CONTRACT_ADDRESS}/${voucher.tokenID}`,
+                      '_blank'
+                    )
+                  }
+                  _hover={{
+                    opacity: 0.7
+                  }}
+                >
+                  View on opensea
+                </StyledButton>
+              )}
+              {!voucher.minted && !context.redeemEvent && (
+                <StyledButton
+                  w='100%'
+                  color={theme.colors.brand.white}
+                  bg={theme.colors.brand.black}
+                  isLoading={loading}
+                  loadingText={loadingText}
+                  _hover={{
+                    opacity: 0.7
+                  }}
+                  onClick={async () => {
+                    if (context.signature) {
+                      handleRedeem(voucher);
+                    } else {
+                      triggerToast('Connect wallet to redeem.');
+                    }
+                  }}
+                >
+                  {`Mint for ${utils.formatEther(voucher.minPrice)} ETH`}
+                </StyledButton>
+              )}
+            </Flex>
           </Flex>
         </SimpleGrid>
       )}
@@ -321,15 +345,11 @@ export const Voucher = ({ voucher }) => {
         <Modal isOpen={isOpen} onClose={() => setOpen(false)}>
           <ModalOverlay />
           <ModalContent>
-            <ModalHeader fontFamily={theme.fonts.spaceMono}>
-              Thank you!
-            </ModalHeader>
+            <ModalHeader>Thank you!</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-              <Text fontFamily={theme.fonts.spaceMono} mb='1rem'>
-                Spread the word about your contribution!
-              </Text>
-              <Textarea fontFamily={theme.fonts.spaceMono} isReadOnly>
+              <Text mb='1rem'>Spread the word about your contribution!</Text>
+              <Textarea isReadOnly>
                 {`I just minted art for ${utils.formatEther(
                   voucher.minPrice
                 )} on @PoignARTnft 100% of proceeds are donated to Ukraine. 🇺🇦 #Unchain_Ukraine #StandWithUkraine ${
@@ -344,7 +364,6 @@ export const Voucher = ({ voucher }) => {
               <Button
                 w='100%'
                 leftIcon={<TwitterIcon />}
-                fontFamily={theme.fonts.spaceMono}
                 colorScheme='twitter'
                 variant='solid'
                 textDecoration='none'

@@ -18,7 +18,6 @@ function RadioCard(props) {
         color={theme.colors.brand.black}
         boxShadow='md'
         border={`1px solid ${theme.colors.brand.black}`}
-        fontFamily={theme.fonts.spaceMono}
         _checked={{
           bg: theme.colors.brand.black,
           color: 'white',
