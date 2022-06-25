@@ -46,27 +46,51 @@ export const SectionOne = ({ unchainIncome }) => {
           href='https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css'
         />
       </Head>
-      <Grid
-        templateColumns={{ lg: 'repeat(3, 1fr)', base: 'repeat(1, 1fr)' }}
-        gridGap={20}
-        placeItems='center'
-        px={{ base: '2rem', lg: '8rem' }}
-        py={{ base: '2rem', lg: '6rem' }}
-      >
-        <GridItem colSpan={{ lg: 2 }}>
-          <Flex direction='column' alignItems='start' justifyContent='center'>
-            <StyledHeading>
-              Freedom is under attack. <br /> Creators are fighting back!
-            </StyledHeading>
-            <StyledText mb='1rem'>
-              We help artists create non-fungible tokens (NFT) to support
-              Ukraine. 100% of proceeds go to rapid humanitarian aid through{' '}
-              <ChakraLink
-                textDecoration='underline'
-                href='https://unchain.fund/'
-                isExternal
-                color={theme.colors.brand.unchainFontGreen}
-                fontWeight='bold'
+    <Grid
+      templateColumns={{ lg: 'repeat(3, 1fr)', base: 'repeat(1, 1fr)' }}
+      gridGap={20}
+      placeItems='center'
+      px={{ base: '2rem', lg: '8rem' }}
+      py={{ base: '2rem', lg: '2rem' }}
+    >
+      <GridItem colSpan={{ lg: 2 }}>
+        <Flex direction='column' alignItems='start' justifyContent='center'>
+          <StyledHeading>
+            Freedom is under attack. <br /> Creators are fighting back!
+          </StyledHeading>
+          <StyledText mb='1rem'>
+            We help artists create non-fungible tokens (NFT) to support Ukraine.
+            100% of proceeds go to rapid humanitarian aid through{' '}
+            <ChakraLink
+              textDecoration='underline'
+              href='https://unchain.fund/'
+              isExternal
+              color={theme.colors.brand.unchainFontGreen}
+              fontWeight='bold'
+            >
+              Unchain.fund
+            </ChakraLink>
+            . Over $9,526,870 has been raised to date.
+          </StyledText>
+          <Flex
+            w='100%'
+            mt={{ base: '2rem' }}
+            direction='row'
+            justifyContent={{ base: 'center', lg: 'flex-start' }}
+          >
+            <Link href='#section-three' passHref>
+              <StyledButton
+                minW={{ base: 'auto' }}
+                fontSize={{ base: '16px', lg: '18px' }}
+                mr='1rem'
+              >
+                Explore Art
+              </StyledButton>
+            </Link>
+            <Link href='#section-two' passHref>
+              <StyledButton
+                minW={{ base: 'auto' }}
+                fontSize={{ base: '16px', lg: '18px' }}
               >
                 Unchain.fund
               </ChakraLink>
