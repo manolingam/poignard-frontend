@@ -23,6 +23,7 @@ const handler = async (req, res) => {
         discordHandle
         telegramHandle
         merkleProof
+        isWhitelistAdmin
         createdVouchers {
           tokenID 
           tokenURI 

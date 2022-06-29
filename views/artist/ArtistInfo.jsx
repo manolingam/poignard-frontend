@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useContext } from 'react';
 import {
   Flex,
   Image as ChakraImage,
@@ -26,8 +26,9 @@ import useWarnings from '../../hooks/useWarnings';
 import { whitelistArtist } from '../../utils/requests';
 
 import { theme } from '../../themes/theme';
-import { WHITELIST_ADMINS } from '../../config';
+// import { WHITELIST_ADMINS } from '../../config';
 import { Profile } from '../edit/Profile';
+import { AppContext } from '../../context/AppContext';
 
 const StyledButton = styled(Button)`
   height: 25px;
@@ -65,6 +66,7 @@ export const ArtistInfo = ({
   requireProfileEdit,
   setRequireProfileEdit
 }) => {
+  const context = useContext(AppContext);
   const [whitelistAddress, setWhitelistAddress] = useState('');
 
   const { triggerToast } = useWarnings();
@@ -215,7 +217,7 @@ export const ArtistInfo = ({
           </StyledCopy>
 
           <Flex mt='1rem'>
-            {WHITELIST_ADMINS.includes(signer) && artist.ethAddress === signer && (
+            {context.db_artist && context.db_artist.isWhitelistAdmin && (
               <StyledButton
                 fontSize={{ base: '10px', lg: '12px' }}
                 onClick={() => setDialogStatus(true)}
