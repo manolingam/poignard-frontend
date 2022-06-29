@@ -3,10 +3,11 @@ import styled from '@emotion/styled';
 import Image from 'next/image';
 
 import { theme } from '../../themes/theme';
+import { logos } from '../../utils/constants';
 
 const StyledHeading = styled(Heading)`
-  color: ${theme.colors.brand.black};
   font-family: ${theme.fonts.spaceGrotesk};
+  color: ${theme.colors.brand.black};
   text-align: center;
   font-size: 35px;
   margin-bottom: 2rem;
@@ -37,20 +38,13 @@ export const SectionSeven = () => {
       <SimpleGrid minChildWidth='50px' gridGap={10}>
         {partners.map((partner, index) => (
           <Link key={index} href={partner.website} isExternal mx='auto'>
-            <Flex
-              borderRadius='10px'
-              boxShadow='inset 7px 7px 16px #c2c2c2,
-             inset -7px -7px 16px #ffffff'
-              backgroundColor='#EEEEEE'
-            >
-              <Image
-                src={partner.image}
-                alt='partner logo'
-                width='300px'
-                height='300px'
-                placeholder='blur'
-              />
-            </Flex>
+            <Image
+              src={partner.image}
+              alt='partner logo'
+              width='300px'
+              height='300px'
+              placeholder='blur'
+            />
           </Link>
         ))}
       </SimpleGrid>
