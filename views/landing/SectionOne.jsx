@@ -108,12 +108,7 @@ export const SectionOne = ({ unchainIncome }) => {
             </Flex>
           </Flex>
         </GridItem>
-        <GridItem
-          borderRadius='10px'
-          boxShadow='inset 7px 7px 16px #c2c2c2,
-             inset -7px -7px 16px #ffffff'
-          backgroundColor='#EEEEEE'
-        >
+        <GridItem>
           <Image
             src={logoTorch}
             alt='poignart torch'
