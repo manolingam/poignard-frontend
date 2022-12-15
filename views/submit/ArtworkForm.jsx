@@ -32,7 +32,7 @@ import { AppContext } from '../../context/AppContext';
 import { uploadArt, uploadMetadata } from '../../utils/ipfs';
 import {
   generateNFTVoucher,
-  uploadToBucket,
+  // uploadToBucket,
   uriToHttp
 } from '../../utils/helpers';
 import { submitVoucher, verifyArtist } from '../../utils/requests';
@@ -49,7 +49,7 @@ import {
   ACCEPTED_IMAGE_FILE_FORMATS,
   ACCEPTED_AUDIO_FILE_FORMATS,
   ACCEPTED_VIDEO_FILE_FORMATS,
-  POIGNART_BUCKET_BASE_URL,
+  // POIGNART_BUCKET_BASE_URL,
   devMode
 } from '../../config';
 
@@ -166,10 +166,10 @@ export const ArtworkForm = () => {
       )}`;
       setImageUri(_imageUri);
       metadata['image'] = _imageUri;
-      await uploadToBucket(
-        _imageUri,
-        document.getElementById('image-file-input').files[0]
-      );
+      // await uploadToBucket(
+      //   _imageUri,
+      //   document.getElementById('image-file-input').files[0]
+      // );
 
       if (contentType === 'Video' || contentType === 'Audio') {
         const _animationUri = `ipfs://${await uploadArt(
@@ -177,10 +177,10 @@ export const ArtworkForm = () => {
         )}`;
         setAnimationUri(_animationUri);
         metadata['animation_url'] = _animationUri;
-        await uploadToBucket(
-          _animationUri,
-          document.getElementById('anim-file-input').files[0]
-        );
+        // await uploadToBucket(
+        //   _animationUri,
+        //   document.getElementById('anim-file-input').files[0]
+        // );
       }
 
       const metadataUri = await uploadMetadata(metadata);
@@ -544,10 +544,11 @@ export const ArtworkForm = () => {
                   crossOrigin='anonymous'
                   src={uriToHttp(imageUri)}
                   alt='minted nft'
-                  fallbackSrc={`${POIGNART_BUCKET_BASE_URL}/${imageUri.replace(
-                    'ipfs://',
-                    ''
-                  )}`}
+                  fallbackSrc={uriToHttp(imageUri)}
+                  // fallbackSrc={`${POIGNART_BUCKET_BASE_URL}/${imageUri.replace(
+                  //   'ipfs://',
+                  //   ''
+                  // )}`}
                   width='100%'
                   height='170px'
                   objectFit='contain'

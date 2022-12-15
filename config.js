@@ -1,5 +1,5 @@
 import { create } from 'ipfs-http-client';
-import { S3Client } from '@aws-sdk/client-s3';
+// import { S3Client } from '@aws-sdk/client-s3';
 
 export const SECRETS = {
   INFURA_KEY: process.env.NEXT_PUBLIC_INFURA_KEY,
@@ -18,14 +18,14 @@ export const IPFS_CLIENT = create({
   }
 });
 
-export const S3_CLIENT = new S3Client({
-  endpoint: process.env.NEXT_PUBLIC_S3_ENDPOINT,
-  region: process.env.NEXT_PUBLIC_S3_REGION,
-  credentials: {
-    accessKeyId: process.env.NEXT_PUBLIC_S3_ACCESS_KEY,
-    secretAccessKey: process.env.NEXT_PUBLIC_S3_ACCESS_SECRET
-  }
-});
+// export const S3_CLIENT = new S3Client({
+//   endpoint: process.env.NEXT_PUBLIC_S3_ENDPOINT,
+//   region: process.env.NEXT_PUBLIC_S3_REGION,
+//   credentials: {
+//     accessKeyId: process.env.NEXT_PUBLIC_S3_ACCESS_KEY,
+//     secretAccessKey: process.env.NEXT_PUBLIC_S3_ACCESS_SECRET
+//   }
+// });
 
 export const devMode =
   process.env.NEXT_PUBLIC_ENV_MODE === 'development' ? true : false;

@@ -34,7 +34,7 @@ import { theme } from '../themes/theme';
 import {
   OPENSEA_BASE_URL,
   POIGNARD_CONTRACT_ADDRESS,
-  POIGNART_BUCKET_BASE_URL,
+  // POIGNART_BUCKET_BASE_URL,
   CHAIN_ID,
   CHAIN_NAME,
   devMode
@@ -192,10 +192,11 @@ export const Voucher = ({ voucher }) => {
                 borderRadius='10px'
               >
                 <ChakraImage
-                  src={`${POIGNART_BUCKET_BASE_URL}/${voucher.metadata.image.replace(
-                    'ipfs://',
-                    ''
-                  )}`}
+                  // src={`${POIGNART_BUCKET_BASE_URL}/${voucher.metadata.image.replace(
+                  //   'ipfs://',
+                  //   ''
+                  // )}`}
+                  src={uriToHttp(voucher.metadata.image)}
                   maxH='450px'
                   borderRadius='10px'
                   crossOrigin='anonymous'
@@ -216,10 +217,11 @@ export const Voucher = ({ voucher }) => {
                 controls
               >
                 <source
-                  src={`${POIGNART_BUCKET_BASE_URL}/${voucher.metadata.animation_url.replace(
-                    'ipfs://',
-                    ''
-                  )}`}
+                  // src={`${POIGNART_BUCKET_BASE_URL}/${voucher.metadata.animation_url.replace(
+                  //   'ipfs://',
+                  //   ''
+                  // )}`}
+                  src={uriToHttp(voucher.metadata.animation_url)}
                   type='video/mp4'
                 />
               </video>
@@ -240,10 +242,11 @@ export const Voucher = ({ voucher }) => {
                 controls
               >
                 <source
-                  src={`${POIGNART_BUCKET_BASE_URL}/${voucher.metadata.animation_url.replace(
-                    'ipfs://',
-                    ''
-                  )}`}
+                  // src={`${POIGNART_BUCKET_BASE_URL}/${voucher.metadata.animation_url.replace(
+                  //   'ipfs://',
+                  //   ''
+                  // )}`}
+                  src={uriToHttp(voucher.metadata.animation_url)}
                 />
               </audio>
             )}

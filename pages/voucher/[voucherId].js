@@ -14,8 +14,8 @@ import { theme } from '../../themes/theme';
 
 import {
   JWT_SECRET,
-  API_ENDPOINT,
-  POIGNART_BUCKET_BASE_URL
+  API_ENDPOINT
+  // POIGNART_BUCKET_BASE_URL
 } from '../../config';
 
 export const getStaticPaths = async () => {
@@ -107,10 +107,10 @@ const VoucherPage = ({ voucher }) => {
           <Meta
             title={voucher.metadata.title}
             description={voucher.metadata.description}
-            image={`${POIGNART_BUCKET_BASE_URL}/${voucher.metadata.image.replace(
-              'ipfs://',
-              ''
-            )}`}
+            // image={`${POIGNART_BUCKET_BASE_URL}/${voucher.metadata.image.replace(
+            //   'ipfs://',
+            //   ''
+            // )}`}
             url={`https://poign.art/voucher/${voucher.tokenID}`}
           />
           <Header windowWidth={windowWidth} />

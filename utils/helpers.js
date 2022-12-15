@@ -3,8 +3,8 @@ import { PutObjectCommand } from '@aws-sdk/client-s3';
 import {
   SIGNING_DOMAIN_NAME,
   SIGNING_DOMAIN_VERSION,
-  POIGNARD_CONTRACT_ADDRESS,
-  S3_CLIENT
+  POIGNARD_CONTRACT_ADDRESS
+  // S3_CLIENT
 } from '../config';
 
 export const getAccountString = (account) => {
@@ -35,20 +35,20 @@ export const generateNFTVoucher = (tokenId, uri, minPrice, chainId) => {
   return { domain, types, voucher };
 };
 
-export const uploadToBucket = async (_uri, _file) => {
-  const urlReader = new FileReader();
-  urlReader.addEventListener('load', async () => {
-    const params = {
-      Bucket: 'poignart',
-      Key: _uri.replace('ipfs://', ''),
-      Body: Buffer.from(urlReader.result),
-      ACL: 'public-read',
-      ContentType: _file.type
-    };
-    await S3_CLIENT.send(new PutObjectCommand(params));
-  });
-  urlReader.readAsArrayBuffer(_file);
-};
+// export const uploadToBucket = async (_uri, _file) => {
+//   const urlReader = new FileReader();
+//   urlReader.addEventListener('load', async () => {
+//     const params = {
+//       Bucket: 'poignart',
+//       Key: _uri.replace('ipfs://', ''),
+//       Body: Buffer.from(urlReader.result),
+//       ACL: 'public-read',
+//       ContentType: _file.type
+//     };
+//     await S3_CLIENT.send(new PutObjectCommand(params));
+//   });
+//   urlReader.readAsArrayBuffer(_file);
+// };
 
 export const uriToHttp = (uri) => {
   const protocol = uri.split(':')[0].toLowerCase();

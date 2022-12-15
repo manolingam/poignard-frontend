@@ -16,7 +16,10 @@ import Link from 'next/link';
 import styled from '@emotion/styled';
 
 import { theme } from '../../themes/theme';
-import { VOUCHERS_PER_PAGE, POIGNART_BUCKET_BASE_URL } from '../../config';
+import {
+  VOUCHERS_PER_PAGE
+  // POIGNART_BUCKET_BASE_URL
+} from '../../config';
 import { uriToHttp } from '../../utils/helpers';
 
 const StyledTag = styled(Text)`
@@ -108,10 +111,11 @@ export const InfiniteGrid = ({ allVouchers, onlyMintable, contentType }) => {
                 >
                   <ChakraImage
                     crossOrigin='anonymous'
-                    src={`${POIGNART_BUCKET_BASE_URL}/${voucher.metadata.image.replace(
-                      'ipfs://',
-                      ''
-                    )}`}
+                    // src={`${POIGNART_BUCKET_BASE_URL}/${voucher.metadata.image.replace(
+                    //   'ipfs://',
+                    //   ''
+                    // )}`}
+                    src={uriToHttp(voucher.metadata.image)}
                     fallback={<Skeleton h='200px' w='100%' />}
                     alt='minted nft'
                     width='100%'
